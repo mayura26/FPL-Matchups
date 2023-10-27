@@ -6,6 +6,6 @@ const PORT = 3001;
 
 app.use('/api', apiRoutes);  // Use the API routes
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
