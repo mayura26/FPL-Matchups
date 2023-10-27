@@ -1,0 +1,13 @@
+/* Head2HeadMatchups.css */
+.head2head-container {
+    padding: 20px;
+    background-color: #e6e6e6;
+    border-radius: 5px;
+}
+
+.head2head-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

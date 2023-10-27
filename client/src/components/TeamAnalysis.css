@@ -1,0 +1,29 @@
+/* TeamAnalysis.css */
+.team-analysis-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+}
+
+.team-data {
+    margin-top: 20px;
+    background-color: #e6e6e6;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button {
+    margin-left: 10px;
+}

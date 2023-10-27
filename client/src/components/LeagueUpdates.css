@@ -1,0 +1,14 @@
+/* LeagueUpdates.css */
+.league-updates-container {
+    padding: 20px;
+    background-color: #e0ebeb;
+    border-radius: 5px;
+}
+
+.update-item {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
