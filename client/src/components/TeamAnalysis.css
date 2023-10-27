@@ -7,7 +7,7 @@
 
 .team-data {
     margin-top: 20px;
-    background-color: #e6e6e6;
+    background-color: #4a4a4a;
     padding: 20px;
     border-radius: 5px;
 }
@@ -26,4 +26,143 @@ li {
 
 button {
     margin-left: 10px;
+}
+
+.score {
+    /* Style for the player's current score. Adjust as needed. */
+    font-weight: bold;
+}
+
+.rank {
+    /* Dynamic color scaling for rank. This is just a simple example. */
+    color: rgb(255, calc(255 - (255 * (rank / 3000000))), 0);
+}
+
+.player-name {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.player-frame {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #4a4a4a;  /* Slightly lighter gray for contrast */
+    padding: 15px;
+}
+
+.fixtures-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5px 0; /* Reduced margin for tighter spacing */
+}
+
+.fixtures-table th, .fixtures-table td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+    width: 20%; /* As there are 5 fixtures, each takes up 20% */
+}
+.team-analysis-container {
+    background-color: #2c2c2c; /* Dark background */
+    color: #f0f0f0; /* Light text */
+}
+
+/* Score coloring */
+.score-red {
+    background-color: red;
+    color: white;
+}
+
+.score-orange {
+    background-color: orange;
+    color: black;
+}
+
+.score-green {
+    background-color: green;
+    color: white;
+}
+
+.score-blue {
+    background-color: blue;
+    color: white;
+}
+
+/* FDR coloring adjustments for dark theme */
+.fdr-1 {
+    background-color: #a4c639; 
+    color: black;
+}
+
+.fdr-2 {
+    background-color: #c6e17b;
+    color: black;
+}
+
+.fdr-3 {
+    background-color: #ffeb3b;
+    color: black;
+}
+
+.fdr-4 {
+    background-color: #ffc107;
+    color: black;
+}
+
+.fdr-5 {
+    background-color: #f44336;
+    color: white;
+}
+
+.player-data {
+    color: white;
+}
+
+.input-row {
+    display: flex;
+    align-items: flex-end; /* Align items to the bottom of the container */
+    gap: 5px; /* Spacing between items */
+}
+
+.input-mainrow {
+    display: flex;
+    gap: 140px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    max-width: 100px;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #f0f0f0; /* Light text color for dark theme */
+}
+
+input, select, button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a4a4a; /* Slightly lighter gray for contrast */
+    color: #f0f0f0; /* Light text color */
+    cursor: pointer;
+}
+
+button {
+    background-color: #333; /* Darker shade for button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    text-align: end;
+    margin: 0 1px;
+}
+
+button:hover {
+    background-color: #555; /* Slightly lighter shade for hover effect */
 }

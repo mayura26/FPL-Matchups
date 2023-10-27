@@ -8,6 +8,7 @@ import LeagueUpdates from './components/LeagueUpdates';
 
 function App() {
     return (
+        <div className="app-container">
         <Router>
             <Navbar />
             <Routes>
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/league-updates" element={<LeagueUpdates />} />
             </Routes>
         </Router>
+        </div>
     );
 }
 
