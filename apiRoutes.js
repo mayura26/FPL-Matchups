@@ -73,7 +73,11 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
 
 router.get('/current-gameweek', async (req, res) => {
     try {
-        const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
+        const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/', {
+            headers: {
+                'User-Agent': 'FPL-Website/1.0'
+            }
+        });
         try {
             const currentGameweek = bootstrapResponse.data.events.find(event => event.is_current).id;
         res.json({ currentGameweek });
