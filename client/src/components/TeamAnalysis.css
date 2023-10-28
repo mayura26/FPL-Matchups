@@ -134,7 +134,8 @@ button {
 
 .input-mainrow {
     display: flex;
-    gap: 140px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .input-container {
