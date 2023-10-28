@@ -74,12 +74,17 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
 router.get('/current-gameweek', async (req, res) => {
     try {
         const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
-        const currentGameweek = bootstrapResponse.data.events.find(event => event.is_current).id;
+        try {
+            const currentGameweek = bootstrapResponse.data.events.find(event => event.is_current).id;
         res.json({ currentGameweek });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Failed to fetch current gameweek' });
+        }
     } catch (error) {
         console.log(error.response.data);
         console.error(error);
-        res.status(500).json({ error: 'Failed to fetch current gameweek' });
+        res.status(500).json({ error: 'Failed to connect to FPL API' });
     }
 });
 
