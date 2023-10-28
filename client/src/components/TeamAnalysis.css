@@ -60,6 +60,10 @@ button {
     margin: 5px 0; /* Reduced margin for tighter spacing */
 }
 
+.fixtures-table tr {
+    font-size: min(2vw, 14px);
+}
+
 .fixtures-table th, .fixtures-table td {
     border: 1px solid #ccc;
     padding: 5px;
