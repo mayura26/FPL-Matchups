@@ -4,3 +4,21 @@ env_variables:
   PORT: "8080"
 automatic_scaling:
   target_cpu_utilization: 0.75
+
+handlers:
+# Serve static assets
+- url: /static/js/(.*)
+  static_files: client/build/static/js/\1
+  upload: client/build/static/js/.*
+
+- url: /static/css/(.*)
+  static_files: client/build/static/css/\1
+  upload: client/build/static/css/.*
+
+- url: /static/media/(.*)
+  static_files: client/build/static/media/\1
+  upload: client/build/static/media/.*
+
+# Serve the main index.html file for all other routes
+- url: /.*
+  script: auto

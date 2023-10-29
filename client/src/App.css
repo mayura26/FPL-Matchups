@@ -53,7 +53,7 @@ body {
 
 .app-container {
   max-width: 700px;
-  min-width: 400px;
+  min-width: 350px;
   width: 100%;
   padding: 20px;
   box-sizing: border-box;

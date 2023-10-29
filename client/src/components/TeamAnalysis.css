@@ -35,7 +35,7 @@ button {
 
 .rank {
     /* Dynamic color scaling for rank. This is just a simple example. */
-    color: rgb(255, calc(255 - (255 * (rank / 3000000))), 0);
+    color: rgb(255, 255, 255);
 }
 
 .player-name {
@@ -61,7 +61,7 @@ button {
 }
 
 .fixtures-table tr {
-    font-size: min(2vw, 14px);
+    font-size: min(2vw, 0.8em);
 }
 
 .fixtures-table th, .fixtures-table td {
