@@ -16,5 +16,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${process.env.PORT || PORT}`);
 });
