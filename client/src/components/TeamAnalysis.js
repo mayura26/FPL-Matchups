@@ -58,7 +58,6 @@ function TeamAnalysis() {
                         <input 
                             type="text" 
                             value={teamID} 
-                            onChange={(e) => setTeamID(e.target.value)} 
                             placeholder="Enter Team ID" 
                         />
                 </div>

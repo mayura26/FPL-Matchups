@@ -36,6 +36,7 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
                 teamName: teamsMap[player.team],
                 currentFixture: `${teamsMap[currentFixtureTeam]} (Score: ${currentGame.total_points})`,
                 cost: player.now_cost / 10,
+                
                 last5Scores: playerDetailResponse.data.history.slice(-6, -1).reverse().map(game => {
                     const oppositionTeam = teamsMap[game.opponent_team];
                     return {
@@ -43,7 +44,7 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
                         fdr: game.difficulty // Extracting FDR from the 'difficulty' field
                     };
                 }),
-                next5Fixtures: playerDetailResponse.data.fixtures.slice(1, 6).map(fix => {
+                next5Fixtures: playerDetailResponse.data.fixtures.slice(0, 5).map(fix => {
                     const oppositionTeam = fix.is_home ? fix.team_a : fix.team_h;
                     return {
                         event: fix.event,
