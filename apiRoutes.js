@@ -30,11 +30,11 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
         const detailedPlayers = await Promise.all(players.map(async player => {
         const playerDetailResponse = await axios.get(`https://fantasy.premierleague.com/api/element-summary/${player.id}/`);
         const currentGame = playerDetailResponse.data.history.slice(-1)[0];
-        const currentFixtureTeam = playerDetailResponse.data.fixtures[0].is_home ? playerDetailResponse.data.fixtures[0].team_a : playerDetailResponse.data.fixtures[0].team_h;
+
             return {
                 name: player.first_name + ' ' + player.second_name,
                 teamName: teamsMap[player.team],
-                currentFixture: `${teamsMap[currentFixtureTeam]} (Score: ${currentGame.total_points})`,
+                currentFixture: `${teamsMap[currentGame.opponent_team]} (Score: ${currentGame.total_points})`,
                 cost: player.now_cost / 10,
                 
                 last5Scores: playerDetailResponse.data.history.slice(-6, -1).reverse().map(game => {
