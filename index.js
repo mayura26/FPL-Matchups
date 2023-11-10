@@ -1,10 +1,14 @@
 const express = require('express');
-const apiRoutes = require('./apiRoutes');  // Import the API routes
+const apiRoutes = require('./routes/apiRoutes');  // Import the API routes
+const taRoutes = require('./routes/taRoutes'); 
+const h2hRoutes = require('./routes/h2hRoutes'); 
 const path = require('path');
 
 const app = express();
 const PORT = 3001;
 
+app.use('/api/ta', taRoutes);
+app.use('/api/h2h', h2hRoutes);
 app.use('/api', apiRoutes);  // Use the API routes
 
 // Serve static files from the React frontend app

@@ -1,8 +1,9 @@
 /* Head2HeadMatchups.css */
 .head2head-container {
     padding: 20px;
-    background-color: #e6e6e6;
     border-radius: 5px;
+    background-color: #2c2c2c; /* Dark background */
+    color: #f0f0f0; /* Light text */
 }
 
 .head2head-content {
@@ -10,4 +11,50 @@
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-row {
+    display: flex;
+    align-items: flex-end; /* Align items to the bottom of the container */
+    gap: 5px; /* Spacing between items */
+}
+
+.input-mainrow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    max-width: 200px;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #f0f0f0; /* Light text color for dark theme */
+}
+
+input, select, button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a4a4a; /* Slightly lighter gray for contrast */
+    color: #f0f0f0; /* Light text color */
+    cursor: pointer;
+}
+
+button {
+    background-color: #333; /* Darker shade for button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    text-align: end;
+    margin: 0 1px;
+}
+
+button:hover {
+    background-color: #555; /* Slightly lighter shade for hover effect */
 }

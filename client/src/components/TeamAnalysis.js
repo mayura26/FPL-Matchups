@@ -31,7 +31,7 @@ function TeamAnalysis() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/api/fpl/${teamID}/${gameweek}`);
+            const response = await fetch(`/api/ta/${teamID}/${gameweek}`);
             const data = await response.json();
             setTeamData(data);
         } catch (error) {

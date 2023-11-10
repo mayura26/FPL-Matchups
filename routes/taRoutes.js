@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-router.get('/fpl/:teamID/:gameweek', async (req, res) => {
+router.get('/:teamID/:gameweek', async (req, res) => {
     try {
         const { teamID, gameweek } = req.params;
 
@@ -34,9 +34,11 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
             return {
                 name: player.first_name + ' ' + player.second_name,
                 teamName: teamsMap[player.team],
+                // TODO: Update this to be correct depending on if its midweek or a gameweek
                 currentFixture: `${teamsMap[currentGame.opponent_team]} (Score: ${currentGame.total_points})`,
                 cost: player.now_cost / 10,
                 
+                // TODO: Fix last 5 scores to show correctly midweek
                 last5Scores: playerDetailResponse.data.history.slice(-6, -1).reverse().map(game => {
                     const oppositionTeam = teamsMap[game.opponent_team];
                     return {
@@ -67,29 +69,8 @@ router.get('/fpl/:teamID/:gameweek', async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        onsole.log(error.response.data);
-        res.status(500).json({ error: 'Failed to fetch data from FPL API' });
-    }
-});
-
-router.get('/current-gameweek', async (req, res) => {
-    try {
-        const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/', {
-            headers: {
-                'User-Agent': 'FPL-Website/1.0'
-            }
-        });
-        try {
-            const currentGameweek = bootstrapResponse.data.events.find(event => event.is_current).id;
-        res.json({ currentGameweek });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Failed to fetch current gameweek' });
-        }
-    } catch (error) {
         console.log(error.response.data);
-        console.error(error);
-        res.status(500).json({ error: 'Failed to connect to FPL API' });
+        res.status(500).json({ error: 'Failed to fetch data from FPL API' });
     }
 });
 

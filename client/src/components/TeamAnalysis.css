@@ -1,8 +1,9 @@
 /* TeamAnalysis.css */
 .team-analysis-container {
     padding: 20px;
-    background-color: #f4f4f4;
     border-radius: 5px;
+    background-color: #2c2c2c; /* Dark background */
+    color: #f0f0f0; /* Light text */
 }
 
 .team-data {
@@ -69,10 +70,6 @@ button {
     padding: 5px;
     text-align: center;
     width: 20%; /* As there are 5 fixtures, each takes up 20% */
-}
-.team-analysis-container {
-    background-color: #2c2c2c; /* Dark background */
-    color: #f0f0f0; /* Light text */
 }
 
 /* Score coloring */
