@@ -14,4 +14,18 @@ router.get('/leagues/:teamId', async (req, res) => {
     }
   });
 
+  router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
+    try {
+        const leagueId = req.params.leagueId;
+        const gameWeek = req.params.gameWeek;
+
+        // Fetch league details from FPL API
+        const leagueData = await axios.get(`https://fantasy.premierleague.com/api/leagues-h2h-matches/league/${leagueId}/?event=${gameWeek}`);
+        res.json(leagueData.data.results);
+    } catch (error) {
+        console.error('Error fetching H2H matchups:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
   module.exports = router;

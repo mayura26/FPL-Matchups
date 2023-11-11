@@ -4,6 +4,7 @@
     border-radius: 5px;
     background-color: #2c2c2c; /* Dark background */
     color: #f0f0f0; /* Light text */
+    padding: 20px;
 }
 
 .head2head-content {
@@ -56,5 +57,39 @@ button {
 }
 
 button:hover {
+    background-color: #555; /* Slightly lighter shade for hover effect */
+}
+
+.matchup-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin: 20px auto;
+}
+
+.matchup-table th {
+    border: 2px solid #ccc;
+    padding: 10px;
+    background-color: #4a4a4a;
+    text-align: center;
+}
+
+.matchup-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.winner {
+    background-color: #4CAF50; /* Green background for winning team */
+    color: white;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.clickable-row:hover {
     background-color: #555; /* Slightly lighter shade for hover effect */
 }
