@@ -9,19 +9,37 @@ const [leagues, setLeagues] = useState([]);
 const [selectedLeagueId, setSelectedLeagueId] = useState('');
 const [gameweek, setGameweek] = useState(null); 
 const [leagueData, setLeagueData] = useState(null);
-const [selectedMatchup, setSelectedMatchup] = useState(null);
-const [teamDetails, setTeamDetails] = useState({ team1: null, team2: null });
+const [selectedMatchupId, setSelectedMatchupId] = useState(null);
+const [teamDetails, setTeamDetails] = useState({ team1Id: null, team2Id: null });
 
-    // Function to handle row click
-    const onRowClick = async (teamId1, teamId2) => {
-      setSelectedMatchup({ teamId1, teamId2 });
-      try {
-          //const response = await fetch(`/api/team-details/${teamId1}/${teamId2}`);
-          //const data = await response.json();
-          setTeamDetails({ team1: 'red', team2: 'blue'});
-      } catch (error) {
-          console.error("Error fetching team details:", error);
-      }
+const toggleMatchupDetails = async (matchupId, team1Id, team2Id) => {
+    if (selectedMatchupId === matchupId) {
+      setSelectedMatchupId(null);
+    } else {
+      setSelectedMatchupId(matchupId);
+  
+      // Fetch team details for both teams
+      const team1Details = await fetchTeamDetails(team1Id);
+      const team2Details = await fetchTeamDetails(team2Id);
+  
+      setTeamDetails({
+        team1Id: team1Details,
+        team2Id: team2Details
+      });
+    }
+  };
+
+  const fetchTeamDetails = async (teamId) => {
+    try {
+      //const response = await fetch(`/api/team-details/${teamId}`);
+      //if (!response.ok) {
+    //    throw new Error('Network response was not ok');
+    //  }
+      //return await response.json();
+      return teamId;
+    } catch (error) {
+      console.error('Error fetching team details:', error);
+    }
   };
 
 // Fetch the current gameweek when the component mounts
@@ -105,58 +123,50 @@ return (
       )}
       </div>
       {leagueData && (
-            <table className="matchup-table">
-                <thead>
-                    <tr>
-                        <th>Team 1</th>
-                        <th>Score</th>
-                        <th>Team 2</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
+      <div>
+        {leagueData.map((match, index) => (
+          <div key={match.id} className="matchup-container">
+            <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
+              <table className="matchup-table">
                 <tbody>
-                {leagueData.map(match => (
-                        <tr key={match.id} onClick={() => onRowClick(match.entry_1_entry, match.entry_2_entry)} className="clickable-row">
-                            <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
-                                {match.entry_1_name} ({match.entry_1_player_name})
-                            </td>
-                            <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
-                                {match.entry_1_points}
-                            </td>
-                            <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
-                                {match.entry_2_name} ({match.entry_2_player_name})
-                            </td>
-                            <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
-                                {match.entry_2_points}
-                            </td>
-                        </tr>
-                ))}
-            {/* Conditional rendering of team details */}
-            {selectedMatchup && (
-                <td colSpan="2">
+                  <tr>
+                    <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
+                      {match.entry_1_name} ({match.entry_1_player_name})
+                    </td>
+                    <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
+                      {match.entry_1_points}
+                    </td>
+                    <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
+                      {match.entry_2_name} ({match.entry_2_player_name})
+                    </td>
+                    <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
+                      {match.entry_2_points}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            {selectedMatchupId === match.id && (
                 <div className="team-details">
-                    {/* Render team details here */}
-                    <TeamDetails teamData={teamDetails.team1} />
-                    <TeamDetails teamData={teamDetails.team2} />
+                        <TeamDetails teamId={teamDetails.team1Id} />
+                        <TeamDetails teamId={teamDetails.team2Id} />
                 </div>
-                </td>
             )}
-           </tbody>
-       </table>
-      )}
+          </div>
+        ))}
+      </div>
+    )}
    </div>
   );
 }
 
-// Component to display team details
-function TeamDetails({ teamData }) {
-  if (!teamData) return null;
-
-  return (
-      <div>
-          { teamData.team1 }
+function TeamDetails({ teamId }) {
+    return (
+      <div className="team-details">
+        <p>Team ID: {teamId}</p>
       </div>
-  );
-}
+    );
+  }
+  
 
 export default Head2HeadMatchups;

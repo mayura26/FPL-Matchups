@@ -93,3 +93,18 @@ button:hover {
 .clickable-row:hover {
     background-color: #555; /* Slightly lighter shade for hover effect */
 }
+
+.matchup-summary {
+    cursor: pointer;
+    /* Additional styling */
+}
+
+.matchup-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.matchup-container .matchup-details.open {
+    max-height: 500px; /* Adjust as needed */
+}
