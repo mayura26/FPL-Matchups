@@ -77,7 +77,8 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
           gameWeekScore: gameWeekData ? gameWeekData.total_points : 0
         };
       }));
-
+      // TODO: Create gameweek score from all players who have played or are playing
+      
       return detailedPlayers;
     };
 

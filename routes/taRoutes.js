@@ -18,6 +18,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         const teamResponse = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamID}/event/${gameweek}/picks/`);
         const playerIDs = teamResponse.data.picks.map(pick => pick.element);
         const players = bootstrapResponse.data.elements.filter(player => playerIDs.includes(player.id));
+        // TODO: Create section for benched players vs current players
 
         const teamInfoResponse = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamID}/`);
 

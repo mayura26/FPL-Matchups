@@ -174,6 +174,7 @@ if (hideCommon && player1 && player2 && player1.id === player2.id) {
   return null;
 }
 
+// TODO: Update to have one color for players playing and one for players who are done.
   const player1Class = player1 && player1.gameWeekScore > 0 ? 'player played' : 'player';
   const player2Class = player2 && player2.gameWeekScore > 0 ? 'player played' : 'player';
 
