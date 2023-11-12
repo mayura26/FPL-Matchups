@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'FPL-Analysis'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_22F75B56F24040D680615CDF94C895DC }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_57BB591906BC45229A483012F3B7A042 }}
           package: .
