@@ -52,81 +52,81 @@ function TeamAnalysis() {
     return (
         <div className="team-analysis-container">
             <div className="input-mainrow">
-           <div className="input-row">
-                <div className="input-container">
-                <label htmlFor="teamID">Team ID:</label>
-                        <input 
-                            type="text" 
-                            value={teamID} 
-                            placeholder="Enter Team ID" 
+                <div className="input-row">
+                    <div className="input-container">
+                        <label htmlFor="teamID">Team ID:</label>
+                        <input
+                            type="text"
+                            value={teamID}
+                            placeholder="Enter Team ID"
                         />
+                    </div>
+                    <button onClick={clearTeamID}>Clear</button>
                 </div>
-            <button onClick={clearTeamID}>Clear</button>
-            </div>
-            <div className="input-row">
-            <div className="input-container">
-                <label htmlFor="gameweek">Gameweek:</label>
-                <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                    {Array.from({ length: 38 }, (_, i) => i + 1).map(week => (
-                        <option key={week} value={week}>GW{week}</option>
-                    ))}
-                </select>
-            </div>
-            <button onClick={fetchData}>Fetch Players</button>
-            </div>
+                <div className="input-row">
+                    <div className="input-container">
+                        <label htmlFor="gameweek">Gameweek:</label>
+                        <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
+                            {Array.from({ length: 38 }, (_, i) => i + 1).map(week => (
+                                <option key={week} value={week}>GW{week}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <button onClick={fetchData}>Fetch Players</button>
+                </div>
             </div>
 
             {teamData && (
-            <div className="team-data">
-                <div className="player-data">
-                <h2>{teamData.managerName}</h2>
-                <p>Current Score: <span className="score">{teamData.overallPoints}</span></p>
-                <p>Rank: <span className="rank">{teamData.overallRank}</span></p>
-                </div>
-                
-                {teamData.players.map(player => (
-                <div key={player.name} className="player-frame">
-                    <h3 className="player-name">{player.name}</h3>
-                    <p>Current Fixture: {player.currentFixture}</p>
+                <div className="team-data">
+                    <div className="player-data">
+                        <h2>{teamData.managerName}</h2>
+                        <p>Current Score: <span className="score">{teamData.overallPoints}</span></p>
+                        <p>Rank: <span className="rank">{teamData.overallRank}</span></p>
+                    </div>
 
-                    <table className="fixtures-table">
-                        <thead>
-                            <tr>
-                                <th colSpan="5">Last 5 Fixtures</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {player.last5Scores.map((fixture, index) => (
-                                    <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                                    {fixture.score}
-                                </td>  
-                                ))}
-                            </tr>
-                        </tbody>
-                    </table>
-                    
+                    {teamData.players.map(player => (
+                        <div key={player.name} className="player-frame">
+                            <h3 className="player-name">{player.name}</h3>
+                            <p>Current Fixture: {player.currentFixture}</p>
 
-                    <table className="fixtures-table">
-                        <thead>
-                            <tr>
-                                <th colSpan="5">Next 5 Fixtures</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {player.next5Fixtures.map((fixture, index) => (
-                                    <td key={index} className={`fdr-${fixture.fdr}`}>
-                                        {fixture.fixture} (GW: {fixture.event})
-                                    </td>
-                                ))}
-                            </tr>
-                        </tbody>
-                    </table>
+                            <table className="fixtures-table">
+                                <thead>
+                                    <tr>
+                                        <th colSpan="5">Last 5 Fixtures</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {player.last5Scores.map((fixture, index) => (
+                                            <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
+                                                {fixture.score}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <table className="fixtures-table">
+                                <thead>
+                                    <tr>
+                                        <th colSpan="5">Next 5 Fixtures</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {player.next5Fixtures.map((fixture, index) => (
+                                            <td key={index} className={`fdr-${fixture.fdr}`}>
+                                                {fixture.fixture} (GW: {fixture.event})
+                                            </td>
+                                        ))}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    ))}
                 </div>
-            ))}
-            </div>
-        )}
+            )}
         </div>
     );
 }
@@ -134,4 +134,4 @@ function TeamAnalysis() {
 export default TeamAnalysis;
 
 
-        
+

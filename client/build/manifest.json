@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FPL Analysis",
+  "name": "FPL Analysis Website",
   "icons": [
     {
       "src": "favicon.ico",
