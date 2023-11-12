@@ -57,5 +57,5 @@ body {
   min-width: 350px;
   width: 100%;
   box-sizing: border-box;
-  font-size: calc(8px + 1.2vmin);
+  font-size: max(calc(8px + 1.4vmin),10px);
 }
