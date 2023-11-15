@@ -66,6 +66,7 @@ function TeamAnalysis() {
                 <div className="input-row">
                     <div className="input-container">
                         <label htmlFor="gameweek">Gameweek:</label>
+                    {/*TODO: Set max value for select to be current-gameweek */}
                         <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
                             {Array.from({ length: 38 }, (_, i) => i + 1).map(week => (
                                 <option key={week} value={week}>GW{week}</option>
