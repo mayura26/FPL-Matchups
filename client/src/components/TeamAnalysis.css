@@ -1,8 +1,7 @@
 /* TeamAnalysis.css */
 .team-analysis-container {
     padding: 20px;
-    border-radius: 5px;
-    background-color: #2c2c2c; /* Dark background */
+    background-color: #282c34; /* Dark background */
     color: #f0f0f0; /* Light text */
     font-size: 0.8em;
 }
@@ -176,4 +175,15 @@ button {
 
 button:hover {
     background-color: #555; /* Slightly lighter shade for hover effect */
+}
+
+.team-type-header {
+    text-decoration: underline;
+    margin: 0;
+}
+
+.players-data-set {
+    border: solid 1px grey;
+    padding: 2px 6px;
+    margin: 10px 0px;
 }

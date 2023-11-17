@@ -84,53 +84,64 @@ function TeamAnalysis() {
                         <p>Current Score: <span className="score">{teamData.overallPoints}</span></p>
                         <p>Rank: <span className="rank">{teamData.overallRank}</span></p>
                     </div>
-
-                    {teamData.players.map(player => (
-                        <div key={player.name} className="player-frame">
-                            <h3 className="player-name">{player.name}</h3>
-                            <p>Current Fixture: {player.currentFixture}</p>
-
-                            <table className="fixtures-table">
-                                <thead>
-                                    <tr>
-                                        <th colSpan="5">Last 5 Fixtures</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        {player.last5Scores.map((fixture, index) => (
-                                            <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                                                {fixture.score}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                            <table className="fixtures-table">
-                                <thead>
-                                    <tr>
-                                        <th colSpan="5">Next 5 Fixtures</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        {player.next5Fixtures.map((fixture, index) => (
-                                            <td key={index} className={`fdr-${fixture.fdr}`}>
-                                                {fixture.fixture} (GW: {fixture.event})
-                                            </td>
-                                        ))}
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    ))}
+                    <div className="players-data">
+                        <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
+                        <PlayerData players={teamData.playersBench} title={"Bench"}/>
+                    </div>
                 </div>
             )}
         </div>
     );
 }
+
+const PlayerData = ({players, title}) => {
+    return (
+    <div className="players-data-set">
+        <h3 className='team-type-header'>{title}</h3>
+    {players.map(player => (
+        <div key={player.name} className="player-frame">
+            <h3 className="player-name">{player.name}</h3>
+            <p>Current Fixture: {player.currentFixture}</p>
+
+            <table className="fixtures-table">
+                <thead>
+                    <tr>
+                        <th colSpan="5">Last 5 Fixtures</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {player.last5Scores.map((fixture, index) => (
+                            <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
+                                {fixture.score}
+                            </td>
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table className="fixtures-table">
+                <thead>
+                    <tr>
+                        <th colSpan="5">Next 5 Fixtures</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {player.next5Fixtures.map((fixture, index) => (
+                            <td key={index} className={`fdr-${fixture.fdr}`}>
+                                {fixture.fixture} (GW: {fixture.event})
+                            </td>
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    ))}
+    </div>
+    );
+};
 
 export default TeamAnalysis;
 
