@@ -1,18 +1,21 @@
 // Head2HeadMatchups.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './Head2HeadMatchups.css';
+import { TeamIDContext } from './TeamIDContext';
 
 const Head2HeadMatchups = () => {
-  const [teamId, setTeamId] = useState('948006');
+  const { teamID, updateTeamID } = useContext(TeamIDContext);
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState(null);
+  const [maxGameweek, setMaxGameweek] = useState('1');
   const [leagueData, setLeagueData] = useState(null);
   const [selectedMatchupId, setSelectedMatchupId] = useState(null);
   const [matchupData, setMatchupData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [hideCommonPlayers, setHideCommonPlayers] = useState(false);
+  const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
 
   const toggleMatchupDetails = async (matchupId, team1Id, team2Id) => {
     if (selectedMatchupId === matchupId) {
@@ -21,7 +24,7 @@ const Head2HeadMatchups = () => {
       setMatchupData(null); // Also clear the matchup data
     } else {
       setSelectedMatchupId(matchupId);
-      await fetchMatchupData(team1Id,team2Id, gameweek);
+      await fetchMatchupData(team1Id, team2Id, gameweek);
     }
   };
 
@@ -46,6 +49,7 @@ const Head2HeadMatchups = () => {
         const response = await fetch('/api/current-gameweek');
         const data = await response.json();
         setGameweek(data.currentGameweek);
+        setMaxGameweek(data.currentGameweek);
       } catch (error) {
         console.error("Error fetching current gameweek:", error);
       }
@@ -65,21 +69,23 @@ const Head2HeadMatchups = () => {
   };
 
   const clearTeamID = () => {
-    setTeamId("");
+    updateTeamID("");
   };
 
   useEffect(() => {
-    if (teamId) {
-      axios.get(`/api/h2h/leagues/${teamId}`)
+    if (teamID && teamID !== "") {
+      axios.get(`/api/h2h/leagues/${teamID}`)
         .then(response => {
           const leaguesArray = Array.isArray(response.data) ? response.data : [];
-          setLeagues(leaguesArray);
+          if (leaguesArray.length > 0) {
+            setLeagues(leaguesArray);
+          }
         })
         .catch(error => {
           console.error('Error fetching leagues:', error);
         });
     }
-  }, [teamId]);
+  }, [teamID]);
 
   // Handlers and JSX go here...
   return (
@@ -90,7 +96,8 @@ const Head2HeadMatchups = () => {
             <label htmlFor="teamID">Team ID:</label>
             <input
               type="text"
-              value={teamId}
+              value={teamID}
+              onChange={(e) => updateTeamID(e.target.value)}
             />
           </div>
           <button onClick={clearTeamID}>Clear</button>
@@ -109,7 +116,7 @@ const Head2HeadMatchups = () => {
             <div className="input-container">
               <label htmlFor="gameweek">Gameweek:</label>
               <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                {Array.from({ length: 38 }, (_, i) => i + 1).map(week => (
+                {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
                   <option key={week} value={week}>GW{week}</option>
                 ))}
               </select>
@@ -143,23 +150,37 @@ const Head2HeadMatchups = () => {
                 </table>
               </div>
               {selectedMatchupId === match.id && (
-          loading ? (
-            <p>Loading...</p>
-          ) : (
+                loading ? (
+                  <p>Loading...</p>
+                ) : (
 
-                matchupData && (
-                  <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
-                    <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
-                      {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
-                    </button>
-                    <MatchupDetails
-                    team1Details={matchupData.team1Details}
-                    team2Details={matchupData.team2Details}
-                      hideCommonPlayers={hideCommonPlayers}
-                    />
-                  </div>
-                )
-              ))}
+                  matchupData && (
+                    <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
+                      <div className='hide-btns'>
+                      <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
+                        {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
+                      </button>
+                      <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
+                        {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
+                      </button>
+                      </div>
+                      <MatchupDetails
+                        team1Details={matchupData.team1Details.startingPlayers}
+                        team2Details={matchupData.team2Details.startingPlayers}
+                        hideCommonPlayers={hideCommonPlayers}
+                        hidePlayedPlayers={hidePlayedPlayers}
+                        heading={"Starting"}
+                      />
+                       <MatchupDetails
+                        team1Details={matchupData.team1Details.benchPlayers}
+                        team2Details={matchupData.team2Details.benchPlayers}
+                        hideCommonPlayers={hideCommonPlayers}
+                        hidePlayedPlayers={hidePlayedPlayers}
+                        heading={"Bench"}
+                      />
+                    </div>
+                  )
+                ))}
             </div>
           ))}
         </div>
@@ -168,15 +189,18 @@ const Head2HeadMatchups = () => {
   );
 }
 
-const PlayerRow = ({ player1, player2, hideCommon }) => {
-// Hide the row if hideCommon is true and both players are the same (identified by ID)
-if (hideCommon && player1 && player2 && player1.id === player2.id) {
-  return null;
-}
+const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
+  // Hide the row if hideCommon is true and both players are the same (identified by ID)
+  if ((hideCommon && player1 && player2 && player1.id === player2.id) ||
+  (hidePlayed && 
+    ((player1 && player2 && player1.playStatus === "played" && player2.playStatus === "played")||
+    (player1 && player1.playStatus === "played" && player2 == null) ||
+    (player2 && player2.playStatus === "played" && player1 == null)))) {
+    return null;
+  }
 
-// TODO: Update to have one color for players playing and one for players who are done.
-  const player1Class = player1 && player1.gameWeekScore > 0 ? 'player played' : 'player';
-  const player2Class = player2 && player2.gameWeekScore > 0 ? 'player played' : 'player';
+  const player1Class = player1  ? 'player ' + player1.playStatus : 'player';
+  const player2Class = player2  ? 'player ' + player2.playStatus : 'player';
 
   return (
     <tr className="player-row">
@@ -190,32 +214,34 @@ if (hideCommon && player1 && player2 && player1.id === player2.id) {
   );
 };
 
-const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers }) => {
+const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers, heading }) => {
   const alignedPlayers = alignPlayers(team1Details, team2Details);
   return (
     <div className="matchup-table-container">
-    <table className="matchup-table">
-      <thead>
-        <tr>
-          <th>Player (Team 1)</th>
-          <th>Position</th>
-          <th>Score</th>
-          <th>Player (Team 2)</th>
-          <th>Position</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        {alignedPlayers.map(({ player1, player2 }, index) => (
-          <PlayerRow
-            key={index}
-            player1={player1}
-            player2={player2}
-            hideCommon={hideCommonPlayers}
-          />
-        ))}
-      </tbody>
-    </table>
+      <table className="matchup-table">
+        <thead>
+          <tr><th className='team-type-heading' colSpan={"100%"}>{heading}</th></tr>
+          <tr>
+            <th>Player (Team 1)</th>
+            <th>Position</th>
+            <th>Score</th>
+            <th>Player (Team 2)</th>
+            <th>Position</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {alignedPlayers.map(({ player1, player2 }, index) => (
+            <PlayerRow
+              key={index}
+              player1={player1}
+              player2={player2}
+              hideCommon={hideCommonPlayers}
+              hidePlayed={hidePlayedPlayers}
+            />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

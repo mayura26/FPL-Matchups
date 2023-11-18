@@ -1,6 +1,7 @@
 // TeamAnalysis.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
+import { TeamIDContext } from './TeamIDContext';
 
 function scoreClass(score) {
     if (score <= 2) return 'score-red';
@@ -10,8 +11,9 @@ function scoreClass(score) {
 }
 
 function TeamAnalysis() {
-    const [teamID, setTeamID] = useState("948006");
-    const [gameweek, setGameweek] = useState(null);  // Initialize as null
+    const { teamID, updateTeamID } = useContext(TeamIDContext);
+    const [gameweek, setGameweek] = useState(null);;  // Initialize as null
+    const [maxGameweek, setMaxGameweek] = useState('1');
     const [teamData, setTeamData] = useState(null);
 
     // Fetch the current gameweek when the component mounts
@@ -21,6 +23,7 @@ function TeamAnalysis() {
                 const response = await fetch('/api/current-gameweek');
                 const data = await response.json();
                 setGameweek(data.currentGameweek);
+                setMaxGameweek(data.currentGameweek);
             } catch (error) {
                 console.error("Error fetching current gameweek:", error);
             }
@@ -40,14 +43,8 @@ function TeamAnalysis() {
     };
 
     const clearTeamID = () => {
-        setTeamID("");
+        updateTeamID("");
     };
-
-    useEffect(() => {
-        if (gameweek) {
-            fetchData();
-        }
-    }, [teamID, gameweek]);
 
     return (
         <div className="team-analysis-container">
@@ -58,7 +55,7 @@ function TeamAnalysis() {
                         <input
                             type="text"
                             value={teamID}
-                            placeholder="Enter Team ID"
+                            onChange={(e) => updateTeamID(e.target.value)}
                         />
                     </div>
                     <button onClick={clearTeamID}>Clear</button>
@@ -66,9 +63,8 @@ function TeamAnalysis() {
                 <div className="input-row">
                     <div className="input-container">
                         <label htmlFor="gameweek">Gameweek:</label>
-                    {/*TODO: Set max value for select to be current-gameweek */}
                         <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                            {Array.from({ length: 38 }, (_, i) => i + 1).map(week => (
+                            {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
                                 <option key={week} value={week}>GW{week}</option>
                             ))}
                         </select>
@@ -98,6 +94,7 @@ const PlayerData = ({players, title}) => {
     return (
     <div className="players-data-set">
         <h3 className='team-type-header'>{title}</h3>
+        {/* TODO: Split player information to standalone file and restyle to flexbox */}
     {players.map(player => (
         <div key={player.name} className="player-frame">
             <h3 className="player-name">{player.name}</h3>
