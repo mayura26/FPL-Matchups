@@ -62,24 +62,51 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
       const playerBenchIDs = teamResponse.data.picks.filter(pick => pick.position > 11).map(pick => pick.element);
 
       // Step 2: Fetch team details
-      const teamPlayers = playersInfo.filter(player => playerStartingIDs.includes(player.id));
+      const teamStartingPlayers = playersInfo.filter(player => playerStartingIDs.includes(player.id));
+      const teamBenchPlayers = playersInfo.filter(player => playerBenchIDs.includes(player.id));
 
       // Step 3: Enrich player details
-      const detailedPlayers = await Promise.all(teamPlayers.map(async player => {
-        const playerDetailResponse = await axios.get(`https://fantasy.premierleague.com/api/element-summary/${player.id}/`);
-        const gameWeekData = playerDetailResponse.data.history.find(history => history.round === gameweek);
-
-        return {
-          id: player.id,
-          name: player.web_name,
-          teamName: teamsMap[player.team],
-          position: elementTypesMap[player.element_type], // You might want to map this to a string (e.g., 'Forward', 'Midfielder')
-          gameWeekScore: gameWeekData ? gameWeekData.total_points : 0
-        };
-      }));
-      // TODO: Create gameweek score from all players who have played or are playing
+      const startingPlayers = await getPlayerDetails(teamStartingPlayers);
+      const benchPlayers = await getPlayerDetails(teamBenchPlayers);
       
-      return detailedPlayers;
+      return {startingPlayers, benchPlayers};
+
+      async function getPlayerDetails(players) {
+        return await Promise.all(players.map(async (player) => {
+          const playerDetailResponse = await axios.get(`https://fantasy.premierleague.com/api/element-summary/${player.id}/`);
+          const gameWeekData = playerDetailResponse.data.history.find(history => history.round === gameweek);
+
+          // Get current date/time in UTC
+          const now = new Date();
+          const currentTimeUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+          // Parse the kickoff time as UTC
+          const kickoffTimeUTC = new Date(gameWeekData.kickoff_time).getTime(); // This is already in UTC
+          const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
+          const minutesPlayed = gameWeekData.minutes;
+          let playedStatus;
+          
+          if (currentTimeUTC > kickoffTimeUTC) {
+            if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
+              playedStatus = "played";
+            } else if (minutesPlayed > 0) {
+              playedStatus =  "playing";
+            }
+          }
+          else {
+            playedStatus =  "notplayed";
+          }
+
+          return {
+            id: player.id,
+            name: player.web_name,
+            teamName: teamsMap[player.team],
+            position: elementTypesMap[player.element_type],
+            gameWeekScore: gameWeekData ? gameWeekData.total_points : 0,
+            playStatus: playedStatus
+          };
+        }));
+      }
     };
 
     // Fetch details for both teams
