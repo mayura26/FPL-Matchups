@@ -92,7 +92,7 @@ function LeagueUpdates() {
                 )}
             </div>
             {leagueChanges.length > 0 && (
-                <table className="league-changes-table">
+                <table className="league-changes-table info-table">
                     <thead>
                         <tr className="league-changes-header">
                             <th>Manager Name</th>

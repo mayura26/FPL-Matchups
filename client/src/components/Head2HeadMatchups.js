@@ -132,7 +132,7 @@ const Head2HeadMatchups = () => {
           {leagueData.map((match, index) => (
             <div key={match.id} className="matchup-container">
               <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
-                <table className="matchup-table">
+                <table className="matchup-table info-table">
                   <tbody>
                     <tr>
                       <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
@@ -226,7 +226,7 @@ const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers, hidePla
   const alignedPlayers = alignPlayers(team1Details, team2Details);
   return (
     <div className="matchup-table-container">
-      <table className="matchup-table">
+      <table className="matchup-table info-table">
         <thead>
           <tr><th className='team-type-heading' colSpan={"100%"}>{heading}</th></tr>
           <tr>

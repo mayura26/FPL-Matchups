@@ -72,3 +72,19 @@ button {
 button:hover {
     background-color: #555; /* Slightly lighter shade for hover effect */
 }
+
+@media (max-width: 320px) {
+    .info-table th, .info-table td {
+        padding: 6px; /* Smaller padding */
+        font-size: 0.6em; /* Smaller font size */
+    }
+}
+
+.info-table {
+    width: 90%;
+    min-width: 150px;
+    max-width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    overflow-x: auto;
+}
