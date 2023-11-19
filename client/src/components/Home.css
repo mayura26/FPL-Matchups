@@ -1,0 +1,33 @@
+/* Home.css */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh; /* Adjust the height as needed */
+    padding: 20px;
+    background-color: #282c34; /* Dark background */
+    color: #f0f0f0; /* Light text */
+}
+
+.home-container h1 {
+    font-size: 2.5rem; /* Large font size for the main title */
+    margin-bottom: 20px;
+}
+
+.home-container p {
+    font-size: 1.2rem; /* Slightly larger font size for readability */
+    max-width: 600px; /* Set a max-width for better readability */
+    text-align: center; /* Center the text */
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .home-container h1 {
+        font-size: 2rem; /* Slightly smaller font size for smaller screens */
+    }
+
+    .home-container p {
+        font-size: 1rem; /* Adjust font size for readability on smaller screens */
+    }
+}

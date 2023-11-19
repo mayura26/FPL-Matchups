@@ -126,7 +126,7 @@ const Head2HeadMatchups = () => {
         )}
       </div>
       {leagueData && (
-        <div>
+        <div className="matchups-container"> 
           {leagueData.map((match, index) => (
             <div key={match.id} className="matchup-container">
               <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>

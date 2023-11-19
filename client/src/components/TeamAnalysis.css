@@ -3,6 +3,7 @@
     padding: 20px;
     background-color: #282c34; /* Dark background */
     color: #f0f0f0; /* Light text */
+    min-height: 40vh; /* Adjust the height as needed */
     font-size: 0.8em;
 }
 
