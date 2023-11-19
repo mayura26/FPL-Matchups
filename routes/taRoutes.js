@@ -99,7 +99,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
             };
 
             return {
-                name: player.first_name + ' ' + player.second_name,
+                name: player.web_name,
                 teamName: teamsMap[player.team],
                 // TODO: Update this to be correct depending on if its midweek or a gameweek
                 currentFixture: `${teamsMap[currentGame.opponent_team]} (Score: ${currentGame.total_points})`,
