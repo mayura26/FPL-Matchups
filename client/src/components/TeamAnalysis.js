@@ -1,6 +1,7 @@
 // TeamAnalysis.js
 import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
+import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 
 function scoreClass(score) {
@@ -47,7 +48,7 @@ function TeamAnalysis() {
     };
 
     return (
-        <div className="team-analysis-container">
+        <div className="main-container">
             <div className="input-mainrow">
                 <div className="input-row">
                     <div className="input-container">

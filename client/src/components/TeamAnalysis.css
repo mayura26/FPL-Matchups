@@ -1,12 +1,4 @@
 /* TeamAnalysis.css */
-.team-analysis-container {
-    padding: 20px;
-    background-color: #282c34; /* Dark background */
-    color: #f0f0f0; /* Light text */
-    min-height: 100vh; /* Adjust the height as needed */
-    font-size: 0.8em;
-}
-
 .team-data {
     margin-top: 20px;
     background-color: #4a4a4a;
@@ -122,60 +114,6 @@ button {
 
 .player-data {
     color: white;
-}
-
-/* Ensure responsiveness */
-@media screen and (max-width: 250px) {
-    .input-row, .input-mainrow {
-        flex-direction: column;
-    }
-}
-
-.input-row {
-    display: flex;
-    align-items: flex-end; /* Align items to the bottom of the container */
-    gap: 5px; /* Spacing between items */
-}
-
-.input-mainrow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.input-container {
-    display: flex;
-    flex-direction: column;
-}
-
-select {
-    max-width: 100px;
-}
-
-label {
-    margin-bottom: 5px;
-    color: #f0f0f0; /* Light text color for dark theme */
-}
-
-input, select, button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4a4a4a; /* Slightly lighter gray for contrast */
-    color: #f0f0f0; /* Light text color */
-    cursor: pointer;
-    font-size: 1em;
-}
-
-button {
-    background-color: #333; /* Darker shade for button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-    text-align: end;
-    margin: 0 1px;
-}
-
-button:hover {
-    background-color: #555; /* Slightly lighter shade for hover effect */
 }
 
 .team-type-header {

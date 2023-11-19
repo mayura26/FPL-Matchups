@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './Head2HeadMatchups.css';
+import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 
 const Head2HeadMatchups = () => {
@@ -89,7 +90,7 @@ const Head2HeadMatchups = () => {
 
   // Handlers and JSX go here...
   return (
-    <div className='head2head-container'>
+    <div className='main-container'>
       <div className="input-mainrow">
         <div className="input-row">
           <div className="input-container">
@@ -121,7 +122,7 @@ const Head2HeadMatchups = () => {
                 ))}
               </select>
             </div>
-            <button onClick={fetchData}>Fetch League</button>
+            <button onClick={fetchData}>Fetch</button>
           </div>
         )}
       </div>
@@ -200,6 +201,10 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   }
 
   // TODO: Highlight player if they are captain and double their gameweek points
+
+  // TODO: Highlight player who hasn't played after their kickoff (so needs to be subbed)
+
+  // TODO: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
 
   const player1Class = player1  ? 'player ' + player1.playStatus : 'player';
   const player2Class = player2  ? 'player ' + player2.playStatus : 'player';
