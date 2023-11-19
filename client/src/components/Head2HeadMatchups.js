@@ -199,6 +199,8 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
     return null;
   }
 
+  // TODO: Highlight player if they are captain and double their gameweek points
+
   const player1Class = player1  ? 'player ' + player1.playStatus : 'player';
   const player2Class = player2  ? 'player ' + player2.playStatus : 'player';
 
