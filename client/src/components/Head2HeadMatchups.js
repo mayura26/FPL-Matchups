@@ -77,9 +77,10 @@ const Head2HeadMatchups = () => {
     if (teamID && teamID !== "") {
       axios.get(`/api/h2h/leagues/${teamID}`)
         .then(response => {
-          const leaguesArray = Array.isArray(response.data) ? response.data : [];
-          if (leaguesArray.length > 0) {
-            setLeagues(leaguesArray);
+          if (response.data.length > 0) {
+            setLeagues(response.data);
+          } else {
+            setLeagues([]);
           }
         })
         .catch(error => {
@@ -122,12 +123,12 @@ const Head2HeadMatchups = () => {
                 ))}
               </select>
             </div>
-            <button onClick={fetchData}>Fetch</button>
+            <button onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
           </div>
         )}
       </div>
       {leagueData && (
-        <div className="matchups-container"> 
+        <div className="matchups-container">
           {leagueData.map((match, index) => (
             <div key={match.id} className="matchup-container">
               <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
@@ -158,12 +159,12 @@ const Head2HeadMatchups = () => {
                   matchupData && (
                     <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
                       <div className='hide-btns'>
-                      <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
-                        {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
-                      </button>
-                      <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
-                        {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
-                      </button>
+                        <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
+                          {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
+                        </button>
+                        <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
+                          {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
+                        </button>
                       </div>
                       <MatchupDetails
                         team1Details={matchupData.team1Details.startingPlayers}
@@ -172,7 +173,7 @@ const Head2HeadMatchups = () => {
                         hidePlayedPlayers={hidePlayedPlayers}
                         heading={"Starting"}
                       />
-                       <MatchupDetails
+                      <MatchupDetails
                         team1Details={matchupData.team1Details.benchPlayers}
                         team2Details={matchupData.team2Details.benchPlayers}
                         hideCommonPlayers={hideCommonPlayers}
@@ -193,10 +194,10 @@ const Head2HeadMatchups = () => {
 const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   // Hide the row if hideCommon is true and both players are the same (identified by ID)
   if ((hideCommon && player1 && player2 && player1.id === player2.id) ||
-  (hidePlayed && 
-    ((player1 && player2 && player1.playStatus === "played" && player2.playStatus === "played")||
-    (player1 && player1.playStatus === "played" && player2 == null) ||
-    (player2 && player2.playStatus === "played" && player1 == null)))) {
+    (hidePlayed &&
+      ((player1 && player2 && player1.playStatus === "played" && player2.playStatus === "played") ||
+        (player1 && player1.playStatus === "played" && player2 == null) ||
+        (player2 && player2.playStatus === "played" && player1 == null)))) {
     return null;
   }
 
@@ -206,8 +207,8 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
 
   // TODO: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
 
-  const player1Class = player1  ? 'player ' + player1.playStatus : 'player';
-  const player2Class = player2  ? 'player ' + player2.playStatus : 'player';
+  const player1Class = player1 ? 'player ' + player1.playStatus : 'player';
+  const player2Class = player2 ? 'player ' + player2.playStatus : 'player';
 
   return (
     <tr className="player-row">

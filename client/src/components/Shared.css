@@ -21,6 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    margin: 0px 10px;
 }
 
 .input-container {
@@ -65,7 +66,7 @@ button {
     transition: background-color 0.3s; /* Smooth transition for hover effect */
     text-align: end;
     margin: 0 1px;
-    height: 32px; /* TODO: Fix height of buttons to be same as inputs */
+/* TODO: Fix height of buttons to be same as inputs */
 }
 
 button:hover {

@@ -24,7 +24,7 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
 
     // Fetch league details from FPL API
     const leagueDetails = await axios.get(`https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`);
-    const teams = leagueDetails.data.standings.results;
+    const teams = leagueDetails.data.standings.results.length > 50 ? leagueDetails.data.standings.results.slice(0, 50) : leagueDetails.data.standings.results;
 
     // Fetch additional details for each transfer
     const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');

@@ -70,7 +70,7 @@ function TeamAnalysis() {
                             ))}
                         </select>
                     </div>
-                    <button onClick={fetchData}>Fetch Players</button>
+                    <button onClick={fetchData}>Fetch</button>
                 </div>
             </div>
 
