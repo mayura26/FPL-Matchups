@@ -60,6 +60,7 @@ input, select, button {
     background-color: #4a4a4a; /* Slightly lighter gray for contrast */
     color: #f0f0f0; /* Light text color */
     cursor: pointer;
+    font-size: 1em;
 }
 
 input {

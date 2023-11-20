@@ -3,12 +3,17 @@
   display: flex;
   justify-content: center;
   background-color: #f5f5f5; /* Or any preferred background color */
+  max-width: 700px;
+  min-width: 350px;
 }
 
 .app-container {
-  max-width: 700px;
-  min-width: 350px;
   width: 100%;
-  box-sizing: border-box;
-  font-size: max(calc(8px + 1.4vmin),10px);
+  box-sizing: border-box; 
+}
+
+@media (max-width: 700px) {
+  .app-container {
+  font-size: calc(8px + 1.4vmin);
+  }
 }
