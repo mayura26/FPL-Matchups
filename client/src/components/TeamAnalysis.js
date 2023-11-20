@@ -13,8 +13,7 @@ function scoreClass(score) {
 
 function TeamAnalysis() {
     const { teamID, updateTeamID } = useContext(TeamIDContext);
-    const [gameweek, setGameweek] = useState(null);;  // Initialize as null
-    const [maxGameweek, setMaxGameweek] = useState('1');
+    const [gameweek, setGameweek] = useState(null);  // Initialize as null
     const [teamData, setTeamData] = useState(null);
 
     // Fetch the current gameweek when the component mounts
@@ -24,7 +23,6 @@ function TeamAnalysis() {
                 const response = await fetch('/api/current-gameweek');
                 const data = await response.json();
                 setGameweek(data.currentGameweek);
-                setMaxGameweek(data.currentGameweek);
             } catch (error) {
                 console.error("Error fetching current gameweek:", error);
             }
@@ -63,14 +61,14 @@ function TeamAnalysis() {
                 </div>
                 <div className="input-row">
                     <div className="input-container">
-                        <label htmlFor="gameweek">Gameweek:</label>
-                        <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                            {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
-                                <option key={week} value={week}>GW{week}</option>
-                            ))}
-                        </select>
+                        <input
+                            className="gameweek-display"
+                            type="text"
+                            value={"GW" + gameweek}
+                            readOnly
+                        />
                     </div>
-                    <button onClick={fetchData}>Fetch</button>
+                    <button onClick={fetchData} disabled={!teamID || !gameweek} style={{ opacity: (gameweek && teamID) ? 1 : 0.5 }}>Fetch Squad</button>
                 </div>
             </div>
 
@@ -83,7 +81,7 @@ function TeamAnalysis() {
                     </div>
                     <div className="players-data">
                         <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
-                        <PlayerData players={teamData.playersBench} title={"Bench"}/>
+                        <PlayerData players={teamData.playersBench} title={"Bench"} />
                     </div>
                 </div>
             )}
@@ -91,53 +89,53 @@ function TeamAnalysis() {
     );
 }
 
-const PlayerData = ({players, title}) => {
+const PlayerData = ({ players, title }) => {
     return (
-    <div className="players-data-set">
-        <h3 className='team-type-header'>{title}</h3>
-        {/* TODO: Split player information to standalone file and restyle to flexbox */}
-    {players.map(player => (
-        <div key={player.name} className="player-frame">
-            <h3 className="player-name">{player.name}</h3>
-            <p>Current Fixture: {player.currentFixture}</p>
+        <div className="players-data-set">
+            <h3 className='team-type-header'>{title}</h3>
+            {/* TODO: Split player information to standalone file and restyle to flexbox */}
+            {players.map(player => (
+                <div key={player.name} className="player-frame">
+                    <h3 className="player-name">{player.name}</h3>
+                    <p>Current Fixture: {player.currentFixture}</p>
 
-            <table className="fixtures-table">
-                <thead>
-                    <tr>
-                        <th colSpan="5">Last 5 Fixtures</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {player.last5Scores.map((fixture, index) => (
-                            <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                                {fixture.score}
-                            </td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
+                    <table className="fixtures-table">
+                        <thead>
+                            <tr>
+                                <th colSpan="5">Last 5 Fixtures</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {player.last5Scores.map((fixture, index) => (
+                                    <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
+                                        {fixture.score}
+                                    </td>
+                                ))}
+                            </tr>
+                        </tbody>
+                    </table>
 
 
-            <table className="fixtures-table">
-                <thead>
-                    <tr>
-                        <th colSpan="5">Next 5 Fixtures</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {player.next5Fixtures.map((fixture, index) => (
-                            <td key={index} className={`fdr-${fixture.fdr}`}>
-                                {fixture.fixture} (GW: {fixture.event})
-                            </td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
+                    <table className="fixtures-table">
+                        <thead>
+                            <tr>
+                                <th colSpan="5">Next 5 Fixtures</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {player.next5Fixtures.map((fixture, index) => (
+                                    <td key={index} className={`fdr-${fixture.fdr}`}>
+                                        {fixture.fixture} (GW: {fixture.event})
+                                    </td>
+                                ))}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            ))}
         </div>
-    ))}
-    </div>
     );
 };
 

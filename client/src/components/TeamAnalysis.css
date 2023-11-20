@@ -1,4 +1,8 @@
 /* TeamAnalysis.css */
+.gameweek-display {
+    width: 40px;
+}
+
 .team-data {
     margin-top: 20px;
     background-color: #4a4a4a;
