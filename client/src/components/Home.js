@@ -33,6 +33,7 @@ const Home = () => {
                             onChange={(e) => updateTeamID(e.target.value)}
                             className="team-id-input"
                         />
+                        {/*TODO: Add dropdown for team selection by player name */}
                     </div>
                 </div>
             </div>
