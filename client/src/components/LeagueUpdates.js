@@ -9,7 +9,7 @@ function LeagueUpdates() {
     const { teamID, updateTeamID } = useContext(TeamIDContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
-    const [gameweek, setGameweek] = useState(null);
+    const [gameweek, setGameweek] = useState('1');
     const [maxGameweek, setMaxGameweek] = useState('1');
     const [leagueChanges, setLeagueChanges] = useState([]);
 

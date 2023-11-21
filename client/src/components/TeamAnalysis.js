@@ -13,7 +13,7 @@ function scoreClass(score) {
 
 function TeamAnalysis() {
     const { teamID, updateTeamID } = useContext(TeamIDContext);
-    const [gameweek, setGameweek] = useState(null);  // Initialize as null
+    const [gameweek, setGameweek] = useState('1');  // Initialize as null
     const [teamData, setTeamData] = useState(null);
 
     // Fetch the current gameweek when the component mounts
