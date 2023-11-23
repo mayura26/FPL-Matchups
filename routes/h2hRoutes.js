@@ -60,18 +60,20 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
       const teamResponse = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamID}/event/${gameweek}/picks/`);
       const playerStartingIDs = teamResponse.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
       const playerBenchIDs = teamResponse.data.picks.filter(pick => pick.position > 11).map(pick => pick.element);
+      const captainId = teamResponse.data.picks.find(pick => pick.is_captain).element;
+      const viceCaptainId = teamResponse.data.picks.find(pick => pick.is_vice_captain).element;
 
       // Step 2: Fetch team details
       const teamStartingPlayers = playersInfo.filter(player => playerStartingIDs.includes(player.id));
       const teamBenchPlayers = playersInfo.filter(player => playerBenchIDs.includes(player.id));
 
       // Step 3: Enrich player details
-      const startingPlayers = await getPlayerDetails(teamStartingPlayers);
-      const benchPlayers = await getPlayerDetails(teamBenchPlayers);
-      
-      return {startingPlayers, benchPlayers};
+      const startingPlayers = await getPlayerDetails(teamStartingPlayers, captainId, viceCaptainId);
+      const benchPlayers = await getPlayerDetails(teamBenchPlayers, captainId, viceCaptainId);
 
-      async function getPlayerDetails(players) {
+      return { startingPlayers, benchPlayers };
+
+      async function getPlayerDetails(players, captainId, viceCaptainId) {
         return await Promise.all(players.map(async (player) => {
           const playerDetailResponse = await axios.get(`https://fantasy.premierleague.com/api/element-summary/${player.id}/`);
           const gameWeekData = playerDetailResponse.data.history.find(history => history.round === gameweek);
@@ -85,16 +87,27 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
           const minutesPlayed = gameWeekData.minutes;
           let playedStatus;
-          
+
           if (currentTimeUTC > kickoffTimeUTC) {
             if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
-              playedStatus = "played";
+              if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
+                playedStatus = "unplayed";
+              } else {
+                playedStatus = "played";
+              }
             } else if (minutesPlayed > 0) {
-              playedStatus =  "playing";
+              playedStatus = "playing";
             }
           }
           else {
-            playedStatus =  "notplayed";
+            playedStatus = "notplayed";
+          }
+
+          let captainStatus = 'N';
+          if (player.id === captainId) {
+            captainStatus = 'C';
+          } else if (player.id === viceCaptainId) {
+            captainStatus = 'VC';
           }
 
           return {
@@ -103,7 +116,8 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
             teamName: teamsMap[player.team],
             position: elementTypesMap[player.element_type],
             gameWeekScore: gameWeekData ? gameWeekData.total_points : 0,
-            playStatus: playedStatus
+            playStatus: playedStatus,
+            captainStatus: captainStatus
           };
         }));
       }

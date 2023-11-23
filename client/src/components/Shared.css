@@ -3,7 +3,7 @@
     background-color: #282c34; /* Dark background */
     color: #f0f0f0; /* Light text */
     padding: 20px;
-    min-height: 100vh; /* Adjust the height as needed */
+    min-height: 100svh; /* Adjust the height as needed */
     display: flex;
     flex-direction: column;
     align-items: center;

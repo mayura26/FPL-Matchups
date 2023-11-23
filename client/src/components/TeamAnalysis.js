@@ -96,43 +96,31 @@ const PlayerData = ({ players, title }) => {
             {/* TODO: Split player information to standalone file and restyle to flexbox */}
             {players.map(player => (
                 <div key={player.name} className="player-frame">
-                    <h3 className="player-name">{player.name}</h3>
-                    <p>Current Fixture: {player.currentFixture}</p>
-
-                    <table className="fixtures-table">
-                        <thead>
-                            <tr>
-                                <th colSpan="5">Last 5 Fixtures</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {player.last5Scores.map((fixture, index) => (
-                                    <td key={index} className={`fdr-${fixture.fdr} ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                                        {fixture.score}
-                                    </td>
-                                ))}
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-                    <table className="fixtures-table">
-                        <thead>
-                            <tr>
-                                <th colSpan="5">Next 5 Fixtures</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {player.next5Fixtures.map((fixture, index) => (
-                                    <td key={index} className={`fdr-${fixture.fdr}`}>
-                                        {fixture.fixture} (GW: {fixture.event})
-                                    </td>
-                                ))}
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className="player-row">
+                        <div className="player-name">{player.name}</div>
+                        <div className="player-price">{player.cost}</div>
+                        <div className="player-team">{player.teamName}</div>
+                    </div>
+                    <div className="player-row">
+                        <div className="player-current-fixture">{player.currentFixture}</div>
+                        <div className={`player-score ${scoreClass(parseInt(player.currentGameScore))}`}>
+                            {player.currentGameScore}
+                        </div>
+                    </div>
+                    <div className="player-row">
+                        {player.last5Scores.map((fixture, index) => (
+                            <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
+                                {fixture.score}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="player-row">
+                        {player.next5Fixtures.map((fixture, index) => (
+                            <div key={index} className={`player-fixture fdr-${fixture.fdr}`}>
+                                {fixture.fixture} (GW: {fixture.event})
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ))}
         </div>

@@ -100,9 +100,10 @@ router.get('/:teamID/:gameweek', async (req, res) => {
 
             return {
                 name: player.web_name,
-                teamName: teamsMap[player.team],
+                teamName: teamShortMap[teamsMap[player.team]],
                 // TODO: Update this to be correct depending on if its midweek or a gameweek
-                currentFixture: `${teamsMap[currentGame.opponent_team]} (Score: ${currentGame.total_points})`,
+                currentFixture: teamsMap[currentGame.opponent_team],
+                currentGameScore: currentGame.total_points,
                 cost: player.now_cost / 10,
 
                 // TODO: Fix last 5 scores to show correctly midweek

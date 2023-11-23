@@ -54,11 +54,22 @@
 }
 
 .matchup-table td.played {
-    background-color: #4b4b3d; 
+    background-color: #456b2f8c; /* Dark green shade for played */
 }
 
 .matchup-table td.playing {
-    background-color: #3d484b; 
+    background-color: #1e8fff8c; /* Dark blue shade for playing */
+}
+
+.matchup-table td.unplayed {
+    background-color: #8b00008c; /* Dark red shade for unplayed */
+}
+
+.matchup-table td.C {
+    border: #de00f2 2px solid;
+    box-shadow: 0px 0px 2px 2px #de00f2;
+    cursor: text;
+    transition: height .5s;
 }
 
 .winner {

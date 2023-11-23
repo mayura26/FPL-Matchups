@@ -201,30 +201,32 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
     return null;
   }
 
-  // TODO: Highlight player if they are captain and double their gameweek points
-
-  // TODO: Highlight player who hasn't played after their kickoff (so needs to be subbed)
-
   // TODO: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
 
-  const player1Class = player1 ? 'player ' + player1.playStatus : 'player';
-  const player2Class = player2 ? 'player ' + player2.playStatus : 'player';
+  // Highlight player if they are captain or vice-captain and double their gameweek points if captain
+  const player1Score = player1 && player1.captainStatus === 'C' ? player1.gameWeekScore * 2 : player1 ? player1.gameWeekScore : '';
+  const player2Score = player2 && player2.captainStatus === 'C' ? player2.gameWeekScore * 2 : player2 ? player2.gameWeekScore : '';
+  const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
+  const player2Class = player2 ? `player ${player2.playStatus} ${player2.captainStatus}` : 'player';
+  const player1Name = player1 && (player1.captainStatus === 'C' || player1.captainStatus === 'VC') ? player1.name + ` (${player1.captainStatus})`: player1 ? player1.name : '';
+  const player2Name = player2 && (player2.captainStatus === 'C' || player2.captainStatus === 'VC') ? player2.name + ` (${player2.captainStatus})`: player2 ? player2.name : '';
 
   return (
     <tr className="player-row">
-      <td className={player1Class}>{player1 ? player1.name : ''}</td>
+      <td className={player1Class}>{player1Name}</td>
       <td className={player1Class}>{player1 ? player1.position : ''}</td>
-      <td className={player1Class}>{player1 ? player1.gameWeekScore : ''}</td>
-      <td className={player2Class}>{player2 ? player2.name : ''}</td>
+      <td className={player1Class}>{player1Score}</td>
+      <td className={player2Class}>{player2Name}</td>
       <td className={player2Class}>{player2 ? player2.position : ''}</td>
-      <td className={player2Class}>{player2 ? player2.gameWeekScore : ''}</td>
+      <td className={player2Class}>{player2Score}</td>
     </tr>
   );
 };
 
 const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers, heading }) => {
   const alignedPlayers = alignPlayers(team1Details, team2Details);
-  return (
+  // TODO: Add live score indication
+  return (   
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
         <thead>

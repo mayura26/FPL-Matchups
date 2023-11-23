@@ -1,4 +1,4 @@
-/* TODO: Rebuild all CSS and sizing */
+/* TODO: Rebuild all CSS and sizing. Create tables to be consistent internally with better control over width*/
 #root {
   display: flex;
   justify-content: center;
