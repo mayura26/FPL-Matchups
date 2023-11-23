@@ -127,7 +127,7 @@ button {
     margin: 10px 0px;
 }
 
-.player-row {
+.player-card-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
