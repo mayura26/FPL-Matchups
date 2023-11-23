@@ -18,7 +18,7 @@ const Home = () => {
                 <h1>Welcome to the FPL Analysis Tool</h1>
                 <p>This tool provides detailed analysis and head-to-head matchups for Fantasy Premier League (FPL) teams.</p>
                 <p>Explore your league standings, compare teams, and get the latest updates on player performance.</p>
-                <p>Enter your Team ID below to get started.</p>
+                <p>Enter your Team ID below and click on top banner to get started</p>
             </div>
             <br></br>
             <div>
@@ -35,6 +35,7 @@ const Home = () => {
                                 className="team-id-input"
                             />
                             {/*TODO: Add dropdown for team selection by player name */}
+                            {/*TODO: Add status of connection to FPL */}
                         </div>
                     </div>
                 </div>
@@ -42,5 +43,7 @@ const Home = () => {
         </div>
     );
 };
+
+// TODO: Add popup for errors
 
 export default Home;
