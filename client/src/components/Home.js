@@ -21,19 +21,21 @@ const Home = () => {
                 <p>Enter your Team ID below to get started.</p>
             </div>
             <br></br>
-            <div className="input-mainrow">
-                <div className="input-row">
-                    <div className="input-container">
-                        <label htmlFor="teamId">Team ID:</label>
-                        <input
-                            type="text"
-                            id="teamId"
-                            placeholder="Enter your team ID"
-                            value={teamID}
-                            onChange={(e) => updateTeamID(e.target.value)}
-                            className="team-id-input"
-                        />
-                        {/*TODO: Add dropdown for team selection by player name */}
+            <div>
+                <div className="input-mainrow">
+                    <div className="input-row">
+                        <div className="input-container">
+                            <label htmlFor="teamId">Team ID:</label>
+                            <input
+                                type="text"
+                                id="teamId"
+                                placeholder="Enter your team ID"
+                                value={teamID}
+                                onChange={(e) => updateTeamID(e.target.value)}
+                                className="team-id-input"
+                            />
+                            {/*TODO: Add dropdown for team selection by player name */}
+                        </div>
                     </div>
                 </div>
             </div>
