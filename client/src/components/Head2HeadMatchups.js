@@ -63,6 +63,7 @@ const Head2HeadMatchups = () => {
     try {
       const response = await fetch(`/api/h2h/leagues/${selectedLeagueId}/${gameweek}`);
       const data = await response.json();
+      // TODO: Add loading indicator
       setLeagueData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -80,6 +81,7 @@ const Head2HeadMatchups = () => {
           if (response.data.length > 0) {
             setLeagues(response.data);
           } else {
+            // TODO: Add popup no leagues found
             setLeagues([]);
           }
         })

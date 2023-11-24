@@ -2,7 +2,7 @@
 #root {
   display: flex;
   justify-content: center;
-  background-color: #282c34; /* Or any preferred background color */
+  background-color: var(--background); /* Or any preferred background color */
 }
 
 .app-container {
@@ -10,11 +10,22 @@
   max-width: 700px;
   min-width: 350px;
   box-sizing: border-box; 
-  background-color: #282c34;
+  min-height: 100svh; /* Adjust the height as needed */
+  background-color: var(--background);
+  color: var(--text);
 }
 
 @media (max-width: 700px) {
   .app-container {
   font-size: calc(8px + 1.4vmin);
   }
+}
+
+:root {
+  --text: #e6f3f4;
+  --background: #282c34;
+  --primary: #515E63;
+  --secondary: #091a20;
+  --accent: #61dafb;
+  --accent50: #61dafb8c;
 }

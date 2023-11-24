@@ -1,28 +1,13 @@
 /* TeamAnalysis.css */
-.gameweek-display {
-    width: 40px;
-}
+
 
 .team-data {
     margin-top: 20px;
-    background-color: #4a4a4a;
     padding: 20px;
     border-radius: 5px;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 20px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-button {
+.input-row button {
     margin-left: 10px;
 }
 
@@ -39,17 +24,6 @@ button {
 .player-name {
     font-weight: bold;
     margin: 5px 0;
-}
-
-.player-frame {
-    border: 1px solid #ccc;
-    margin: 10px 0;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #4a4a4a;  /* Slightly lighter gray for contrast */
-    padding: 15px;
 }
 
 .fixtures-table {
@@ -127,6 +101,13 @@ button {
     margin: 10px 0px;
 }
 
+.player-frame {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    border-radius: 5px;
+    width: 300px;
+}
+
 .player-card-row {
     display: flex;
     justify-content: space-between;
@@ -140,13 +121,22 @@ button {
 .player-team,
 .player-current-fixture,
 .player-score,
-.player-fixture {
+.player-fixture
+ {
     flex: 1;
     text-align: center;
     border: white 1px solid;
 }
 
+.player-fixture, .player-price, .player-team {
+    height: 100%;
+    margin: 0px;
+    padding: 1px;
+}
+
 .player-name {
-    flex: 2; /* player name might need more space */
+    flex: 3; /* player name might need more space */
     margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
 }

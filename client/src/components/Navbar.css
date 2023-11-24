@@ -16,17 +16,17 @@
 .navbar a {
     float: left;
     display: block;
-    color: white;
     text-align: center;
     padding: 10px 12px;
     text-decoration: none;
-    color: #61dafb;
+    color: var(--accent);
     font-size: 1.1em;
 }
 
 .navbar a:hover {
-    background-color: #ddd;
-    color: black;
+    background-color: var(--accent50);
+    color: var(--secondary);
+    border-radius: 8px;
 }
 
 .navbar-logo {

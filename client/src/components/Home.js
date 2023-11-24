@@ -10,6 +10,7 @@ const Home = () => {
 
     return (
         <div className="main-container">
+            {/*TODO: Update logo to be suitable for matchups */}
             <div className='logo-container'>
                 <img src={logo} alt="FPL Logo" className="logo" />
             </div>
@@ -22,6 +23,7 @@ const Home = () => {
             </div>
             <br></br>
             <div>
+                {/*TODO: Get this div centered */}
                 <div className="input-mainrow">
                     <div className="input-row">
                         <div className="input-container">
@@ -35,6 +37,8 @@ const Home = () => {
                                 className="team-id-input"
                             />
                             {/*TODO: Add dropdown for team selection by player name */}
+                            {/*TODO: Add go button with option of Example user */}
+                            {/*TODO: Remove teamID from everypage & move gameweek current to here and make it a context */}
                             {/*TODO: Add status of connection to FPL */}
                         </div>
                     </div>
