@@ -61,7 +61,7 @@
 }
 
 .fdr-1, .fdr-2, .fdr-3, .fdr-4, .fdr-5 {
-    color: var(--textInverse);
+    color: var(--text-inverse);
 }
 
 .team-type-header {
@@ -70,7 +70,7 @@
     margin-bottom: -2px;
     text-align: center;
     border: solid 1px var(--borders);
-    background-color: var(--tableheader);
+    background-color: var(--table-header);
 }
 
 .players-data {
@@ -94,7 +94,7 @@
     margin: 10px;
     border-radius: 5px;
     width: 300px;
-    box-shadow: 3px 3px 5px rgba(102, 102, 102, 0.3);
+    box-shadow: 3px 3px 5px var(--table-shadow);
     display: flex;
     flex-direction: column;
 }
@@ -104,6 +104,12 @@
     justify-content: space-between;
     align-items: stretch;
     padding: 0;
+    width: 100%;
+}
+
+.player-card-row-divider {
+    height: 0px;
+    background-color: var(--borders);
     width: 100%;
 }
 
@@ -143,6 +149,7 @@
     border-bottom: none;
     font-weight: bold;
     background-color: var(--accent50);
+    /* TODO: Fix issue with border not rounding corrctly */
     border-radius: 0 4px 0 0;
 }
 

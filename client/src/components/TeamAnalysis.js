@@ -104,17 +104,23 @@ const PlayerData = ({ players, title }) => {
                     </div>
                     <div className="player-card-row">
                         <div className="player-current-fixture">Current Fixture: {player.currentFixture}</div>
+                        {/* TODO: Add expected points next to points */}
+                        {/* TODO: Add form and ICT */}
                         <div className={`player-score ${scoreClass(parseInt(player.currentGameScore))}`}>
                             {player.currentGameScore}
                         </div>
                     </div>
+                    <div className="player-card-row-divider"></div>
                     <div className="player-card-row">
                         {player.last5Scores.map((fixture, index) => (
                             <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
+                                {/* TODO: Add xGi/xGc next to result as next line*/}
+                                 {/* TODO: Add ICT */}
                                 {fixture.score}
                             </div>
                         ))}
                     </div>
+                    <div className="player-card-row-divider"></div>
                     <div className="player-card-row">
                         {player.next5Fixtures.map((fixture, index) => (
                             <div key={index} className={`player-fixture-next fdr-${fixture.fdr}`}>

@@ -30,7 +30,7 @@
 .matchup-table th {
     border: 2px solid var(--borders);
     padding: 5px;
-    background-color: var(--tableheader);
+    background-color: var(--table-header);
     text-align: center;
     color: var(--text);
 }
@@ -38,7 +38,7 @@
 .team-type-heading {
     border: 2px solid var(--borders);
     padding: 5px;
-    background-color: var(--tableheader);
+    background-color: var(--table-header);
     text-align: center;
     color: #f0f0f0;
     justify-content: center;
@@ -73,7 +73,6 @@
 
 .winner {
     background-color: #4CAF50; /* Green background for winning team */
-    color: white;
 }
 
 .clickable-row {
@@ -82,7 +81,7 @@
 }
 
 .clickable-row:hover {
-    background-color: #555; /* Slightly lighter shade for hover effect */
+    background-color: var(--hover); /* Slightly lighter shade for hover effect */
 }
 
 .matchup-summary {
@@ -93,10 +92,10 @@
 
 .matchup-details {
     margin-top: 5px;
-    background-color: #3b3b3b;
+    background-color: var(--table-background);
     padding: 0px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--borders);
     overflow: hidden;
     transition: max-height 0.3s ease-out;
     max-height: 0px; /* Initially hidden */
@@ -112,7 +111,7 @@
 }
 
 .player-row:hover {
-    background-color: #555; /* Slightly lighter shade for hover effect */
+    background-color: var(--hover); /* Slightly lighter shade for hover effect */
 }
 
 .hide-btns {

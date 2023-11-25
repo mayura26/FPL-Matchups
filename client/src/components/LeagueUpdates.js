@@ -113,6 +113,8 @@ function LeagueUpdates() {
                                             <td rowSpan={change.transfers.length} className="position">{change.position}</td>
                                         </>
                                     )}
+                                    {/* TODO: Highlight common players in or out */}
+                                    {/* TODO: Add click to bring up player card */}
                                     <td className="player-in">In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m</td>
                                     <td className="player-out">Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m</td>
                                 </tr>

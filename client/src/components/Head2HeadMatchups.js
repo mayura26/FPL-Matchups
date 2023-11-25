@@ -136,6 +136,7 @@ const Head2HeadMatchups = () => {
               <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
                 <table className="matchup-table info-table">
                   <tbody>
+                    {/* TODO: Show live points */}
                     <tr>
                       <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
                         {match.entry_1_name} ({match.entry_1_player_name})
@@ -195,6 +196,7 @@ const Head2HeadMatchups = () => {
 
 const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   // Hide the row if hideCommon is true and both players are the same (identified by ID)
+  // TODO: Don't hide common player if player is the captain
   if ((hideCommon && player1 && player2 && player1.id === player2.id) ||
     (hidePlayed &&
       ((player1 && player2 && player1.playStatus === "played" && player2.playStatus === "played") ||
@@ -204,6 +206,8 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   }
 
   // TODO: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
+  // TODO: Highlight player coming off the bench [HARD]
+  // TODO: Show when VC is coming in [HARD]
 
   // Highlight player if they are captain or vice-captain and double their gameweek points if captain
   const player1Score = player1 && player1.captainStatus === 'C' ? player1.gameWeekScore * 2 : player1 ? player1.gameWeekScore : '';
@@ -278,6 +282,7 @@ const alignPlayers = (team1Details, team2Details) => {
     });
 
     // Align remaining players by position
+    // TODO: Align by price when in position
     players1 = players1.filter(p1 => !matched.has(p1.id));
     players1.forEach(p1 => {
       if (players2.length > 0) {

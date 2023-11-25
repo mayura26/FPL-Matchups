@@ -5,19 +5,19 @@
 }
 
 .league-changes-table th {
-    border: 2px solid #ccc;
+    border: 2px solid var(--borders);
     padding: 5px;
     text-align: center;
 }
 
 .league-changes-table td {
-    border: 1px solid #ccc;
+    border: 1px solid var(--borders);
     padding: 5px;
     text-align: center;
 }
 
 .league-changes-header {
-    background-color: #4a4a4a;
+    background-color: var(--table-header);
 }
 
 @media (max-width: 300px) {

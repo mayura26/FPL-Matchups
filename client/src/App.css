@@ -24,12 +24,15 @@
 
 :root {
   --text: #e6f3f4;
-  --textInverse: #171818;
+  --text-inverse: #171818;
   --background: #282c34;
   --primary: #515E63;
   --secondary: #091a20;
   --accent: #61dafb;
   --accent50: #61dafb8c;
   --borders: #848686;
-  --tableheader: #616161;
+  --table-header: #616161;
+  --table-shadow: #6161614d;
+  --table-background: #3b3b3b;
+  --hover: #616161;
 }

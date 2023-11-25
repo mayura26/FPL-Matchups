@@ -87,7 +87,7 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
           const minutesPlayed = gameWeekData.minutes;
           let playedStatus;
-
+          // TODO: Create logic for if player is potentially playing but on the bench
           if (currentTimeUTC > kickoffTimeUTC) {
             if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
               if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
