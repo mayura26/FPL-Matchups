@@ -1,4 +1,5 @@
 /* TODO: Rebuild all CSS and sizing. Create tables to be consistent internally with better control over width*/
+/* TODO: Add clamp for width and fontsizes */
 #root {
   display: flex;
   justify-content: center;
@@ -23,9 +24,12 @@
 
 :root {
   --text: #e6f3f4;
+  --textInverse: #171818;
   --background: #282c34;
   --primary: #515E63;
   --secondary: #091a20;
   --accent: #61dafb;
   --accent50: #61dafb8c;
+  --borders: #848686;
+  --tableheader: #616161;
 }

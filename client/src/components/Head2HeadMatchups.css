@@ -28,17 +28,17 @@
 }
 
 .matchup-table th {
-    border: 2px solid #ccc;
+    border: 2px solid var(--borders);
     padding: 5px;
-    background-color: #4a4a4a;
+    background-color: var(--tableheader);
     text-align: center;
-    color: #f0f0f0;
+    color: var(--text);
 }
 
 .team-type-heading {
-    border: 2px solid #ccc;
+    border: 2px solid var(--borders);
     padding: 5px;
-    background-color: #616161;
+    background-color: var(--tableheader);
     text-align: center;
     color: #f0f0f0;
     justify-content: center;
@@ -46,10 +46,10 @@
 }
 
 .matchup-table td {
-    border: 1px solid #ccc;
+    border: 1px solid var(--borders);
     padding: 5px;
     text-align: center;
-    color: #f0f0f0;
+    color: var(--text);
 }
 
 .matchup-table td.played {

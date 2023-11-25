@@ -91,18 +91,19 @@ function TeamAnalysis() {
 
 const PlayerData = ({ players, title }) => {
     return (
-        <div className="players-data-set">
-            <h3 className='team-type-header'>{title}</h3>
+        <div>
+        <h3 className='team-type-header'>{title}</h3>
+        <div className="players-data-set">   
             {/* TODO: Split player information to standalone file and restyle to flexbox */}
             {players.map(player => (
                 <div key={player.name} className="player-frame">
                     <div className="player-card-row">
                         <div className="player-name">{player.name}</div>
-                        <div className="player-price">{player.cost}</div>
+                        <div className="player-price">£{player.cost}</div>
                         <div className="player-team">{player.teamName}</div>
                     </div>
                     <div className="player-card-row">
-                        <div className="player-current-fixture">{player.currentFixture}</div>
+                        <div className="player-current-fixture">Current Fixture: {player.currentFixture}</div>
                         <div className={`player-score ${scoreClass(parseInt(player.currentGameScore))}`}>
                             {player.currentGameScore}
                         </div>
@@ -116,13 +117,15 @@ const PlayerData = ({ players, title }) => {
                     </div>
                     <div className="player-card-row">
                         {player.next5Fixtures.map((fixture, index) => (
-                            <div key={index} className={`player-fixture fdr-${fixture.fdr}`}>
-                                {fixture.fixture} (GW: {fixture.event})
+                            <div key={index} className={`player-fixture-next fdr-${fixture.fdr}`}>
+                                <div>{fixture.fixture}</div>
+                                <div>(GW{fixture.event})</div>
                             </div>
                         ))}
                     </div>
                 </div>
             ))}
+        </div>
         </div>
     );
 };

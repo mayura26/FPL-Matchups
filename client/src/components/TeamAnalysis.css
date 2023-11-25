@@ -1,10 +1,7 @@
 /* TeamAnalysis.css */
-
-
 .team-data {
-    margin-top: 20px;
-    padding: 20px;
     border-radius: 5px;
+    width: 100%;
 }
 
 .input-row button {
@@ -16,127 +13,174 @@
     font-weight: bold;
 }
 
-.rank {
-    /* Dynamic color scaling for rank. This is just a simple example. */
-    color: rgb(255, 255, 255);
-}
-
 .player-name {
     font-weight: bold;
     margin: 5px 0;
 }
 
-.fixtures-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 5px 0; /* Reduced margin for tighter spacing */
-}
-
-.fixtures-table th, .fixtures-table td {
-    border: 1px solid #ccc;
-    padding: 5px;
-    text-align: center;
-    width: 20%; /* As there are 5 fixtures, each takes up 20% */
-}
-
 /* Score coloring */
 .score-red {
     background-color: #ff63478c; /* Tomato red with opacity for dark theme */
-    color: white;
 }
 
 .score-orange {
     background-color: #ffa5008c; /* Orange with opacity for dark theme */
-    color: white;
 }
 
 .score-green {
     background-color: #0080008c; /* Green with opacity for dark theme */
-    color: white;
 }
 
 .score-blue {
     background-color: #0000ff8c; /* Blue with opacity for dark theme */
-    color: white;
+}
+
+.score-red, .score-orange, .score-green, .score-blue {
+    color: var(--text);
 }
 
 /* FDR coloring adjustments for dark theme */
 .fdr-1 {
     background-color: rgb(2, 95, 5); /* Green for easy fixtures */
-    color: black;
 }
 
 .fdr-2 {
     background-color: #8bc34a;
-    color: black;
 }
 
 .fdr-3 {
     background-color: #ffeb3b;
-    color: black;
 }
 
 .fdr-4 {
     background-color: #ff9800;
-    color: black;
 }
 
 .fdr-5 {
     background-color: #f44336; /* Red for difficult fixtures */
-    color: black;
 }
 
-.player-data {
-    color: white;
+.fdr-1, .fdr-2, .fdr-3, .fdr-4, .fdr-5 {
+    color: var(--textInverse);
 }
 
 .team-type-header {
-    text-decoration: underline;
+    font-size: 1.6em;
     margin: 0;
+    margin-bottom: -2px;
+    text-align: center;
+    border: solid 1px var(--borders);
+    background-color: var(--tableheader);
+}
+
+.players-data {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
 }
 
 .players-data-set {
-    border: solid 1px grey;
-    padding: 2px 6px;
-    margin: 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    border: solid 1px var(--borders);
+    padding: 2px;
+    margin: 2px 0 10px 0;
 }
 
 .player-frame {
-    border: 1px solid #ccc;
-    margin: 10px 0;
+    border: 1px solid var(--borders);
+    margin: 10px;
     border-radius: 5px;
     width: 300px;
+    box-shadow: 3px 3px 5px rgba(102, 102, 102, 0.3);
+    display: flex;
+    flex-direction: column;
 }
 
 .player-card-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     padding: 0;
     width: 100%;
 }
 
-.player-name,
 .player-price,
 .player-team,
 .player-current-fixture,
 .player-score,
-.player-fixture
+.player-fixture,
+.player-fixture-next
  {
     flex: 1;
     text-align: center;
-    border: white 1px solid;
-}
-
-.player-fixture, .player-price, .player-team {
-    height: 100%;
-    margin: 0px;
-    padding: 1px;
+    border: var(--borders) 1px solid;
 }
 
 .player-name {
     flex: 3; /* player name might need more space */
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.4em;
+    text-align: center;
     font-weight: bold;
+    border-top: none;
+    border-left: none;
+    background-color: var(--primary);
+}
+
+.player-price {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    background-color: var(--secondary);
+}
+
+.player-team {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    font-weight: bold;
+    background-color: var(--accent50);
+    border-radius: 0 4px 0 0;
+}
+
+.player-price, .player-team {
+    padding-top: 2px;
+}
+
+.player-current-fixture {
+    flex: 3;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+.player-score {
+    border-right: none;
+    border-bottom: none;
+}
+
+.player-fixture {
+    border-left: none;
+}
+
+.player-fixture:nth-child(5) {
+    border-right: none;
+}
+
+.player-fixture-next {
+    border-bottom: none;
+    border-left: none;
+    border-top: none;
+}
+
+.player-fixture-next:nth-child(1) {
+    border-radius: 0 0 0 4px;
+}
+
+.player-fixture-next:nth-child(5) {
+    border-radius: 0 0 4px 0;
+    border-right: none;
 }
