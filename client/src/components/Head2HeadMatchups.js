@@ -210,7 +210,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   // TODO: Add live scores
   // TODO: Consider hits when calculating live score
   // TODO: Don't sort for bench players, just show in order with numbers next to them. 
-
+  // TODO: Add highlight on row where points difference more than x
   // Highlight player if they are captain or vice-captain and double their gameweek points if captain
   const player1Score = player1 ? player1.gameWeekScore : '';
   const player2Score = player2 ? player2.gameWeekScore : '';

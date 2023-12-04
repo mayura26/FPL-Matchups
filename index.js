@@ -1,9 +1,20 @@
 const express = require('express');
-const apiRoutes = require('./routes/apiRoutes');  // Import the API routes
-const taRoutes = require('./routes/taRoutes'); 
-const h2hRoutes = require('./routes/h2hRoutes'); 
-const luRoutes = require('./routes/luRoutes'); 
 const path = require('path');
+const redis = require('redis');
+
+const redisClient = redis.createClient({
+    url: process.env.REDIS_URL
+});
+
+redisClient.on('connect', function() {
+    console.log('Connected to Redis Cloud...');
+});
+
+
+const apiRoutes = require('./routes/apiRoutes')(redisClient);  // Import the API routes
+const taRoutes = require('./routes/taRoutes')(redisClient); 
+const h2hRoutes = require('./routes/h2hRoutes')(redisClient); 
+const luRoutes = require('./routes/luRoutes')(redisClient); 
 
 const app = express();
 const PORT = 3001;
