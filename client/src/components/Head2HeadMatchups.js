@@ -81,7 +81,7 @@ const Head2HeadMatchups = () => {
           if (response.data.length > 0) {
             setLeagues(response.data);
           } else {
-            // TODO: Add popup no leagues found
+            // FIXME: Add popup no leagues found
             setLeagues([]);
           }
         })
@@ -196,7 +196,6 @@ const Head2HeadMatchups = () => {
 
 const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   // Hide the row if hideCommon is true and both players are the same (identified by ID)
-  // TODO: Don't hide common player if player is the captain
   if ((hideCommon && player1 && player2 && player1.id === player2.id) ||
     (hidePlayed &&
       ((player1 && player2 && player1.playStatus === "played" && player2.playStatus === "played") ||
@@ -208,14 +207,17 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   // TODO: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
   // TODO: Highlight player coming off the bench [HARD]
   // TODO: Show when VC is coming in [HARD]
+  // TODO: Add live scores
+  // TODO: Consider hits when calculating live score
+  // TODO: Don't sort for bench players, just show in order with numbers next to them. 
 
   // Highlight player if they are captain or vice-captain and double their gameweek points if captain
-  const player1Score = player1 && player1.captainStatus === 'C' ? player1.gameWeekScore * 2 : player1 ? player1.gameWeekScore : '';
-  const player2Score = player2 && player2.captainStatus === 'C' ? player2.gameWeekScore * 2 : player2 ? player2.gameWeekScore : '';
+  const player1Score = player1 ? player1.gameWeekScore : '';
+  const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
   const player2Class = player2 ? `player ${player2.playStatus} ${player2.captainStatus}` : 'player';
-  const player1Name = player1 && (player1.captainStatus === 'C' || player1.captainStatus === 'VC') ? player1.name + ` (${player1.captainStatus})`: player1 ? player1.name : '';
-  const player2Name = player2 && (player2.captainStatus === 'C' || player2.captainStatus === 'VC') ? player2.name + ` (${player2.captainStatus})`: player2 ? player2.name : '';
+  const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C' ) ? player1.name + ` (${player1.captainStatus})`: player1 ? player1.name : '';
+  const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C' ) ? player2.name + ` (${player2.captainStatus})`: player2 ? player2.name : '';
 
   return (
     <tr className="player-row">
@@ -265,10 +267,23 @@ const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers, hidePla
 const alignPlayers = (team1Details, team2Details) => {
   const positions = ['GKP', 'DEF', 'MID', 'FWD'];
   const alignedPlayers = [];
+  const captains = { team1: null, team2: null };
+
+  // First, find the captains, store them separately.
+  team1Details.forEach(player => {
+    if (player.captainStatus === 'C') {
+      captains.team1 = player;
+    }
+  });
+  team2Details.forEach(player => {
+    if (player.captainStatus === 'C') {
+      captains.team2 = player;
+    }
+  });
 
   positions.forEach(position => {
-    let players1 = team1Details.filter(player => player.position === position);
-    let players2 = team2Details.filter(player => player.position === position);
+    let players1 = team1Details.filter(player => player.position === position).sort((a, b) => b.price - a.price);
+    let players2 = team2Details.filter(player => player.position === position).sort((a, b) => b.price - a.price);
 
     // Align players by ID
     let matched = new Set();
@@ -281,8 +296,7 @@ const alignPlayers = (team1Details, team2Details) => {
       }
     });
 
-    // Align remaining players by position
-    // TODO: Align by price when in position
+    // Align remaining players by price
     players1 = players1.filter(p1 => !matched.has(p1.id));
     players1.forEach(p1 => {
       if (players2.length > 0) {
@@ -296,6 +310,11 @@ const alignPlayers = (team1Details, team2Details) => {
       alignedPlayers.push({ player1: null, player2: p2 });
     });
   });
+
+  // Add captains at the end of the array, aligned with each other
+  if (captains.team1 || captains.team2) {
+    alignedPlayers.push({ player1: captains.team1, player2: captains.team2 });
+  }
 
   return alignedPlayers;
 };

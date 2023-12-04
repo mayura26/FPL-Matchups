@@ -14,6 +14,12 @@ router.get('/:teamID/:gameweek', async (req, res) => {
             return acc;
         }, {});
 
+        // Map for element types (positions)
+        const elementTypesMap = bootstrapResponse.data.element_types.reduce((acc, type) => {
+            acc[type.id] = type.singular_name_short; // or type.singular_name for full name
+            return acc;
+        }, {});
+
         // Fetch team details
         const teamResponse = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamID}/event/${gameweek}/picks/`);
         // First, sort the picks array by position
@@ -22,7 +28,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         // Then, extract the player IDs
         const startingPlayerIDs = sortedPicks.filter(pick => pick.position <= 11).map(pick => pick.element);
         const benchPlayerIDs = sortedPicks.filter(pick => pick.position > 11).map(pick => pick.element);
-        
+
         const startingPlayers = bootstrapResponse.data.elements.filter(player => startingPlayerIDs.includes(player.id));
         const benchPlayers = bootstrapResponse.data.elements.filter(player => benchPlayerIDs.includes(player.id));
 
@@ -50,8 +56,8 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         const overallRank = teamInfoResponse.data.summary_overall_rank;
 
         // Enrich player details with past and upcoming fixtures
-        const detailedStartingPlayers = await getPlayerInfo(sortedStartingPlayers, teamsMap);
-        const detailedBenchPlayers = await getPlayerInfo(sortedBenchPlayers, teamsMap);
+        const detailedStartingPlayers = await getPlayerInfo(sortedStartingPlayers, teamsMap, elementTypesMap);
+        const detailedBenchPlayers = await getPlayerInfo(sortedBenchPlayers, teamsMap, elementTypesMap);
 
         // Construct the final response
         const responseData = {
@@ -70,48 +76,52 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch data from FPL API' });
     }
 
-    async function getPlayerInfo(players, teamsMap) {
+    async function getPlayerInfo(players, teamsMap, elementTypesMap) {
         return await Promise.all(players.map(async (player) => {
             const playerDetailResponse = await axios.get(`https://fantasy.premierleague.com/api/element-summary/${player.id}/`);
             const currentGame = playerDetailResponse.data.history.slice(-1)[0];
 
             const teamShortMap = {
-                "Arsenal" : "ARS",
-                "Aston Villa" : "AVL",
-                "Bournemouth" : "BOU",
-                "Brentford" : "BRE",
-                "Brighton" : "BHA",
-                "Burnley" : "BUR",
-                "Chelsea" : "CHE",
-                "Crystal Palace" : "CRY",
-                "Everton" : "EVE",
-                "Fulham" : "FUL",
-                "Liverpool" : "LIV",
-                "Luton" : "LUT",
-                "Man City" : "MCI",
-                "Man Utd" : "MAN",
-                "Newcastle" : "NEW",
-                "Nott'm Forest" : "NFO",
-                "Sheffield Utd" : "SHU",
-                "Spurs" : "TOT",
-                "West Ham" : "WHU",
-                "Wolves" : "WOL"
+                "Arsenal": "ARS",
+                "Aston Villa": "AVL",
+                "Bournemouth": "BOU",
+                "Brentford": "BRE",
+                "Brighton": "BHA",
+                "Burnley": "BUR",
+                "Chelsea": "CHE",
+                "Crystal Palace": "CRY",
+                "Everton": "EVE",
+                "Fulham": "FUL",
+                "Liverpool": "LIV",
+                "Luton": "LUT",
+                "Man City": "MCI",
+                "Man Utd": "MAN",
+                "Newcastle": "NEW",
+                "Nott'm Forest": "NFO",
+                "Sheffield Utd": "SHU",
+                "Spurs": "TOT",
+                "West Ham": "WHU",
+                "Wolves": "WOL"
             };
 
             return {
                 name: player.web_name,
                 teamName: teamShortMap[teamsMap[player.team]],
-                // TODO: Update this to be correct depending on if its midweek or a gameweek
-                currentFixture: teamsMap[currentGame.opponent_team],
-                currentGameScore: currentGame.total_points,
+                currentGame: {
+                    team: teamsMap[currentGame.opponent_team],
+                    score: currentGame.total_points,
+                    xGI: currentGame.expected_goal_involvements,
+                    xGC: currentGame.expected_goals_conceded,
+                    xP: player.ep_this
+                },
+                position: elementTypesMap[player.element_type],
                 cost: player.now_cost / 10,
 
-                // TODO: Fix last 5 scores to show correctly midweek
-                last5Scores: playerDetailResponse.data.history.slice(-6, -1).reverse().map(game => {
+                last5Scores: playerDetailResponse.data.history.slice(-6, -1).map(game => {
                     const oppositionTeam = teamShortMap[teamsMap[game.opponent_team]];
                     return {
                         score: `${game.total_points} (${oppositionTeam})`,
-                        fdr: game.difficulty // Extracting FDR from the 'difficulty' field
+                        fdr: game.difficulty
                     };
                 }),
                 next5Fixtures: playerDetailResponse.data.fixtures.slice(0, 5).map(fix => {

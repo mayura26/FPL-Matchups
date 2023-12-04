@@ -109,7 +109,7 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
           } else if (player.id === viceCaptainId) {
             captainStatus = 'VC';
           }
-
+          // TODO: Update gameweek total points to be a summation of all the events that give the score so then bonus can be added [HARD]
           return {
             id: player.id,
             name: player.web_name,

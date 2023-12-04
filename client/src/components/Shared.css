@@ -71,7 +71,7 @@ button {
     transition: background-color 0.3s; /* Smooth transition for hover effect */
     text-align: end;
     margin: 0 1px;
-/* TODO: Fix height of buttons to be same as inputs */
+/* BUG: Fix height of buttons to be same as inputs */
 }
 
 @media (max-width: 320px) {

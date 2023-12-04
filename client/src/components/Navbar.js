@@ -13,12 +13,12 @@ function Navbar() {
                 </Link>
             </div>
             <div className="navbar-links">
-                {/*TODO: Highlight page you are on */}
+                {/*FIXME: Highlight page you are on */}
                 <Link to="/team-analysis">Team Analysis</Link>
                 <Link to="/head2head-matchups">Head2Head Matchups</Link>
                 <Link to="/league-updates">League Updates</Link>
             </div>
-            {/*TODO: Add little sep bar below navbar */}
+            {/*FIXME: Add little sep bar below navbar */}
         </div>
     );
 }

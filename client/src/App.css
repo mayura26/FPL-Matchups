@@ -1,5 +1,5 @@
-/* TODO: Rebuild all CSS and sizing. Create tables to be consistent internally with better control over width*/
-/* TODO: Add clamp for width and fontsizes */
+/* FIXME: Rebuild all CSS and sizing. Create tables to be consistent internally with better control over width*/
+/* FIXME: Add clamp for width and fontsizes */
 #root {
   display: flex;
   justify-content: center;

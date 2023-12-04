@@ -149,7 +149,6 @@
     border-bottom: none;
     font-weight: bold;
     background-color: var(--accent50);
-    /* TODO: Fix issue with border not rounding corrctly */
     border-radius: 0 4px 0 0;
 }
 

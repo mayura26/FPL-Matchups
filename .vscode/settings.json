@@ -1,11 +1,43 @@
 {
     "appService.defaultWebAppToDeploy": "/subscriptions/33d52f30-bcb9-4fe2-a0b6-d65219ca7f1e/resourceGroups/Projects/providers/Microsoft.Web/sites/FPL-Analysis",
     "appService.deploySubpath": ".",
-    "todo-tree.tree.showBadges": true,
+    "todo-tree.tree.showBadges": false,
     "emmet.preferences": {
 
     },
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
-    }
+    },
+    "todo-tree.highlights.customHighlight": {
+        "BUG": {
+            "icon": "bug",
+            "iconColour": "orange"
+        },
+        "HACK": {
+            "icon": "tools"
+        },
+        "FIXME": {
+            "icon": "flame",
+            "iconColour": "red"
+        },
+        "XXX": {
+            "icon": "x"
+        },
+        "[ ]": {
+            "icon": "issue-draft"
+        },
+        "[x]": {
+            "icon": "issue-closed"
+        }
+    },
+    "todo-tree.general.showActivityBarBadge": true,
+    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": false,
+    "todo-tree.general.statusBar": "total",
+    "todo-tree.highlights.useColourScheme": false,
+    "todo-tree.tree.groupedBySubTag": false,
+    "todo-tree.tree.groupedByTag": false,
+    "todo-tree.tree.showCountsInTree": false,
+    "todo-tree.highlights.enabled": true,
+    "todo-tree.tree.scanMode": "workspace",
+    "todo-tree.tree.disableCompactFolders": true
 }

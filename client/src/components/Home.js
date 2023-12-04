@@ -23,7 +23,7 @@ const Home = () => {
             </div>
             <br></br>
             <div>
-                {/*TODO: Get this div centered */}
+                {/*BUG: Get this div centered */}
                 <div className="input-mainrow">
                     <div className="input-row">
                         <div className="input-container">
@@ -48,6 +48,6 @@ const Home = () => {
     );
 };
 
-// TODO: Add popup for errors
+// FIXME: Add popup for errors
 
 export default Home;
