@@ -13,12 +13,11 @@ function App() {
         <TeamIDProvider>
             <div className="app-container">
                 <Router>
-                    <Navbar />
                     <Routes>
                         <Route path="/" element={<Home />}/>
-                        <Route path="/team-analysis" element={<TeamAnalysis />} />
-                        <Route path="/head2head-matchups" element={<Head2HeadMatchups />} />
-                        <Route path="/league-updates" element={<LeagueUpdates />} />
+                        <Route path="/team-analysis" element={<><Navbar /><TeamAnalysis /></>} />
+                        <Route path="/head2head-matchups" element={<><Navbar /><Head2HeadMatchups /></>} />
+                        <Route path="/league-updates" element={<><Navbar /><LeagueUpdates /></>} />
                     </Routes>
                 </Router>
             </div>

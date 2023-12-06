@@ -1,23 +1,22 @@
 const express = require('express');
 const path = require('path');
-const redis = require('redis');
+const NodeCache = require( "node-cache" );
 
-const redisClient = redis.createClient({
-    url: process.env.REDIS_URL
-});
-
-redisClient.on('connect', function() {
-    console.log('Connected to Redis Cloud...');
-});
-
-
-const apiRoutes = require('./routes/apiRoutes')(redisClient);  // Import the API routes
-const taRoutes = require('./routes/taRoutes')(redisClient); 
-const h2hRoutes = require('./routes/h2hRoutes')(redisClient); 
-const luRoutes = require('./routes/luRoutes')(redisClient); 
+const apiRoutes = require('./routes/apiRoutes');  // Import the API routes
+const taRoutes = require('./routes/taRoutes'); 
+const h2hRoutes = require('./routes/h2hRoutes'); 
+const luRoutes = require('./routes/luRoutes'); 
 
 const app = express();
 const PORT = 3001;
+
+// Initialize cache
+const nodeCache = new NodeCache();
+
+app.use((req, res, next) => {
+    req.cache = nodeCache;
+    next();
+});
 
 app.use('/api/ta', taRoutes);
 app.use('/api/h2h', h2hRoutes);

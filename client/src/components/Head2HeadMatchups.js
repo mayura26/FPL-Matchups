@@ -1,4 +1,4 @@
-// Head2HeadMatchups.js
+// FIXME: Update calls to new API structures
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './Head2HeadMatchups.css';
