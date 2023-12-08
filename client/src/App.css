@@ -7,13 +7,17 @@
 }
 
 .app-container {
-  max-width: 100%;
+  max-width: 1200px;
   min-width: 350px;
   box-sizing: border-box; 
   min-height: 100vh; /* Adjust the height as needed */
   background-color: var(--background);
   color: var(--text);
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 700px) {

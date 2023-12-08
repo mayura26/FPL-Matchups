@@ -1,5 +1,3 @@
-// TeamAnalysis.js
-// FIXME: Update calls to new API structures
 import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
 import './Shared.css';
@@ -23,8 +21,13 @@ function TeamAnalysis() {
             try {
                 const response = await fetch('/api/game-data');
                 const data = await response.json();
-                setGameweek(data.data.currentGameweek);
+                if (!data.apiLive) {
+                    alert("The FPL API is not live.");
+                } else {
+                    setGameweek(data.data.currentGameweek);
+                }
             } catch (error) {
+                alert("Error fetching game data", error);
                 console.error("Error fetching game data", error);
             }
         };
@@ -37,8 +40,13 @@ function TeamAnalysis() {
             try {
                 const response = await fetch(`/api/ta/${teamID}/${gameweek}`);
                 const data = await response.json();
-                setTeamData(data);
+                if (!data.apiLive) {
+                    alert("The FPL API is not live.");
+                } else {
+                    setTeamData(data.data);
+                }
             } catch (error) {
+                alert("Error fetching game data", error);
                 console.error("Error fetching data:", error);
             }
         };
