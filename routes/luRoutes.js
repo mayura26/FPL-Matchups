@@ -1,19 +1,19 @@
-// FIXME: Update to use new cache system
 const express = require('express');
-const axios = require('axios');
+const { getBootstrapData, getMaps, getTeamTransferData, getTeamData, getLeagueClassicStandingsData } = require('../lib/fplAPIWrapper');
 
 const router = express.Router();
 
 // Endpoint to get all leagues for a team by team ID
 router.get('/team-leagues/:teamId', async (req, res) => {
   try {
-    const teamId = req.params.teamId;
-    const response = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamId}/`);
-    // Filter out leagues with more than 30 teams
+    const teamID = req.params.teamId;
+    const response = await getTeamData(req, teamID);
+    // Filter out public leagues
     const smallLeagues = response.data.leagues.classic.filter(league => (league.entry_can_leave || league.entry_can_admin));
-    res.json(smallLeagues);
+    res.json({ data: smallLeagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching leagues', error });
+    console.log("Error getting TeamLeagues-TeamID info");
+    console.error(error);
   }
 });
 
@@ -24,19 +24,16 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
     const gameWeek = req.params.gameWeek;
 
     // Fetch league details from FPL API
-    const leagueDetails = await axios.get(`https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`);
+    const leagueDetails = await getLeagueClassicStandingsData(req, leagueId);
     const teams = leagueDetails.data.standings.results.length > 50 ? leagueDetails.data.standings.results.slice(0, 50) : leagueDetails.data.standings.results;
 
     // Fetch additional details for each transfer
-    const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
-    const playersInfo = bootstrapResponse.data.elements;
-    const teamsMap = bootstrapResponse.data.teams.reduce((acc, team) => {
-      acc[team.id] = team.name;
-      return acc;
-    }, {});
+    const bootstrapData = await getBootstrapData(req);
+    const dataMap = await getMaps(bootstrapData);
+    const playersInfo = bootstrapData.data.elements;
 
-    const transfersPromises = teams.map(team =>
-      axios.get(`https://fantasy.premierleague.com/api/entry/${team.entry}/transfers/`).then(response => {
+    const transfersPromises = teams.map(async team =>
+      await getTeamTransferData(req, team.entry).then(response => {
         const gameweekTransfers = response.data.filter(transfer => transfer.event === parseInt(gameWeek));
         if (gameweekTransfers.length === 0) {
           return null; // Handle case with no transfers
@@ -56,12 +53,12 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
         return {
           playerIn: {
             name: playerIn.web_name,
-            club: teamsMap[playerIn.team],
+            club: dataMap.teams[playerIn.team],
             value: t.element_in_cost
           },
           playerOut: {
             name: playerOut.web_name,
-            club: teamsMap[playerOut.team],
+            club: dataMap.teams[playerOut.team],
             value: t.element_out_cost
           }
         };
@@ -74,10 +71,10 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
       };
     }));
 
-    res.json(enrichedTransfers);
+    res.json({ data: enrichedTransfers, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
   } catch (error) {
-    console.error('Error fetching league teams:', error);
-    res.status(500).send('Internal Server Error');
+    console.log("Error getting TeamLeagues-LeagueID-GW info");
+    console.error(error);
   }
 });
 

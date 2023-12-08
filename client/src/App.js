@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';  // Importing the global styles
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -9,20 +9,29 @@ import LeagueUpdates from './components/LeagueUpdates';
 import { TeamIDProvider } from './components/TeamIDContext';
 
 function App() {
+    const location = useLocation();
+
     return (
         <TeamIDProvider>
             <div className="app-container">
-                <Router>
+                {location.pathname === "/" ? null : <Navbar />}
+                <div className="main-content">
                     <Routes>
-                        <Route path="/" element={<Home />}/>
-                        <Route path="/team-analysis" element={<><Navbar /><TeamAnalysis /></>} />
-                        <Route path="/head2head-matchups" element={<><Navbar /><Head2HeadMatchups /></>} />
-                        <Route path="/league-updates" element={<><Navbar /><LeagueUpdates /></>} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/team-analysis" element={<TeamAnalysis />} />
+                        <Route path="/head2head-matchups" element={<Head2HeadMatchups />} />
+                        <Route path="/league-updates" element={<LeagueUpdates />} />
                     </Routes>
-                </Router>
+                </div>
             </div>
         </TeamIDProvider>
     );
 }
 
-export default App;
+const WrappedApp = () => (
+    <Router>
+        <App />
+    </Router>
+);
+
+export default WrappedApp;

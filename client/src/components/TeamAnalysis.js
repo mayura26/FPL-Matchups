@@ -14,10 +14,12 @@ function TeamAnalysis() {
     const { teamID } = useContext(TeamIDContext);
     const [gameweek, setGameweek] = useState(null);  // Initialize as null
     const [teamData, setTeamData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     // Fetch the current gameweek when the component mounts
     useEffect(() => {
         const fetchCurrentGameweek = async () => {
+            setLoading(true);
             try {
                 const response = await fetch('/api/game-data');
                 const data = await response.json();
@@ -46,9 +48,10 @@ function TeamAnalysis() {
                     setTeamData(data.data);
                 }
             } catch (error) {
-                alert("Error fetching game data", error);
-                console.error("Error fetching data:", error);
+                alert("Error fetching team gw data", error);
+                console.error("Error fetching team gw data:", error);
             }
+            setLoading(false);
         };
         if (gameweek) {
             fetchData();
@@ -57,23 +60,27 @@ function TeamAnalysis() {
 
     return (
         <div className="main-container">
-            {teamData && (
-                <div className="team-data">
-                    <div className="player-data">
-                        <div className='manager-name'>
-                        <h2>{teamData.managerName}</h2>
+            {loading ? (
+                <div className="loading-bar"></div>
+            ) : (
+                teamData && (
+                    <div className="team-data">
+                        <div className="player-data">
+                            <div className='manager-name'>
+                            <h2>{teamData.managerName}</h2>
+                            </div>
+                            <div className='player-info'>
+                            <div>Current Score: {teamData.overallPoints} </div>
+                            <div>Rank: {teamData.overallRank}</div>
+                            </div>
                         </div>
-                        <div className='player-info'>
-                        <div>Current Score: {teamData.overallPoints} </div>
-                        <div>Rank: {teamData.overallRank}</div>
+                        <div className="players-data">
+                            <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
+                            {/* TODO: Add numbers next to bench players */}
+                            <PlayerData players={teamData.playersBench} title={"Bench"} />
                         </div>
                     </div>
-                    <div className="players-data">
-                        <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
-                        {/* TODO: Add numbers next to bench players */}
-                        <PlayerData players={teamData.playersBench} title={"Bench"} />
-                    </div>
-                </div>
+                )
             )}
         </div>
     );

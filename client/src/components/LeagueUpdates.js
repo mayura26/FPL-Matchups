@@ -1,7 +1,6 @@
 // LeagueUpdates.js
 // FIXME: Update calls to new API structures
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
@@ -18,9 +17,15 @@ function LeagueUpdates() {
         try {
             const response = await fetch(`/api/lu/league-teams/${selectedLeagueId}/${gameweek}`);
             const data = await response.json();
-            setLeagueChanges(data);
+
+            if (!data.apiLive) {
+                alert("The FPL API is not live.");
+            } else {
+                setLeagueChanges(data.data);
+            }
         } catch (error) {
-            console.error("Error fetching data:", error);
+            alert("Error fetching league standing data", error);
+            console.error("Error fetching league standing data", error);
         }
     };
 
@@ -29,10 +34,16 @@ function LeagueUpdates() {
             try {
                 const response = await fetch('/api/current-gameweek');
                 const data = await response.json();
-                setGameweek(data.currentGameweek);
-                setMaxGameweek(data.currentGameweek);
+
+                if (!data.apiLive) {
+                    alert("The FPL API is not live.");
+                } else {
+                    setGameweek(data.data.currentGameweek);
+                    setMaxGameweek(data.data.currentGameweek);
+                }
             } catch (error) {
-                console.error("Error fetching current gameweek:", error);
+                alert("Error fetching game data", error);
+                console.error("Error fetching game data", error);
             }
         };
 
@@ -40,19 +51,24 @@ function LeagueUpdates() {
     }, []);
 
     useEffect(() => {
-        if (teamID) {
-            axios.get(`/api/lu/team-leagues/${teamID}`)
-                .then(response => {
-                    if (response.data.length > 0) {
-                        setLeagues(response.data);
+        const fetchLeagues = async () => {
+            if (teamID) {
+                try {
+                    const response = await fetch(`/api/lu/team-leagues/${teamID}`);
+                    const data = await response.json();
+
+                    if (!data.apiLive) {
+                        alert("The FPL API is not live.");
                     } else {
-                        setLeagues([]);
+                        setLeagues(data.data);
                     }
-                })
-                .catch(error => {
+                } catch (error) {
+                    alert("Error fetching leagues data", error);
                     console.error('Error fetching leagues:', error);
-                });
-        }
+                }
+            }
+        };
+        fetchLeagues();
     }, [teamID]);
 
     return (

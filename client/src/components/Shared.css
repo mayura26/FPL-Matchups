@@ -8,6 +8,28 @@
     width: 90%;
 }
 
+@keyframes loading {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+.loading-bar {
+    position: relative;
+    height: 20px;
+    width: 100%;
+    background-color: var(--primary);
+}
+
+.loading-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--btn-color);
+    animation: loading 2s linear infinite;
+}
+
 .input-row {
     display: flex;
     align-items: flex-end; /* Align items to the bottom of the container */
