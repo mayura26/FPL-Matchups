@@ -1,4 +1,4 @@
-// TeamAnalysis.js
+// FEATURE: Add option to compare player with another player
 import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
 import './Shared.css';
@@ -12,78 +12,76 @@ function scoreClass(score) {
 }
 
 function TeamAnalysis() {
-    const { teamID, updateTeamID } = useContext(TeamIDContext);
-    const [gameweek, setGameweek] = useState('1');  // Initialize as null
+    const { teamID } = useContext(TeamIDContext);
+    const [gameweek, setGameweek] = useState(null);  // Initialize as null
     const [teamData, setTeamData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     // Fetch the current gameweek when the component mounts
     useEffect(() => {
         const fetchCurrentGameweek = async () => {
+            setLoading(true);
             try {
-                const response = await fetch('/api/current-gameweek');
+                const response = await fetch('/api/game-data');
                 const data = await response.json();
-                setGameweek(data.currentGameweek);
+                if (!data.apiLive) {
+                    alert("The FPL API is not live.");
+                } else {
+                    setGameweek(data.data.currentGameweek);
+                }
             } catch (error) {
-                console.error("Error fetching current gameweek:", error);
+                alert("Error fetching game data", error);
+                console.error("Error fetching game data", error);
             }
         };
 
         fetchCurrentGameweek();
     }, []);
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`/api/ta/${teamID}/${gameweek}`);
-            const data = await response.json();
-            setTeamData(data);
-        } catch (error) {
-            console.error("Error fetching data:", error);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`/api/ta/${teamID}/${gameweek}`);
+                const data = await response.json();
+                if (!data.apiLive) {
+                    alert("The FPL API is not live.");
+                } else {
+                    setTeamData(data.data);
+                }
+            } catch (error) {
+                alert("Error fetching team gw data", error);
+                console.error("Error fetching team gw data:", error);
+            }
+            setLoading(false);
+        };
+        if (gameweek) {
+            fetchData();
         }
-    };
-
-    const clearTeamID = () => {
-        updateTeamID("");
-    };
+    }, [gameweek, teamID]);
 
     return (
-        <div className="main-container">
-            <div className="input-mainrow">
-                <div className="input-row">
-                    <div className="input-container">
-                        <label htmlFor="teamID">Team ID:</label>
-                        <input
-                            type="text"
-                            value={teamID}
-                            onChange={(e) => updateTeamID(e.target.value)}
-                        />
+        <div className="main-container" data-testid="team-analysis">
+            {loading ? (
+                <div className="loading-bar"></div>
+            ) : (
+                teamData && (
+                    <div className="team-data">
+                        <div className="player-data">
+                            <div className='manager-name'>
+                            <h2>{teamData.managerName}</h2>
+                            </div>
+                            <div className='player-info'>
+                            <div>Current Score: {teamData.overallPoints} </div>
+                            <div>Rank: {teamData.overallRank}</div>
+                            </div>
+                        </div>
+                        <div className="players-data">
+                            <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
+                            {/* TODO: Add numbers next to bench players */}
+                            <PlayerData players={teamData.playersBench} title={"Bench"} />
+                        </div>
                     </div>
-                    <button onClick={clearTeamID}>Clear</button>
-                </div>
-                <div className="input-row">
-                    <div className="input-container">
-                        <input
-                            className="gameweek-display"
-                            type="text"
-                            value={"GW" + gameweek}
-                            readOnly
-                        />
-                    </div>
-                    <button onClick={fetchData} disabled={!teamID || !gameweek} style={{ opacity: (gameweek && teamID) ? 1 : 0.5 }}>Fetch Squad</button>
-                </div>
-            </div>
-
-            {teamData && (
-                <div className="team-data">
-                    <div className="player-data">
-                        <h2>{teamData.managerName}</h2>
-                        <p>Current Score: <span className="score">{teamData.overallPoints}</span></p>
-                        <p>Rank: <span className="rank">{teamData.overallRank}</span></p>
-                    </div>
-                    <div className="players-data">
-                        <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
-                        <PlayerData players={teamData.playersBench} title={"Bench"} />
-                    </div>
-                </div>
+                )
             )}
         </div>
     );
@@ -138,6 +136,3 @@ const PlayerData = ({ players, title }) => {
 };
 
 export default TeamAnalysis;
-
-
-

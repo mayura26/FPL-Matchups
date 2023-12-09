@@ -1,12 +1,22 @@
 const express = require('express');
+const path = require('path');
+const NodeCache = require( "node-cache" );
+
 const apiRoutes = require('./routes/apiRoutes');  // Import the API routes
 const taRoutes = require('./routes/taRoutes'); 
 const h2hRoutes = require('./routes/h2hRoutes'); 
 const luRoutes = require('./routes/luRoutes'); 
-const path = require('path');
 
 const app = express();
 const PORT = 3001;
+
+// Initialize cache
+const nodeCache = new NodeCache();
+
+app.use((req, res, next) => {
+    req.cache = nodeCache;
+    next();
+});
 
 app.use('/api/ta', taRoutes);
 app.use('/api/h2h', h2hRoutes);

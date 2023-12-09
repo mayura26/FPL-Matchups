@@ -7,13 +7,20 @@
 }
 
 .app-container {
-  width: 100%;
-  max-width: 700px;
+  max-width: 1200px;
   min-width: 350px;
   box-sizing: border-box; 
   min-height: 100svh; /* Adjust the height as needed */
   background-color: var(--background);
   color: var(--text);
+  overflow: auto;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 700px) {
@@ -35,4 +42,6 @@
   --table-shadow: #6161614d;
   --table-background: #3b3b3b;
   --hover: #616161;
+  --btn-color: #007bff;
+  --btn-hover: #0056b3;
 }
