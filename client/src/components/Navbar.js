@@ -6,19 +6,21 @@ import logo from '../NavBarLogo.png';
 
 function Navbar() {
     return (
-        <div className="navbar">
-            <div className="navbar-logo-container">
-                <Link to="/">
-                    <img src={logo} alt="Logo" className="navbar-logo" />
-                </Link>
+        <div className="navBarHolder">
+            <div className="navbar">
+                <div className="navbar-logo-container">
+                    <Link to="/">
+                        <img src={logo} alt="Logo" className="navbar-logo" />
+                    </Link>
+                </div>
+                <div className="navbar-links">
+                    {/*FIXME: Highlight page you are on */}
+                    <Link to="/team-analysis">Team Analysis</Link>
+                    <Link to="/head2head-matchups">Head2Head Matchups</Link>
+                    <Link to="/league-updates">League Updates</Link>
+                </div>
             </div>
-            <div className="navbar-links">
-                {/*FIXME: Highlight page you are on */}
-                <Link to="/team-analysis">Team Analysis</Link>
-                <Link to="/head2head-matchups">Head2Head Matchups</Link>
-                <Link to="/league-updates">League Updates</Link>
-            </div>
-            {/*FIXME: Add little sep bar below navbar */}
+            <div className="splitBar"></div>
         </div>
     );
 }

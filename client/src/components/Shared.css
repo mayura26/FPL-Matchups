@@ -14,6 +14,7 @@
 }
 
 .loading-bar {
+    margin: 25px 5px;
     position: relative;
     height: 20px;
     width: 100%;
@@ -33,7 +34,7 @@
 .input-row {
     display: flex;
     align-items: flex-end; /* Align items to the bottom of the container */
-    gap: 5px; /* Spacing between items */
+    gap: 8px; /* Spacing between items */
 }
 
 .input-mainrow {
@@ -92,7 +93,7 @@ button {
     background-color: var(--secondary); /* Darker shade for button */
     transition: background-color 0.3s; /* Smooth transition for hover effect */
     text-align: end;
-    margin: 0 1px;
+    margin: 0;
 /* BUG: Fix height of buttons to be same as inputs */
 }
 

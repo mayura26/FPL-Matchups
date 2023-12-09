@@ -1,19 +1,19 @@
-// LeagueUpdates.js
-// FIXME: Update calls to new API structures
 import React, { useState, useEffect, useContext } from 'react';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 
 function LeagueUpdates() {
-    const { teamID, updateTeamID } = useContext(TeamIDContext);
+    const { teamID } = useContext(TeamIDContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');
     const [maxGameweek, setMaxGameweek] = useState('1');
     const [leagueChanges, setLeagueChanges] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`/api/lu/league-teams/${selectedLeagueId}/${gameweek}`);
             const data = await response.json();
@@ -27,12 +27,13 @@ function LeagueUpdates() {
             alert("Error fetching league standing data", error);
             console.error("Error fetching league standing data", error);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
         const fetchCurrentGameweek = async () => {
             try {
-                const response = await fetch('/api/current-gameweek');
+                const response = await fetch('/api/game-data');
                 const data = await response.json();
 
                 if (!data.apiLive) {
@@ -73,18 +74,8 @@ function LeagueUpdates() {
 
     return (
         <div className='main-container'>
+           {/*TODO: Adding spinning wheel while inputs are generated */}
             <div className="input-mainrow">
-                <div className="input-row">
-                    <div className="input-container">
-                        <label htmlFor="teamID">Team ID:</label>
-                        <input
-                            type="text"
-                            value={teamID}
-                            onChange={(e) => updateTeamID(e.target.value)}
-                        />
-                    </div>
-                    <button onClick={() => updateTeamID('')}>Clear</button>
-                </div>
                 {leagues.length > 0 && (
                     <div className="input-row">
                         <div className="input-container">
@@ -108,38 +99,43 @@ function LeagueUpdates() {
                     </div>
                 )}
             </div>
-            {leagueChanges.length > 0 && (
-                <table className="league-changes-table info-table">
-                    <thead>
-                        <tr className="league-changes-header">
-                            <th>Manager Name</th>
-                            <th>Team Name</th>
-                            <th>Position</th>
-                            <th>Transfer In</th>
-                            <th>Transfer Out</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {leagueChanges.map((change) => (
-                            change.transfers.map((transfer, index) => (
-                                <tr key={`${change.managerName}-${index}`} className="league-change-row">
-                                    {index === 0 && (
-                                        <>
-                                            <td rowSpan={change.transfers.length} className="manager-name">{change.managerName}</td>
-                                            <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
-                                            <td rowSpan={change.transfers.length} className="position">{change.position}</td>
-                                        </>
-                                    )}
-                                    {/* TODO: Highlight common players in or out */}
-                                    {/* TODO: Add click to bring up player card */}
-                                    {/* TODO: Click on person to bring up their team */}
-                                    <td className="player-in">In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m</td>
-                                    <td className="player-out">Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m</td>
-                                </tr>
-                            ))
-                        ))}
-                    </tbody>
-                </table>
+            {loading ? (
+                <div className="loading-bar"></div>
+            ) : (
+                leagueChanges.length > 0 && (
+                    <table className="league-changes-table info-table">
+                        <thead>
+                            <tr className="league-changes-header">
+                                <th>Manager Name</th>
+                                <th>Team Name</th>
+                                <th>Position</th>
+                                <th>Transfer In</th>
+                                <th>Transfer Out</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {leagueChanges.map((change) => (
+                                change.transfers.map((transfer, index) => (
+                                    <tr key={`${change.managerName}-${index}`} className="league-change-row">
+                                        {index === 0 && (
+                                            <>
+                                            {/*TODO: Show player team ID on hover*/} 
+                                                <td rowSpan={change.transfers.length} className="manager-name-table">{change.managerName}</td>
+                                                <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
+                                                <td rowSpan={change.transfers.length} className="position">{change.position}</td>
+                                            </>
+                                        )}
+                                        {/* TODO: Highlight common players in or out */}
+                                        {/* TODO: Add click to bring up player card */}
+                                        {/* TODO: Click on person to bring up their team */}
+                                        <td className="player-in">In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m</td>
+                                        <td className="player-out">Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m</td>
+                                    </tr>
+                                ))
+                            ))}
+                        </tbody>
+                    </table>
+                )
             )}
         </div>
     );

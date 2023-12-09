@@ -71,10 +71,6 @@ const Home = () => {
                                     className="readOnly-input"
                                 />
                             </div>
-                        </div>
-                    )}
-                    {gameData.data && (
-                        <div className="input-row">
                             <div className="input-container">
                                 <label htmlFor="gameweekActive">GW Status:</label>
                                 <input
@@ -85,10 +81,6 @@ const Home = () => {
                                     className="readOnly-input"
                                 />
                             </div>
-                        </div>
-                    )}
-                    {gameData && (
-                        <div className="input-row">
                             <div className="input-container">
                                 <label htmlFor="apiLive">API Status:</label>
                                 <input
@@ -102,6 +94,7 @@ const Home = () => {
                         </div>
                     )}
                     {gameData.data && (
+                        // FIXME: Add check that teamID is valid
                         <Link className='link-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
                     )}
                     {/*TODO: Add dropdown for team selection by player name */}

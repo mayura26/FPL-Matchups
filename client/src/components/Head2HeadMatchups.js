@@ -1,12 +1,11 @@
-// FIXME: Update calls to new API structures
+// FEATURE: Bring up popup on player match up showing player card
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import './Head2HeadMatchups.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 
 const Head2HeadMatchups = () => {
-  const { teamID, updateTeamID } = useContext(TeamIDContext);
+  const { teamID } = useContext(TeamIDContext);
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState('1');
@@ -14,6 +13,7 @@ const Head2HeadMatchups = () => {
   const [leagueData, setLeagueData] = useState(null);
   const [selectedMatchupId, setSelectedMatchupId] = useState(null);
   const [matchupData, setMatchupData] = useState(null);
+  const [loadingMatchup, setLoadingMatchup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hideCommonPlayers, setHideCommonPlayers] = useState(false);
   const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
@@ -31,15 +31,21 @@ const Head2HeadMatchups = () => {
 
   // Fetch matchup data
   const fetchMatchupData = async (team1Id, team2Id, gameweek) => {
-    setLoading(true);
+    setLoadingMatchup(true);
     try {
       const response = await fetch(`/api/h2h/team-matchup/${team1Id}/${team2Id}/${gameweek}`);
       const data = await response.json();
-      setMatchupData(data);
+
+      if (!data.apiLive) {
+        alert("The FPL API is not live.");
+      } else {
+        setMatchupData(data.data);
+      }
     } catch (error) {
+      alert("Error fetching matchup data", error);
       console.error('Error fetching matchup data:', error);
     } finally {
-      setLoading(false);
+      setLoadingMatchup(false);
     }
   };
 
@@ -47,12 +53,18 @@ const Head2HeadMatchups = () => {
   useEffect(() => {
     const fetchCurrentGameweek = async () => {
       try {
-        const response = await fetch('/api/current-gameweek');
+        const response = await fetch('/api/game-data');
         const data = await response.json();
-        setGameweek(data.currentGameweek);
-        setMaxGameweek(data.currentGameweek);
+
+        if (!data.apiLive) {
+          alert("The FPL API is not live.");
+        } else {
+          setGameweek(data.data.currentGameweek);
+          setMaxGameweek(data.data.currentGameweek);
+        }
       } catch (error) {
-        console.error("Error fetching current gameweek:", error);
+        alert("Error fetching game data", error);
+        console.error("Error fetching game data", error);
       }
     };
 
@@ -60,52 +72,54 @@ const Head2HeadMatchups = () => {
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/h2h/leagues/${selectedLeagueId}/${gameweek}`);
-      const data = await response.json();
-      // TODO: Add loading indicator
-      setLeagueData(data);
+      const data = await response.json(); 
+      if (!data.apiLive) {
+        alert("The FPL API is not live.");
+      } else {
+        setLeagueData(data.data);
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      alert("Error fetching league data", error);
+      console.error("Error fetching league data:", error);
     }
-  };
-
-  const clearTeamID = () => {
-    updateTeamID("");
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (teamID && teamID !== "") {
-      axios.get(`/api/h2h/leagues/${teamID}`)
-        .then(response => {
-          if (response.data.length > 0) {
-            setLeagues(response.data);
+    const fetchLeagueData = async () => {
+      if (teamID && teamID !== "") {
+        try {
+          const response = await fetch(`/api/h2h/leagues/${teamID}`);
+          const data = await response.json();
+
+          if (!data.apiLive) {
+            alert("The FPL API is not live.");
           } else {
-            // FIXME: Add popup no leagues found
-            setLeagues([]);
+            if (data.data.length > 0) {
+              setLeagues(data.data);
+            } else {
+              alert("No leagues found");
+              setLeagues([]);
+            }
           }
-        })
-        .catch(error => {
-          console.error('Error fetching leagues:', error);
-        });
-    }
+        } catch (error) {
+          alert("Error fetching league list", error);
+          console.error("Error fetching league list:", error);
+        }
+      }
+    };
+
+    fetchLeagueData();
   }, [teamID]);
 
   // Handlers and JSX go here...
   return (
     <div className='main-container'>
+      {/*TODO: Adding spinning wheel while inputs are generated */}
       <div className="input-mainrow">
-        <div className="input-row">
-          <div className="input-container">
-            <label htmlFor="teamID">Team ID:</label>
-            <input
-              type="text"
-              value={teamID}
-              onChange={(e) => updateTeamID(e.target.value)}
-            />
-          </div>
-          <button onClick={clearTeamID}>Clear</button>
-        </div>
         {leagues.length > 0 && (
           <div className="input-row">
             <div className="input-container">
@@ -129,66 +143,71 @@ const Head2HeadMatchups = () => {
           </div>
         )}
       </div>
-      {leagueData && (
-        <div className="matchups-container">
-          {leagueData.map((match, index) => (
-            <div key={match.id} className="matchup-container">
-              <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
-                <table className="matchup-table info-table">
-                  <tbody>
-                    {/* TODO: Show live points */}
-                    <tr>
-                      <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
-                        {match.entry_1_name} ({match.entry_1_player_name})
-                      </td>
-                      <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
-                        {match.entry_1_points}
-                      </td>
-                      <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
-                        {match.entry_2_name} ({match.entry_2_player_name})
-                      </td>
-                      <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
-                        {match.entry_2_points}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              {selectedMatchupId === match.id && (
-                loading ? (
-                  <p>Loading...</p>
-                ) : (
+      {loading ? (
+        <div className="loading-bar"></div>
+      ) : (
+        leagueData && (
+          <div className="matchups-container">
+            {leagueData.map((match, index) => (
+              <div key={match.id} className="matchup-container">
+                <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
+                  <table className="matchup-table info-table">
+                    <tbody>
+                      {/* TODO: Show live points */}
+                      <tr>
+                      {/*TODO: Show player team ID on hover*/} 
+                        <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
+                          {match.entry_1_name} ({match.entry_1_player_name})
+                        </td>
+                        <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
+                          {match.entry_1_points}
+                        </td>
+                        <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
+                          {match.entry_2_name} ({match.entry_2_player_name})
+                        </td>
+                        <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
+                          {match.entry_2_points}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {selectedMatchupId === match.id && (
+                  loadingMatchup ? (
+                    <p>Loading...</p>
+                  ) : (
 
-                  matchupData && (
-                    <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
-                      <div className='hide-btns'>
-                        <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
-                          {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
-                        </button>
-                        <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
-                          {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
-                        </button>
+                    matchupData && (
+                      <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
+                        <div className='hide-btns'>
+                          <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
+                            {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
+                          </button>
+                          <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
+                            {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
+                          </button>
+                        </div>
+                        <MatchupDetails
+                          team1Details={matchupData.team1Details.startingPlayers}
+                          team2Details={matchupData.team2Details.startingPlayers}
+                          hideCommonPlayers={hideCommonPlayers}
+                          hidePlayedPlayers={hidePlayedPlayers}
+                          heading={"Starting"}
+                        />
+                        <MatchupDetails
+                          team1Details={matchupData.team1Details.benchPlayers}
+                          team2Details={matchupData.team2Details.benchPlayers}
+                          hideCommonPlayers={hideCommonPlayers}
+                          hidePlayedPlayers={hidePlayedPlayers}
+                          heading={"Bench"}
+                        />
                       </div>
-                      <MatchupDetails
-                        team1Details={matchupData.team1Details.startingPlayers}
-                        team2Details={matchupData.team2Details.startingPlayers}
-                        hideCommonPlayers={hideCommonPlayers}
-                        hidePlayedPlayers={hidePlayedPlayers}
-                        heading={"Starting"}
-                      />
-                      <MatchupDetails
-                        team1Details={matchupData.team1Details.benchPlayers}
-                        team2Details={matchupData.team2Details.benchPlayers}
-                        hideCommonPlayers={hideCommonPlayers}
-                        hidePlayedPlayers={hidePlayedPlayers}
-                        heading={"Bench"}
-                      />
-                    </div>
-                  )
-                ))}
-            </div>
-          ))}
-        </div>
+                    )
+                  ))}
+              </div>
+            ))}
+          </div>
+        )
       )}
     </div>
   );
@@ -216,8 +235,8 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
   const player2Class = player2 ? `player ${player2.playStatus} ${player2.captainStatus}` : 'player';
-  const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C' ) ? player1.name + ` (${player1.captainStatus})`: player1 ? player1.name : '';
-  const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C' ) ? player2.name + ` (${player2.captainStatus})`: player2 ? player2.name : '';
+  const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
+  const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
   return (
     <tr className="player-row">
@@ -234,7 +253,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
 const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers, heading }) => {
   const alignedPlayers = alignPlayers(team1Details, team2Details);
   // TODO: Add live score indication
-  return (   
+  return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
         <thead>
@@ -296,7 +315,7 @@ const alignPlayers = (team1Details, team2Details) => {
       }
     });
 
-    // Align remaining players by price
+    // FIXME:  Align remaining players by price not working
     players1 = players1.filter(p1 => !matched.has(p1.id));
     players1.forEach(p1 => {
       if (players2.length > 0) {

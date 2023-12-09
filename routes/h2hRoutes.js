@@ -1,31 +1,28 @@
-// FIXME: Update to use new cache system
 const express = require('express');
-const axios = require('axios');
-
+const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getPlayerData, getLeaguesH2HGWData } = require('../lib/fplAPIWrapper');
 const router = express.Router();
 
 router.get('/leagues/:teamId', async (req, res) => {
   try {
-    const teamId = req.params.teamId;
-    const response = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamId}/`);
-    // Assuming the leagues are in the response.data.leagues.h2h path
-    res.json(response.data.leagues.h2h);
+    const teamID = req.params.teamId;
+    const response = await getTeamData(req, teamID);
+
+    res.json({ data: response.data.leagues.h2h, source: response.source, apiLive: response.apiLive });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching leagues', error });
+    console.log("Error getting TeamID-H2HLeagues info");
+    console.error(error);
   }
 });
 
 router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
   try {
-    const leagueId = req.params.leagueId;
-    const gameWeek = req.params.gameWeek;
-
-    // Fetch league details from FPL API
-    const leagueData = await axios.get(`https://fantasy.premierleague.com/api/leagues-h2h-matches/league/${leagueId}/?event=${gameWeek}`);
-    res.json(leagueData.data.results);
+    const leagueID = req.params.leagueId;
+    const gameweek = req.params.gameWeek;
+    const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
+    res.json({ data: leagueData.data.results, source: leagueData.source, apiLive: leagueData.apiLive });
   } catch (error) {
-    console.error('Error fetching H2H matchups:', error);
-    res.status(500).send('Internal Server Error');
+    console.log("Error getting TeamID-H2H-GW info");
+    console.error(error);
   }
 });
 
@@ -34,31 +31,24 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   const { team1Id, team2Id, gameweek } = req.params;
 
   try {
-    const matchupData = await fetchTeamMatchupData(team1Id, team2Id, parseInt(gameweek));
-    res.json(matchupData);
+    const bootstrapData = await getBootstrapData(req);
+    const dataMap = await getMaps(bootstrapData);
+    const matchupData = await fetchTeamMatchupData(req, team1Id, team2Id, parseInt(gameweek), bootstrapData, dataMap);
+    res.json({ data: matchupData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
   } catch (error) {
-    res.status(500).send('Server error');
+    console.log("Error getting TeamID-H2H-Matchup info");
+    console.error(error);
   }
 });
 
-const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
+const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
     // Step 1: Fetch general information
-    const bootstrapResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
-    const playersInfo = bootstrapResponse.data.elements;
-    const teamsMap = bootstrapResponse.data.teams.reduce((acc, team) => {
-      acc[team.id] = team.name;
-      return acc;
-    }, {});
-    // Map for element types (positions)
-    const elementTypesMap = bootstrapResponse.data.element_types.reduce((acc, type) => {
-      acc[type.id] = type.singular_name_short; // or type.singular_name for full name
-      return acc;
-    }, {});
+    const playersInfo = bootstrapData.data.elements;
 
     // Helper function to get team details
     const getTeamDetails = async (teamID) => {
-      const teamResponse = await axios.get(`https://fantasy.premierleague.com/api/entry/${teamID}/event/${gameweek}/picks/`);
+      const teamResponse = await getTeamGWData(req, teamID, gameweek);
       const playerStartingIDs = teamResponse.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
       const playerBenchIDs = teamResponse.data.picks.filter(pick => pick.position > 11).map(pick => pick.element);
       const captainId = teamResponse.data.picks.find(pick => pick.is_captain).element;
@@ -76,7 +66,7 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
 
       async function getPlayerDetails(players, captainId, viceCaptainId) {
         return await Promise.all(players.map(async (player) => {
-          const playerDetailResponse = await axios.get(`https://fantasy.premierleague.com/api/element-summary/${player.id}/`);
+          const playerDetailResponse = await getPlayerData(req, player.id);
           const gameWeekData = playerDetailResponse.data.history.find(history => history.round === gameweek);
 
           // Get current date/time in UTC
@@ -114,8 +104,8 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
           return {
             id: player.id,
             name: player.web_name,
-            teamName: teamsMap[player.team],
-            position: elementTypesMap[player.element_type],
+            teamName: dataMap.teams[player.team],
+            position: dataMap.positions[player.element_type],
             gameWeekScore: gameWeekData ? gameWeekData.total_points : 0,
             playStatus: playedStatus,
             captainStatus: captainStatus
@@ -130,7 +120,7 @@ const fetchTeamMatchupData = async (team1Id, team2Id, gameweek) => {
 
     return { team1Details, team2Details };
   } catch (error) {
-    console.error('Error fetching data from FPL API:', error);
+    console.error('Error generating matchup data', error);
     throw error;
   }
 };

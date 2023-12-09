@@ -28,6 +28,10 @@
         },
         "[x]": {
             "icon": "issue-closed"
+        },
+        "FEATURE": {
+            "icon": "tools",
+            "iconColour": "cyan"
         }
     },
     "todo-tree.general.showActivityBarBadge": true,
@@ -39,5 +43,18 @@
     "todo-tree.tree.showCountsInTree": false,
     "todo-tree.highlights.enabled": true,
     "todo-tree.tree.scanMode": "workspace",
-    "todo-tree.tree.disableCompactFolders": true
+    "todo-tree.tree.disableCompactFolders": true,
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "FEATURE"
+    ],
+    "todo-tree.highlights.defaultHighlight": {
+
+    }
 }

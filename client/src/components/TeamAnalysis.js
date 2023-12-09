@@ -1,3 +1,4 @@
+// FEATURE: Add option to compare player with another player
 import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
 import './Shared.css';
@@ -59,7 +60,7 @@ function TeamAnalysis() {
     }, [gameweek, teamID]);
 
     return (
-        <div className="main-container">
+        <div className="main-container" data-testid="team-analysis">
             {loading ? (
                 <div className="loading-bar"></div>
             ) : (

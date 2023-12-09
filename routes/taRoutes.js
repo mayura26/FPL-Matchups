@@ -1,4 +1,3 @@
-// FIXME: Update to use new cache system
 const express = require('express');
 const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getPlayerData } = require('../lib/fplAPIWrapper');
 const router = express.Router();
