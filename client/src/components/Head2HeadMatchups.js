@@ -10,11 +10,13 @@ const Head2HeadMatchups = () => {
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState('1');
   const [maxGameweek, setMaxGameweek] = useState('1');
+  const [fetchedGameweek, setFetchedGameweek] = useState('');
   const [leagueData, setLeagueData] = useState(null);
   const [selectedMatchupId, setSelectedMatchupId] = useState(null);
   const [matchupData, setMatchupData] = useState(null);
   const [loadingMatchup, setLoadingMatchup] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingInputs, setLoadingInputs] = useState(true);
   const [hideCommonPlayers, setHideCommonPlayers] = useState(false);
   const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
 
@@ -73,9 +75,10 @@ const Head2HeadMatchups = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    setFetchedGameweek(gameweek);
     try {
       const response = await fetch(`/api/h2h/leagues/${selectedLeagueId}/${gameweek}`);
-      const data = await response.json(); 
+      const data = await response.json();
       if (!data.apiLive) {
         alert("The FPL API is not live.");
       } else {
@@ -100,6 +103,7 @@ const Head2HeadMatchups = () => {
           } else {
             if (data.data.length > 0) {
               setLeagues(data.data);
+              setLoadingInputs(false);
             } else {
               alert("No leagues found");
               setLeagues([]);
@@ -118,31 +122,35 @@ const Head2HeadMatchups = () => {
   // Handlers and JSX go here...
   return (
     <div className='main-container'>
-      {/*TODO: Adding spinning wheel while inputs are generated */}
-      <div className="input-mainrow">
-        {leagues.length > 0 && (
-          <div className="input-row">
-            <div className="input-container">
-              <label htmlFor="league">Select League:</label>
-              <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
-                <option value="">Select a league</option>
-                {leagues.map((league) => (
-                  <option key={league.id} value={league.id}>{league.name}</option>
-                ))}
-              </select>
+      {loadingInputs ? (
+        <div className="loading-wheel"></div>
+      ) : (
+        <div className="input-mainrow">
+          {leagues.length > 0 && (
+            <div className="input-row">
+              <div className="input-container">
+                <label htmlFor="league">Select League:</label>
+                <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
+                  <option value="">Select a league</option>
+                  {leagues.map((league) => (
+                    <option key={league.id} value={league.id}>{league.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="input-container">
+                <label htmlFor="gameweek">Gameweek:</label>
+                <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
+                  {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
+                    <option key={week} value={week}>GW{week}</option>
+                  ))}
+                </select>
+              </div>
+              <button onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
             </div>
-            <div className="input-container">
-              <label htmlFor="gameweek">Gameweek:</label>
-              <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
-                  <option key={week} value={week}>GW{week}</option>
-                ))}
-              </select>
-            </div>
-            <button onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
+
       {loading ? (
         <div className="loading-bar"></div>
       ) : (
@@ -154,18 +162,22 @@ const Head2HeadMatchups = () => {
                   <table className="matchup-table info-table">
                     <tbody>
                       <tr>
-                      {/*TODO: Show player team ID on hover*/} 
-                        <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
+                        <td className={match.entry_1_livepoints > match.entry_2_livepoints ? 'winner' : (match.entry_1_livepoints === match.entry_2_livepoints ? 'draw' : 'loser')} title={`Team ID: ${match.entry_1_entry}`}>
                           {match.entry_1_name} ({match.entry_1_player_name})
                         </td>
-                        <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
-                          {match.entry_1_points}
+                        <td>
+                          {Number(fetchedGameweek) === Number(maxGameweek) ? (
+                            <>
+                              <pre>Official: {match.entry_1_points} - {match.entry_2_points}</pre>
+                              <pre>Live: {match.entry_1_livepoints} - {match.entry_2_livepoints}</pre>
+                            </>
+                          ) :
+                            (
+                              <pre>{match.entry_1_points} - {match.entry_2_points}</pre>
+                            )}
                         </td>
-                        <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
+                        <td className={match.entry_2_livepoints > match.entry_1_livepoints ? 'winner' : (match.entry_1_livepoints === match.entry_2_livepoints ? 'draw' : 'loser')} title={`Team ID: ${match.entry_2_entry}`}>
                           {match.entry_2_name} ({match.entry_2_player_name})
-                        </td>
-                        <td className={match.entry_2_points > match.entry_1_points ? 'winner' : ''}>
-                          {match.entry_2_points}
                         </td>
                       </tr>
                     </tbody>
@@ -173,7 +185,7 @@ const Head2HeadMatchups = () => {
                 </div>
                 {selectedMatchupId === match.id && (
                   loadingMatchup ? (
-                    <p>Loading...</p>
+                    <div className="loading-wheel"></div>
                   ) : (
 
                     matchupData && (
@@ -225,7 +237,6 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   // FEATURE: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
   // TODO: [HARD] Highlight player coming off the bench 
   // TODO: Show when VC is coming in
-  // TODO: Consider hits when calculating live score
   // TODO: Don't sort for bench players, just show in order with numbers next to them. 
   // TODO: Add highlight on row where points difference more than x
   // Highlight player if they are captain or vice-captain and double their gameweek points if captain
@@ -328,8 +339,20 @@ const alignPlayers = (team1Details, team2Details) => {
   });
 
   // Add captains at the end of the array, aligned with each other
+  // If the captain's playStatus is 'unplayed', then the viceCaptain is put in place
   if (captains.team1 || captains.team2) {
-    alignedPlayers.push({ player1: captains.team1, player2: captains.team2 });
+    let team1Player = captains.team1;
+    let team2Player = captains.team2;
+
+    if (team1Player && team1Player.playStatus === 'unplayed') {
+      team1Player = team1Details.find(player => player.captainStatus === 'VC') || team1Player;
+    }
+
+    if (team2Player && team2Player.playStatus === 'unplayed') {
+      team2Player = team2Details.find(player => player.captainStatus === 'VC') || team2Player;
+    }
+
+    alignedPlayers.push({ player1: team1Player, player2: team2Player });
   }
 
   return alignedPlayers;

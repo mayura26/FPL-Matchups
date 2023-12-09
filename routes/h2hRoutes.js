@@ -19,6 +19,69 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const leagueID = req.params.leagueId;
     const gameweek = req.params.gameWeek;
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
+
+    const calculateTotalPoints = async (req, teamData, gameweek) => {
+      const teamPlayerStartingIDs = teamData.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
+      const captainId = teamData.data.picks.find(pick => pick.is_captain).element;
+      const viceCaptainId = teamData.data.picks.find(pick => pick.is_vice_captain).element;
+      let totalPoints = 0;
+      let captainPlayed = false;
+
+      // Get current date/time in UTC
+      const now = new Date();
+      const currentTimeUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+      for (let playerID of teamPlayerStartingIDs) {
+        const playerData = await getPlayerData(req, playerID);
+        const gameWeekData = playerData.data.history.filter(history => history.round == gameweek);
+        let playersPoints = 0;
+        for (let match of gameWeekData) {
+          playersPoints += match.total_points;
+        }
+        totalPoints += playersPoints;
+
+        if (playerID == captainId) {
+          // Parse the kickoff time as UTC
+          const kickoffTimeUTC = new Date(gameWeekData.kickoff_time).getTime(); // This is already in UTC
+          const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
+          if (gameWeekData.minutes == 0 && currentTimeUTC > twoHoursAfterKickoff) {
+            captainPlayed = false;
+          }
+          else {
+            totalPoints += playersPoints;
+            captainPlayed = true;
+          }
+        }
+      }
+
+      // If captain didn't play, add vice captain's points
+      if (!captainPlayed) {
+        const viceCaptainData = await getPlayerData(req, viceCaptainId);
+        const viceCaptainGameWeekData = viceCaptainData.data.history.filter(history => history.round == gameweek);
+        for (let match of viceCaptainGameWeekData) {
+          totalPoints += match.total_points;
+        }
+      }
+
+      // Subtract any penalty points (hits) from the total points
+      totalPoints -= teamData.data.entry_history.event_transfers_cost;
+
+      return totalPoints;
+    }
+
+    // For each team in the league, get all the players in the person's starting lineup
+    for (let matchUp of leagueData.data.results) {
+      const team1Data = await getTeamGWData(req, matchUp.entry_1_entry, gameweek);
+      const team2Data = await getTeamGWData(req, matchUp.entry_2_entry, gameweek);
+
+      // Sum the points scored by all the players in the team
+      const team1Points = await calculateTotalPoints(req, team1Data, gameweek);
+      const team2Points = await calculateTotalPoints(req, team2Data, gameweek);
+
+      // Update the team's total points
+      matchUp.entry_1_livepoints = team1Points;
+      matchUp.entry_2_livepoints = team2Points;
+    }
+
     res.json({ data: leagueData.data.results, source: leagueData.source, apiLive: leagueData.apiLive });
   } catch (error) {
     console.log("Error getting TeamID-H2H-GW info");
@@ -100,6 +163,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           } else if (player.id === viceCaptainId) {
             captainStatus = 'VC';
           }
+          
           // TODO: [HARD] Update gameweek total points to be a summation of all the events that give the score so then bonus can be added. Consider hits when calculating live score
           return {
             id: player.id,

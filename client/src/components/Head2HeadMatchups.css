@@ -68,6 +68,14 @@
     background-color: #4CAF50; /* Green background for winning team */
 }
 
+.draw {
+    background-color: #af874c; /* Grey background for draw */
+}
+
+.loser {
+    background-color: #af4c4c; /* Red background for losing team */
+}
+
 .clickable-row {
     cursor: pointer;
     transition: background-color 0.3s;

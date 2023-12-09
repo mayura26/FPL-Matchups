@@ -38,7 +38,13 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
         if (gameweekTransfers.length === 0) {
           return null; // Handle case with no transfers
         }
-        return { managerName: team.player_name, teamName: team.entry_name, position: team.rank, transfers: gameweekTransfers };
+        return { 
+          managerName: team.player_name, 
+          teamName: team.entry_name, 
+          teamID: team.entry, 
+          position: team.rank, 
+          transfers: gameweekTransfers 
+        };
       })
     );
 
@@ -66,6 +72,7 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
       return {
         managerName: transfer.managerName,
         teamName: transfer.teamName,
+        teamID: transfer.teamID, 
         position: transfer.position,
         transfers: playerTransfers
       };

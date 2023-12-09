@@ -11,6 +11,7 @@ function LeagueUpdates() {
     const [maxGameweek, setMaxGameweek] = useState('1');
     const [leagueChanges, setLeagueChanges] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadingInputs, setLoadingInputs] = useState(true);
 
     const fetchData = async () => {
         setLoading(true);
@@ -62,6 +63,7 @@ function LeagueUpdates() {
                         alert("The FPL API is not live.");
                     } else {
                         setLeagues(data.data);
+                        setLoadingInputs(false);
                     }
                 } catch (error) {
                     alert("Error fetching leagues data", error);
@@ -74,31 +76,34 @@ function LeagueUpdates() {
 
     return (
         <div className='main-container'>
-           {/*TODO: Adding spinning wheel while inputs are generated */}
-            <div className="input-mainrow">
-                {leagues.length > 0 && (
-                    <div className="input-row">
-                        <div className="input-container">
-                            <label htmlFor="leagues">Select League:</label>
-                            <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
-                                <option value="">Select a league</option>
-                                {leagues.map((league) => (
-                                    <option key={league.id} value={league.id}>{league.name}</option>
-                                ))}
-                            </select>
+            {loadingInputs ? (
+                <div className="loading-wheel"></div>
+            ) : (
+                <div className="input-mainrow">
+                    {leagues.length > 0 && (
+                        <div className="input-row">
+                            <div className="input-container">
+                                <label htmlFor="leagues">Select League:</label>
+                                <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
+                                    <option value="">Select a league</option>
+                                    {leagues.map((league) => (
+                                        <option key={league.id} value={league.id}>{league.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="input-container">
+                                <label htmlFor="gameweek">Gameweek:</label>
+                                <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
+                                    {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
+                                        <option key={week} value={week}>GW{week}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <button onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                         </div>
-                        <div className="input-container">
-                            <label htmlFor="gameweek">Gameweek:</label>
-                            <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                                {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
-                                    <option key={week} value={week}>GW{week}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <button onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
+            )}
             {loading ? (
                 <div className="loading-bar"></div>
             ) : (
@@ -119,8 +124,7 @@ function LeagueUpdates() {
                                     <tr key={`${change.managerName}-${index}`} className="league-change-row">
                                         {index === 0 && (
                                             <>
-                                            {/*TODO: Show player team ID on hover*/} 
-                                                <td rowSpan={change.transfers.length} className="manager-name-table">{change.managerName}</td>
+                                                <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>{change.managerName}</td>
                                                 <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
                                                 <td rowSpan={change.transfers.length} className="position">{change.position}</td>
                                             </>

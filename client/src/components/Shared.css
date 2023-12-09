@@ -8,11 +8,6 @@
     width: 90%;
 }
 
-@keyframes loading {
-    0% { width: 0; }
-    100% { width: 100%; }
-}
-
 .loading-bar {
     margin: 25px 5px;
     position: relative;
@@ -28,7 +23,27 @@
     left: 0;
     height: 100%;
     background-color: var(--btn-color);
-    animation: loading 2s linear infinite;
+    animation: loading 5s linear infinite;
+}
+
+@keyframes loading {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+@keyframes spinning {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-wheel {
+    margin: 25px auto;
+    border: 16px solid var(--primary);
+    border-top: 16px solid var(--btn-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spinning 2s linear infinite;
 }
 
 .input-row {
