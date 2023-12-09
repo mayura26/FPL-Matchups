@@ -78,7 +78,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
           const minutesPlayed = gameWeekData.minutes;
           let playedStatus;
-          // TODO: Create logic for if player is potentially playing but on the bench
+          // TODO: [HARD] Create logic for if player is potentially playing but on the bench
           if (currentTimeUTC > kickoffTimeUTC) {
             if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
               if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
@@ -100,7 +100,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           } else if (player.id === viceCaptainId) {
             captainStatus = 'VC';
           }
-          // TODO: Update gameweek total points to be a summation of all the events that give the score so then bonus can be added [HARD]
+          // TODO: [HARD] Update gameweek total points to be a summation of all the events that give the score so then bonus can be added. Consider hits when calculating live score
           return {
             id: player.id,
             name: player.web_name,

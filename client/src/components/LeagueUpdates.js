@@ -126,8 +126,8 @@ function LeagueUpdates() {
                                             </>
                                         )}
                                         {/* TODO: Highlight common players in or out */}
-                                        {/* TODO: Add click to bring up player card */}
-                                        {/* TODO: Click on person to bring up their team */}
+                                        {/* FEATURE: Add click to bring up player card */}
+                                        {/* FEATURE: Click on person to bring up their team */}
                                         <td className="player-in">In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m</td>
                                         <td className="player-out">Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m</td>
                                     </tr>

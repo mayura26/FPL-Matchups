@@ -92,7 +92,7 @@ const PlayerData = ({ players, title }) => {
         <div>
         <h3 className='team-type-header'>{title}</h3>
         <div className="players-data-set">   
-            {/* FIXME: Split player information to standalone file and restyle to flexbox */}
+            {/* FIXME: Split player information to standalone file */}
             {players.map(player => (
                 <div key={player.name} className="player-frame">
                     <div className="player-card-row">

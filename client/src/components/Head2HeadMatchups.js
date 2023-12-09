@@ -153,7 +153,6 @@ const Head2HeadMatchups = () => {
                 <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
                   <table className="matchup-table info-table">
                     <tbody>
-                      {/* TODO: Show live points */}
                       <tr>
                       {/*TODO: Show player team ID on hover*/} 
                         <td className={match.entry_1_points > match.entry_2_points ? 'winner' : ''}>
@@ -223,10 +222,9 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
     return null;
   }
 
-  // TODO: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
-  // TODO: Highlight player coming off the bench [HARD]
-  // TODO: Show when VC is coming in [HARD]
-  // TODO: Add live scores
+  // FEATURE: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
+  // TODO: [HARD] Highlight player coming off the bench 
+  // TODO: Show when VC is coming in
   // TODO: Consider hits when calculating live score
   // TODO: Don't sort for bench players, just show in order with numbers next to them. 
   // TODO: Add highlight on row where points difference more than x
@@ -252,7 +250,6 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
 
 const MatchupDetails = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers, heading }) => {
   const alignedPlayers = alignPlayers(team1Details, team2Details);
-  // TODO: Add live score indication
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">

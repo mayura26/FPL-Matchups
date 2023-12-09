@@ -43,7 +43,6 @@ const Home = () => {
             </div>
             <br></br>
             <div  className='home-inputs'>
-                {/*BUG: Get this div centered */}
                 <div className="input-mainrow">
                     <div className="input-row">
                         <div className="input-container">
@@ -76,7 +75,7 @@ const Home = () => {
                                 <input
                                     type="text"
                                     id="gameweekActive"
-                                    value={gameData.data.isFinished ? "Finished" : "Active"}
+                                    value={gameData.data.isFinished ? "Done" : "Active"}
                                     readOnly
                                     className="readOnly-input"
                                 />
@@ -97,11 +96,8 @@ const Home = () => {
                         // FIXME: Add check that teamID is valid
                         <Link className='link-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
                     )}
-                    {/*TODO: Add dropdown for team selection by player name */}
-                    {/*TODO: Add go button with option of Example user */}
-                    {/*TODO: Remove teamID from everypage & move gameweek current to here and make it a context */}
-                    {/*TODO: Add status of connection to FPL */}
-                    {/* FIXME: Return error to screen if API isn't working and disable the go button on the home page.*/}
+                    {/*FEATURE: Add dropdown for team selection by player name */}
+                    {/*FEATURE: Add go button with option of Example user */}
                 </div>
             </div>
         </div>
