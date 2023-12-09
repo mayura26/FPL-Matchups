@@ -2,9 +2,6 @@
     "appService.defaultWebAppToDeploy": "/subscriptions/33d52f30-bcb9-4fe2-a0b6-d65219ca7f1e/resourceGroups/Projects/providers/Microsoft.Web/sites/FPL-Analysis",
     "appService.deploySubpath": ".",
     "todo-tree.tree.showBadges": false,
-    "emmet.preferences": {
-
-    },
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
     },
@@ -53,8 +50,5 @@
         "[ ]",
         "[x]",
         "FEATURE"
-    ],
-    "todo-tree.highlights.defaultHighlight": {
-
-    }
+    ]
 }
