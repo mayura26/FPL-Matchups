@@ -94,7 +94,7 @@ const Home = () => {
                     )}
                     {gameData.data && (
                         // FIXME: Add check that teamID is valid
-                        <Link className='link-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
+                        <Link className='link-btn ripple-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
                     )}
                     {/*FEATURE: Add dropdown for team selection by player name */}
                     {/*FEATURE: Add go button with option of Example user */}

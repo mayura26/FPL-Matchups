@@ -1,5 +1,3 @@
-/* LeagueUpdates.css */
-/* Styling for LeagueUpdates tables, similar to Head2HeadMatchups.css */
 .league-changes-table {
     margin: 20px auto 10px auto;
 }
@@ -18,11 +16,4 @@
 
 .league-changes-header {
     background-color: var(--table-header);
-}
-
-@media (max-width: 300px) {
-    .league-changes-table th, .league-changes-table td {
-        padding: 6px;
-        font-size: 0.6em;
-    }
 }

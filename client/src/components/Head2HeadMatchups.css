@@ -1,5 +1,3 @@
-/* Head2HeadMatchups.css */
-
 .matchups-container {
     margin: 10px auto;
 }
@@ -20,11 +18,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-
 }
 
 .matchup-table {
     margin: 10px auto;
+}
+
+.results-table {
+    width: 100%;
+    font-size: 1.1em;
 }
 
 .matchup-table th {
@@ -40,7 +42,7 @@
     padding: 5px;
     background-color: var(--table-header);
     text-align: center;
-    color: #f0f0f0;
+    color: var(--text);
     justify-content: center;
     column-span: all;
 }
@@ -76,19 +78,9 @@
     background-color: #af4c4c; /* Red background for losing team */
 }
 
-.clickable-row {
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.clickable-row:hover {
-    background-color: var(--hover); /* Slightly lighter shade for hover effect */
-}
-
 .matchup-summary {
     cursor: pointer;
     width: 100%;
-    /* Additional styling */
 }
 
 .matchup-details {
@@ -109,6 +101,7 @@
 
 .player-row {
     transition: background-color 0.3s;
+    cursor:pointer;
 }
 
 .player-row:hover {

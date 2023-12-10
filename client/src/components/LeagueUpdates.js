@@ -99,7 +99,7 @@ function LeagueUpdates() {
                                     ))}
                                 </select>
                             </div>
-                            <button onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
+                            <button className='ripple-btn'onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                         </div>
                     )}
                 </div>
