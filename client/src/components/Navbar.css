@@ -25,6 +25,7 @@
     font-size: 1.1em;
 }
 
+/* TODO: Add ripple effect to top links */
 .navbar a:hover {
     background-color: var(--accent50);
     color: var(--secondary);
