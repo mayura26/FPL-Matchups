@@ -3,17 +3,18 @@
 #root {
   display: flex;
   justify-content: center;
-  background-color: var(--background); /* Or any preferred background color */
+  background-color: var(--background); 
 }
 
 .app-container {
   max-width: 1200px;
   min-width: 350px;
   box-sizing: border-box; 
-  min-height: 100svh; /* Adjust the height as needed */
+  min-height: 100svh; 
   background-color: var(--background);
   color: var(--text);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .main-content {

@@ -1,4 +1,3 @@
-// Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
@@ -14,10 +13,9 @@ function Navbar() {
                     </Link>
                 </div>
                 <div className="navbar-links">
-                    {/*FIXME: Highlight page you are on */}
-                    <Link to="/team-analysis">Team Analysis</Link>
-                    <Link to="/head2head-matchups">Head2Head Matchups</Link>
-                    <Link to="/league-updates">League Updates</Link>
+                    <Link to="/team-analysis" className="navbar-link">Team Analysis</Link>
+                    <Link to="/head2head-matchups" className="navbar-link">Head2Head Matchups</Link>
+                    <Link to="/league-updates" className="navbar-link">League Updates</Link>
                 </div>
             </div>
             <div className="splitBar"></div>

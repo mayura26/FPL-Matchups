@@ -91,13 +91,15 @@ label {
 }
 
 input, select, button {
-    padding: 10px;
+    padding: 1em; 
     border: none;
     border-radius: 5px;
-    background-color: var(--primary); /* Slightly lighter gray for contrast */
+    background-color: var(--primary); 
     cursor: pointer;
     font-size: 1em;
     color: var(--text);
+    box-sizing: border-box; 
+    line-height: 1.15; 
 }
 
 input {
@@ -105,17 +107,17 @@ input {
 }
 
 button {
-    background-color: var(--secondary); /* Darker shade for button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    background-color: var(--secondary); 
+    transition: background-color 0.3s; 
     text-align: end;
     margin: 0;
-/* BUG: Fix height of buttons to be same as inputs */
+    box-sizing: border-box; 
 }
 
 @media (max-width: 320px) {
     .info-table th, .info-table td {
-        padding: 6px; /* Smaller padding */
-        font-size: 0.6em; /* Smaller font size */
+        padding: 6px; 
+        font-size: 0.6em; 
     }
 }
 
@@ -132,7 +134,7 @@ button {
 br {
     display: block;
     margin: 10px 5px;
-    border-bottom: 1px solid var(--accent50); /* Slim blue line similar to text color in Navbar.css */
+    border-bottom: 1px solid var(--accent50);
     content: "";
     width: 90%;
 }

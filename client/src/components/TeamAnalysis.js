@@ -68,17 +68,16 @@ function TeamAnalysis() {
                     <div className="team-data">
                         <div className="player-data">
                             <div className='manager-name'>
-                            <h2>{teamData.managerName}</h2>
+                                <h2>{teamData.managerName}</h2>
                             </div>
                             <div className='player-info'>
-                            <div>Current Score: {teamData.overallPoints} </div>
-                            <div>Rank: {teamData.overallRank}</div>
+                                <div>Current Score: {teamData.overallPoints} </div>
+                                <div>Rank: {teamData.overallRank}</div>
                             </div>
                         </div>
                         <div className="players-data">
-                            <PlayerData players={teamData.playersStarting} title={"Starting Team"} />
-                            {/* TODO: Add numbers next to bench players */}
-                            <PlayerData players={teamData.playersBench} title={"Bench"} />
+                            <PlayerData players={teamData.playersStarting} benchPlayers={false} />
+                            <PlayerData players={teamData.playersBench} benchPlayers={true} />
                         </div>
                     </div>
                 )
@@ -87,52 +86,57 @@ function TeamAnalysis() {
     );
 }
 
-const PlayerData = ({ players, title }) => {
+const PlayerData = ({ players, benchPlayers }) => {
     return (
         <div>
-        <h3 className='team-type-header'>{title}</h3>
-        <div className="players-data-set">   
-            {/* FIXME: Split player information to standalone file */}
-            {players.map(player => (
-                <div key={player.name} className="player-frame">
-                    <div className="player-card-row">
-                        <div className="player-name">{player.name}</div>
-                        <div className="player-price">£{player.cost}</div>
-                        <div className="player-team">{player.teamName}</div>
-                    </div>
-                    <div className="player-card-row">
-                        <div className="player-current-fixture">Current Fixture: {player.currentGame.team}</div>
-                        {/* TODO: Add expected points next to points */}
-                        {/* TODO: Add form and ICT */}
-                        <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
-                            {player.currentGame.score} [{player.currentGame.xP}]
-                        </div>
-                        <div className="player-stats">xGI: {player.currentGame.xGI}</div>
-                    </div>
-                    <div className="player-card-row-divider"></div>
-                    <div className="player-card-row">
-                        {player.last5Scores.map((fixture, index) => (
-                            <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                                {/* TODO: Add xGi/xGc next to result as next line*/}
-                                 {/* TODO: Add ICT */}
-                                {fixture.score}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="player-card-row-divider"></div>
-                    <div className="player-card-row">
-                        {player.next5Fixtures.map((fixture, index) => (
-                            <div key={index} className={`player-fixture-next fdr-${fixture.fdr}`}>
-                                <div>{fixture.fixture}</div>
-                                <div>(GW{fixture.event})</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            ))}
-        </div>
+            <h3 className='team-type-header'>{benchPlayers ? "Bench" : "Starters"}</h3>
+            <div className="players-data-set">
+                {players.map(player => (
+                    <PlayerCard player={player} />
+                ))}
+            </div>
         </div>
     );
 };
+
+export const PlayerCard = ({ player }) => {
+    return (
+        <div key={player.name} className="player-frame">
+            <div className="player-card-row">
+                <div className="player-name">{player.name}</div>
+                <div className="player-price">£{player.cost}</div>
+                <div className="player-team">{player.teamName}</div>
+            </div>
+            <div className="player-card-row">
+                <div className="player-current-fixture">Current Fixture: {player.currentGame.team}</div>
+                {/* TODO: Add expected points next to points */}
+                {/* TODO: Add form and ICT */}
+                <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
+                    {player.currentGame.score} [{player.currentGame.xP}]
+                </div>
+                <div className="player-stats">xGI: {player.currentGame.xGI}</div>
+            </div>
+            <div className="player-card-row-divider"></div>
+            <div className="player-card-row">
+                {player.last5Scores.map((fixture, index) => (
+                    <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
+                        {/* TODO: Add xGi/xGc next to result as next line*/}
+                        {/* TODO: Add ICT */}
+                        {fixture.score}
+                    </div>
+                ))}
+            </div>
+            <div className="player-card-row-divider"></div>
+            <div className="player-card-row">
+                {player.next5Fixtures.map((fixture, index) => (
+                    <div key={index} className={`player-fixture-next fdr-${fixture.fdr}`}>
+                        <div>{fixture.fixture}</div>
+                        <div>(GW{fixture.event})</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 export default TeamAnalysis;

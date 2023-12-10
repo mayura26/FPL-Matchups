@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation, MemoryRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';  // Importing the global styles
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -29,11 +29,10 @@ function App() {
 }
 
 const WrappedApp = () => {
-    const RouterComponent = process.env.NODE_ENV === 'test' ? MemoryRouter : Router;
     return (
-        <RouterComponent>
+        <Router>
             <App />
-        </RouterComponent>
+        </Router>
     );
 };
 

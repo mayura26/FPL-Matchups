@@ -236,10 +236,9 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
 
   // FEATURE: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
   // TODO: [HARD] Highlight player coming off the bench 
-  // TODO: Show when VC is coming in
   // TODO: Don't sort for bench players, just show in order with numbers next to them. 
   // TODO: Add highlight on row where points difference more than x
-  // Highlight player if they are captain or vice-captain and double their gameweek points if captain
+
   const player1Score = player1 ? player1.gameWeekScore : '';
   const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
