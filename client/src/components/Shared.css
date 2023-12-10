@@ -184,9 +184,22 @@ br {
 }
 
 .ripple-btn:active {
-    background-color: var(--active-color);
+    background-color: var(--primary);
     background-size: 100%;
     transition: background 0s;
 }
 
-/* TODO: Create ripple effect for clicks on the darker grey background */
+.ripple-row {
+    background-position: center;
+    transition: background 0.5s;
+}
+
+.ripple-row:hover {
+    background: var(--accent50) radial-gradient(circle, transparent 1%, var(--accent50) 1%) center/15000%;
+}
+
+.ripple-row:active {
+    background-color: var(--primary);
+    background-size: 100%;
+    transition: background 0s;
+}

@@ -124,6 +124,7 @@ function LeagueUpdates() {
                                     <tr key={`${change.managerName}-${index}`} className="league-change-row">
                                         {index === 0 && (
                                             <>
+                                            {/* FEATURE: Add arrow to show move up or down in rank */}
                                                 <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>{change.managerName}</td>
                                                 <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
                                                 <td rowSpan={change.transfers.length} className="position">{change.position}</td>

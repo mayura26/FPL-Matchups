@@ -9,7 +9,8 @@
 }
 
 .matchup-table-container {
-    overflow-x: auto; /* Allows horizontal scrolling */
+    overflow-x: auto;
+    /* Allows horizontal scrolling */
     margin: 10px 0;
 }
 
@@ -55,27 +56,63 @@
 }
 
 .matchup-table td.played {
-    background-color: #456b2f8c; /* Dark green shade for played */
+    background-color: #456b2f8c;
+    /* Dark green shade for played */
 }
 
 .matchup-table td.playing {
-    background-color: #1e8fff8c; /* Dark blue shade for playing */
+    background-color: #1e8fff8c;
+    /* Dark blue shade for playing */
 }
 
 .matchup-table td.unplayed {
-    background-color: #8b00008c; /* Dark red shade for unplayed */
+    background-color: #8b00008c;
+    /* Dark red shade for unplayed */
+}
+
+.results-table span {
+    display: block;
+}
+
+.live-lead {
+    text-align: center;
+    background-color: var(--borders);
+    margin: 8px 0px;
+    margin-bottom: -5px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.live-lead.small-lead {
+    background-color: #af4c4c;
+    color: white;
+}
+
+.live-lead.medium-lead {
+    background-color: #afa54c;
+    color: black;
+}
+
+.live-lead.large-lead {
+    background-color: #4caf4f;
+    color: black;
+}
+
+.live-lead.extra-large-lead {
+    background-color: #4c7faf;
+    color: white;
 }
 
 .winner {
-    background-color: #4CAF50; /* Green background for winning team */
+    background-color: #4CAF50;
 }
 
 .draw {
-    background-color: #af874c; /* Grey background for draw */
+    background-color: #af874c;
 }
 
 .loser {
-    background-color: #af4c4c; /* Red background for losing team */
+    background-color: #af4c4c;
 }
 
 .matchup-summary {
@@ -91,21 +128,14 @@
     border: 1px solid var(--borders);
     overflow: hidden;
     transition: max-height 0.3s ease-out;
-    max-height: 0px; /* Initially hidden */
+    max-height: 0px;
+    /* Initially hidden */
     align-self: center;
 }
 
 .matchup-container .matchup-details.open {
-    max-height: 1000px; /* Adjust as needed */
-}
-
-.player-row {
-    transition: background-color 0.3s;
-    cursor:pointer;
-}
-
-.player-row:hover {
-    background-color: var(--hover); /* Slightly lighter shade for hover effect */
+    max-height: 1000px;
+    /* Adjust as needed */
 }
 
 .hide-btns {

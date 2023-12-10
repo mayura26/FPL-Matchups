@@ -23,13 +23,20 @@
     text-decoration: none;
     color: var(--accent);
     font-size: 1.1em;
+    background-position: center;
+    transition: background 0.5s;
 }
 
-/* TODO: Add ripple effect to top links */
 .navbar a:hover {
-    background-color: var(--accent50);
+    background: var(--accent50) radial-gradient(circle, transparent 1%, var(--accent50) 1%) center/15000%;
     color: var(--secondary);
     border-radius: 8px;
+}
+
+.navbar a:active {
+    background-color: var( --secondary);
+    background-size: 100%;
+    transition: background 0s;
 }
 
 .navbar-logo {

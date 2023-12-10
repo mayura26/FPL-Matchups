@@ -31,26 +31,6 @@ const Head2HeadMatchups = () => {
     }
   };
 
-  // Fetch matchup data
-  const fetchMatchupData = async (team1Id, team2Id, gameweek) => {
-    setLoadingMatchup(true);
-    try {
-      const response = await fetch(`/api/h2h/team-matchup/${team1Id}/${team2Id}/${gameweek}`);
-      const data = await response.json();
-
-      if (!data.apiLive) {
-        alert("The FPL API is not live.");
-      } else {
-        setMatchupData(data.data);
-      }
-    } catch (error) {
-      alert("Error fetching matchup data", error);
-      console.error('Error fetching matchup data:', error);
-    } finally {
-      setLoadingMatchup(false);
-    }
-  };
-
   // Fetch the current gameweek when the component mounts
   useEffect(() => {
     const fetchCurrentGameweek = async () => {
@@ -72,24 +52,6 @@ const Head2HeadMatchups = () => {
 
     fetchCurrentGameweek();
   }, []);
-
-  const fetchData = async () => {
-    setLoading(true);
-    setFetchedGameweek(gameweek);
-    try {
-      const response = await fetch(`/api/h2h/leagues/${selectedLeagueId}/${gameweek}`);
-      const data = await response.json();
-      if (!data.apiLive) {
-        alert("The FPL API is not live.");
-      } else {
-        setLeagueData(data.data);
-      }
-    } catch (error) {
-      alert("Error fetching league data", error);
-      console.error("Error fetching league data:", error);
-    }
-    setLoading(false);
-  };
 
   useEffect(() => {
     const fetchLeagueData = async () => {
@@ -119,7 +81,44 @@ const Head2HeadMatchups = () => {
     fetchLeagueData();
   }, [teamID]);
 
-  // Handlers and JSX go here...
+  const fetchData = async () => {
+    setLoading(true);
+    setFetchedGameweek(gameweek);
+    try {
+      const response = await fetch(`/api/h2h/leagues/${selectedLeagueId}/${gameweek}`);
+      const data = await response.json();
+      if (!data.apiLive) {
+        alert("The FPL API is not live.");
+      } else {
+        setLeagueData(data.data);
+      }
+    } catch (error) {
+      alert("Error fetching league data", error);
+      console.error("Error fetching league data:", error);
+    }
+    setLoading(false);
+  };
+
+  // Fetch matchup data
+  const fetchMatchupData = async (team1Id, team2Id, gameweek) => {
+    setLoadingMatchup(true);
+    try {
+      const response = await fetch(`/api/h2h/team-matchup/${team1Id}/${team2Id}/${gameweek}`);
+      const data = await response.json();
+
+      if (!data.apiLive) {
+        alert("The FPL API is not live.");
+      } else {
+        setMatchupData(data.data);
+      }
+    } catch (error) {
+      alert("Error fetching matchup data", error);
+      console.error('Error fetching matchup data:', error);
+    } finally {
+      setLoadingMatchup(false);
+    }
+  };
+
   return (
     <div className='main-container'>
       {loadingInputs ? (
@@ -156,14 +155,14 @@ const Head2HeadMatchups = () => {
       ) : (
         leagueData && (
           <div className="matchups-container">
-            {leagueData.map((match, index) => (
+            {leagueData.results.map((match, index) => (
               <div key={match.id} className="matchup-container">
-                <div className="matchup-summary ripple" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
+                <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
                   <table className="matchup-table info-table results-table">
                     <tbody>
-                      <tr>
+                      <tr className='ripple-row'>
                         <td className={match.entry_1_livepoints > match.entry_2_livepoints ? 'winner' : (match.entry_1_livepoints === match.entry_2_livepoints ? 'draw' : 'loser')} title={`Team ID: ${match.entry_1_entry}`}>
-                          {match.entry_1_name} ({match.entry_1_player_name})
+                          <span>{match.entry_1_name}</span><span>({match.entry_1_player_name})</span><span>P: {leagueData.managerData[match.entry_1_entry].points} R: {leagueData.managerData[match.entry_1_entry].rank}</span><span>{"[" + leagueData.managerData[match.entry_1_entry].matches_won}-{leagueData.managerData[match.entry_1_entry].matches_drawn}-{leagueData.managerData[match.entry_1_entry].matches_lost + "]"}</span>
                         </td>
                         <td>
                           {Number(fetchedGameweek) === Number(maxGameweek) ? (
@@ -177,7 +176,7 @@ const Head2HeadMatchups = () => {
                             )}
                         </td>
                         <td className={match.entry_2_livepoints > match.entry_1_livepoints ? 'winner' : (match.entry_1_livepoints === match.entry_2_livepoints ? 'draw' : 'loser')} title={`Team ID: ${match.entry_2_entry}`}>
-                          {match.entry_2_name} ({match.entry_2_player_name})
+                        <span>{match.entry_2_name}</span><span>({match.entry_2_player_name})</span><span>P: {leagueData.managerData[match.entry_2_entry].points} R: {leagueData.managerData[match.entry_2_entry].rank}</span><span>{"[" + leagueData.managerData[match.entry_2_entry].matches_won}-{leagueData.managerData[match.entry_2_entry].matches_drawn}-{leagueData.managerData[match.entry_2_entry].matches_lost + "]"}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -198,6 +197,11 @@ const Head2HeadMatchups = () => {
                             {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
                           </button>
                         </div>
+                        {Number(fetchedGameweek) === Number(maxGameweek) && (
+                            <div className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
+                              Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
+                            </div>
+                          )}
                         <MatchupDetails
                           team1Details={matchupData.team1Details.startingPlayers}
                           team2Details={matchupData.team2Details.startingPlayers}
@@ -247,7 +251,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
   return (
-    <tr className="player-row">
+    <tr className="player-row ripple-row">
       <td className={player1Class}>{player1Name}</td>
       <td className={player1Class}>{player1 ? player1.position : ''}</td>
       <td className={player1Class}>{player1Score}</td>
@@ -322,7 +326,6 @@ const alignPlayers = (team1Details, team2Details) => {
       }
     });
 
-    // FIXME:  Align remaining players by price not working
     players1 = players1.filter(p1 => !matched.has(p1.id));
     players1.forEach(p1 => {
       if (players2.length > 0) {

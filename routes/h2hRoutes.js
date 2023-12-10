@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getPlayerData, getLeaguesH2HGWData } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData } = require('../lib/fplAPIWrapper');
 const router = express.Router();
 
 router.get('/leagues/:teamId', async (req, res) => {
@@ -19,7 +19,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const leagueID = req.params.leagueId;
     const gameweek = req.params.gameWeek;
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
-
+    const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
     const calculateTotalPoints = async (req, teamData, gameweek) => {
       const teamPlayerStartingIDs = teamData.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
       const captainId = teamData.data.picks.find(pick => pick.is_captain).element;
@@ -31,24 +31,28 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
       const now = new Date();
       const currentTimeUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
       for (let playerID of teamPlayerStartingIDs) {
+        // FIXME:  Switch to use this API https://fantasy.premierleague.com/api/event/{GW}/live/
         const playerData = await getPlayerData(req, playerID);
         const gameWeekData = playerData.data.history.filter(history => history.round == gameweek);
         let playersPoints = 0;
+        // Allow for double GW
         for (let match of gameWeekData) {
-          playersPoints += match.total_points;
+          totalPoints += match.total_points;
         }
-        totalPoints += playersPoints;
 
         if (playerID == captainId) {
-          // Parse the kickoff time as UTC
-          const kickoffTimeUTC = new Date(gameWeekData.kickoff_time).getTime(); // This is already in UTC
-          const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
-          if (gameWeekData.minutes == 0 && currentTimeUTC > twoHoursAfterKickoff) {
-            captainPlayed = false;
-          }
-          else {
-            totalPoints += playersPoints;
-            captainPlayed = true;
+          for (let match of gameWeekData) {
+            // Parse the kickoff time as UTC
+            const kickoffTimeUTC = new Date(match.kickoff_time).getTime(); // This is already in UTC
+            const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
+
+            if (match.minutes == 0 && currentTimeUTC > twoHoursAfterKickoff) {
+              captainPlayed = false;
+            }
+            else {
+              totalPoints += match.total_points;
+              captainPlayed = true;
+            }
           }
         }
       }
@@ -82,7 +86,26 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
       matchUp.entry_2_livepoints = team2Points;
     }
 
-    res.json({ data: leagueData.data.results, source: leagueData.source, apiLive: leagueData.apiLive });
+    // Get data for each manager
+    const managerData = {};
+    for (let manager of leagueStandings.data.standings.results) {
+      managerData[manager.entry] = {
+        rank: manager.rank,
+        points: manager.points_for,
+        matches_won: manager.matches_won,
+        matches_drawn: manager.matches_drawn,
+        matches_lost: manager.matches_lost
+      };
+    }
+
+    res.json({
+      data: {
+        results: leagueData.data.results,
+        managerData: managerData
+      },
+      source: leagueData.source,
+      apiLive: leagueData.apiLive
+    });
   } catch (error) {
     console.log("Error getting TeamID-H2H-GW info");
     console.error(error);
@@ -163,13 +186,14 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           } else if (player.id === viceCaptainId) {
             captainStatus = 'VC';
           }
-          
+
           // TODO: [HARD] Update gameweek total points to be a summation of all the events that give the score so then bonus can be added. Consider hits when calculating live score
           return {
             id: player.id,
             name: player.web_name,
             teamName: dataMap.teams[player.team],
             position: dataMap.positions[player.element_type],
+            price: player.now_cost / 10,
             gameWeekScore: gameWeekData ? gameWeekData.total_points : 0,
             playStatus: playedStatus,
             captainStatus: captainStatus
