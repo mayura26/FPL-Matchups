@@ -98,8 +98,6 @@ input, select, button {
     cursor: pointer;
     font-size: 1em;
     color: var(--text);
-    box-sizing: border-box; 
-    line-height: 1.15; 
 }
 
 input {
@@ -111,7 +109,6 @@ button {
     transition: background-color 0.3s; 
     text-align: end;
     margin: 0;
-    box-sizing: border-box; 
 }
 
 @media (max-width: 320px) {
