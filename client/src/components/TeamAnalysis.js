@@ -109,6 +109,7 @@ export const PlayerCard = ({ player }) => {
                 <div className="player-team">{player.teamName}</div>
             </div>
             <div className="player-card-row">
+                {/* TODO: Update this text, depending on whether gameweek is over or not. */}
                 <div className="player-current-fixture">Current Fixture: {player.currentGame.team}</div>
                 {/* TODO: Add expected points next to points */}
                 {/* TODO: Add form and ICT */}
