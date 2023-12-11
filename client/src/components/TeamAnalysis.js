@@ -91,6 +91,7 @@ const PlayerData = ({ players, benchPlayers }) => {
         <div>
             <h3 className='team-type-header'>{benchPlayers ? "Bench" : "Starters"}</h3>
             <div className="players-data-set">
+                {/* FEATURE: Click on player to bring up popup to compare with second player of choice. */}
                 {players.map(player => (
                     <PlayerCard player={player} />
                 ))}
@@ -112,10 +113,11 @@ export const PlayerCard = ({ player }) => {
                 {/* TODO: Add expected points next to points */}
                 {/* TODO: Add form and ICT */}
                 <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
-                    {player.currentGame.score} [{player.currentGame.xP}]
+                    {player.currentGame.score} [xP: {player.currentGame.xP}]
                 </div>
                 <div className="player-stats">
-                    {player.position === 'GKP' || player.position === 'DEF' ? `xGC: ${player.currentGame.xGC}` : `xGI: ${player.currentGame.xGI}`}
+                    {/* BUG: xGi needs to be on next line */}
+                    {(player.position === 'GKP' || player.position === 'DEF') ? (`xGC: ${player.currentGame.xGC}` + (player.currentGame.xGI > 0.4 ? `xGI: ${player.currentGame.xGI}` : '')) : `xGI: ${player.currentGame.xGI}`}
                 </div>
             </div>
             <div className="player-card-row-divider"></div>
