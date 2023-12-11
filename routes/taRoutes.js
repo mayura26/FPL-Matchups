@@ -87,7 +87,9 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                     const oppositionTeam = dataMap.teamsShort[dataMap.teams[game.opponent_team]];
                     return {
                         score: `${game.total_points} (${oppositionTeam})`,
-                        fdr: game.difficulty
+                        fdr: game.difficulty,
+                        xGI: game.expected_goal_involvements,
+                        xGC: game.expected_goals_conceded,
                     };
                 }),
                 next5Fixtures: playerDetailResponse.data.fixtures.slice(0, 5).map(fix => {

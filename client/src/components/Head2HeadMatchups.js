@@ -248,35 +248,41 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   let player1Status = player1 ? '' : null;
   let player2Status = player2 ? '' : null;
   if (player1 && player2) {
-    if (player1Score > player2Score) {
-      player1Status = (player1Score - player2Score >= 6) ? '🏆' : '✅';
-      player2Status = (player1Score - player2Score >= 6) ? '💥' : '❌';
-    } else if (player1Score < player2Score) {
-      player1Status = (player2Score - player1Score >= 6) ? '💥' : '❌';
-      player2Status = (player2Score - player1Score >= 6) ? '🏆' : '✅';
-    } else if (player1Score === player2Score) {
-      player1Status = '🔵'; // Draw
-      player2Status = '🔵'; // Draw
+    if ((player1.playStatus === 'played' || player1.playStatus === 'playing') && (player2.playStatus === 'played' || player2.playStatus === 'playing')) {
+      if (player1Score > player2Score) {
+        player1Status = (player1Score - player2Score >= 5) ? '🏆' : '✅';
+        player2Status = (player1Score - player2Score >= 5) ? '💥' : '❌';
+      } else if (player1Score < player2Score) {
+        player1Status = (player2Score - player1Score >= 5) ? '💥' : '❌';
+        player2Status = (player2Score - player1Score >= 5) ? '🏆' : '✅';
+      } else if (player1Score === player2Score) {
+        player1Status = '🔵'; // Draw
+        player2Status = '🔵'; // Draw
+      }
     }
   } else if (player1 && !player2) {
-    if (player1Score >= 8) {
-      player1Status = '🏆';
-    } else if (player1Score >= 4) {
-      player1Status = '✅';
-    } else if (player1Score > 1) {
-      player1Status = '🟠';
-    } else {
-      player1Status = '💥';
+    if (player1.playStatus === 'played' || player1.playStatus === 'playing') {
+      if (player1Score >= 8) {
+        player1Status = '🏆';
+      } else if (player1Score >= 4) {
+        player1Status = '✅';
+      } else if (player1Score > 1) {
+        player1Status = '🟠';
+      } else {
+        player1Status = '💥';
+      }
     }
   } else if (!player1 && player2) {
-    if (player2Score >= 8) {
-      player2Status = '🏆';
-    } else if (player2Score >= 4) {
-      player2Status = '✅';
-    } else if (player2Score > 1) {
-      player2Status = '🟠';
-    } else {
-      player2Status = '💥';
+    if (player2.playStatus === 'played' || player2.playStatus === 'playing') {
+      if (player2Score >= 8) {
+        player2Status = '🏆';
+      } else if (player2Score >= 4) {
+        player2Status = '✅';
+      } else if (player2Score > 1) {
+        player2Status = '🟠';
+      } else {
+        player2Status = '💥';
+      }
     }
   }
 
@@ -303,8 +309,8 @@ const PlayerRowBench = ({ player1, player2 }) => {
   const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
   // TODO: Update symbol to be an up if they got subbed in, and down if they subbed out
-  let player1Status = player1 ? (player1.playStatus === 'unplayed' ? '☠️' : '➖') : null; // Ready symbol if played, dead symbol if not
-  let player2Status = player2 ? (player2.playStatus === 'unplayed' ? '☠️' : '➖') : null; // Ready symbol if played, dead symbol if not
+  let player1Status = player1 ? (player1.playStatus === 'unplayed' ? '☠️' : player1.playStatus === 'not-played' ? '' : '➖') : null; // Ready symbol if played, dead symbol if not
+  let player2Status = player2 ? (player2.playStatus === 'unplayed' ? '☠️' : player2.playStatus === 'not-played' ? '' : '➖') : null;  // Ready symbol if played, dead symbol if not
 
   return (
     <tr className="player-row ripple-row">
@@ -331,11 +337,11 @@ const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers,
             <th>Player</th>
             <th>Position</th>
             <th>Score</th>
-            <th>S</th>
+            <th> </th>
             <th>Player</th>
             <th>Position</th>
             <th>Score</th>
-            <th>S</th>
+            <th> </th>
           </tr>
         </thead>
         <tbody>
@@ -364,11 +370,11 @@ const MatchupDetailsBench = ({ team1Details, team2Details, hideCommonPlayers, hi
             <th>Player</th>
             <th>Position</th>
             <th>Score</th>
-            <th>S</th>
+            <th> </th>
             <th>Player</th>
             <th>Position</th>
             <th>Score</th>
-            <th>S</th>
+            <th> </th>
           </tr>
         </thead>
         <tbody>

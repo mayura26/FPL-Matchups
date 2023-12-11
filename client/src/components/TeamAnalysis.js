@@ -114,7 +114,9 @@ export const PlayerCard = ({ player }) => {
                 <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
                     {player.currentGame.score} [{player.currentGame.xP}]
                 </div>
-                <div className="player-stats">xGI: {player.currentGame.xGI}</div>
+                <div className="player-stats">
+                    {player.position === 'GKP' || player.position === 'DEF' ? `xGC: ${player.currentGame.xGC}` : `xGI: ${player.currentGame.xGI}`}
+                </div>
             </div>
             <div className="player-card-row-divider"></div>
             <div className="player-card-row">
