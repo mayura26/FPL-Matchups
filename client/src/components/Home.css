@@ -1,14 +1,14 @@
 /* Home.css */
 .logo {
-    display: block; /* Center the logo inside its container */
-    width: 90%;
+    display: block;
+    width: min(90%, 500px);
     margin: auto;
 }
 
 .logo-container {
-    display: flex; /* Use flexbox to center the logo */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .readOnly-input {
@@ -27,6 +27,7 @@
     transition: background-color 0.3s ease;
     font-size: 1em;
 }
+
 .link-btn:hover {
     background-color: var(--btn-hover);
 }

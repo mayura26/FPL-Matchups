@@ -17,3 +17,43 @@
 .league-changes-header {
     background-color: var(--table-header);
 }
+
+.player-in-gt1 {
+    background-color: #ccffccb4;
+    color: black;
+}
+
+.player-in-gt2 {
+    background-color: #99ff99b4;
+    color: black;
+}
+
+.player-in-gt3 {
+    background-color: #66ff66b4;
+    color: black;
+}
+
+.player-in-gt4 {
+    background-color: #33ff33b4;
+    color: black;
+}
+
+.player-out-gt1 {
+    background-color: #f5bcbcb4;
+    color: black;
+}
+
+.player-out-gt2 {
+    background-color: #ff9999b4;
+    color: black;
+}
+
+.player-out-gt3 {
+    background-color: #ff6666b4;
+    color: black;
+}
+
+.player-out-gt4 {
+    background-color: #ff3333b4;
+    color: white;
+}

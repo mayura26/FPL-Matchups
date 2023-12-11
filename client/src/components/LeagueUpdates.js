@@ -120,23 +120,24 @@ function LeagueUpdates() {
                         </thead>
                         <tbody>
                             {leagueChanges.map((change) => (
-                                change.transfers.map((transfer, index) => (
-                                    <tr key={`${change.managerName}-${index}`} className="league-change-row">
-                                        {index === 0 && (
-                                            <>
-                                            {/* FEATURE: Add arrow to show move up or down in rank */}
-                                                <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>{change.managerName}</td>
-                                                <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
-                                                <td rowSpan={change.transfers.length} className="position">{change.position}</td>
-                                            </>
-                                        )}
-                                        {/* TODO: Highlight common players in or out */}
-                                        {/* FEATURE: Add click to bring up player card */}
-                                        {/* FEATURE: Click on person to bring up their team */}
-                                        <td className="player-in">In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m</td>
-                                        <td className="player-out">Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m</td>
-                                    </tr>
-                                ))
+                                change.transfers.map((transfer, index) => {
+                                    return (
+                                        <tr key={`${change.managerName}-${index}`} className="league-change-row">
+                                            {index === 0 && (
+                                                <>
+                                                {/* FEATURE: Add arrow to show move up or down in rank */}
+                                                    <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>{change.managerName}</td>
+                                                    <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
+                                                    <td rowSpan={change.transfers.length} className="position">{change.position}</td>
+                                                </>
+                                            )}
+                                            {/* FEATURE: Add click to bring up player card */}
+                                            {/* FEATURE: Click on person to bring up their team */}
+                                            <td className={`player-in ${transfer.playerIn.transferCount > 4 ? 'player-in-gt4' : transfer.playerIn.transferCount > 3 ? 'player-in-gt3' : transfer.playerIn.transferCount > 2 ? 'player-in-gt2' : transfer.playerIn.transferCount > 1 ? 'player-in-gt1' : ''}`}>In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m</td>
+                                            <td className={`player-out ${transfer.playerOut.transferCount > 4 ? 'player-out-gt4' : transfer.playerOut.transferCount > 3 ? 'player-out-gt3' : transfer.playerOut.transferCount > 2 ? 'player-out-gt2' : transfer.playerOut.transferCount > 1 ? 'player-out-gt1' : ''}`}>Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m</td>
+                                        </tr>
+                                    );
+                                })
                             ))}
                         </tbody>
                     </table>

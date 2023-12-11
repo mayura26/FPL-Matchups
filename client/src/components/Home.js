@@ -104,6 +104,4 @@ const Home = () => {
     );
 };
 
-// FIXME: Add popup for errors
-
 export default Home;

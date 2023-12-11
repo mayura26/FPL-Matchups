@@ -196,7 +196,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
             price: player.now_cost / 10,
             gameWeekScore: gameWeekData ? gameWeekData.total_points : 0,
             playStatus: playedStatus,
-            captainStatus: captainStatus
+            captainStatus: captainStatus,
+            pickPosition: teamResponse.data.picks.find(pick => pick.element === player.id).position
           };
         }));
       }

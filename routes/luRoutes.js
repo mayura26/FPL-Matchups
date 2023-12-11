@@ -56,16 +56,20 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
       const playerTransfers = await Promise.all(transfer.transfers.map(async t => {
         const playerIn = playersInfo.find(p => p.id === t.element_in);
         const playerOut = playersInfo.find(p => p.id === t.element_out);
+        const playerInCount = validTransfersDetails.filter(detail => detail.transfers.some(transfer => transfer.element_in === t.element_in)).length;
+        const playerOutCount = validTransfersDetails.filter(detail => detail.transfers.some(transfer => transfer.element_out === t.element_out)).length;
         return {
           playerIn: {
             name: playerIn.web_name,
             club: dataMap.teams[playerIn.team],
-            value: t.element_in_cost
+            value: t.element_in_cost,
+            transferCount: playerInCount
           },
           playerOut: {
             name: playerOut.web_name,
             club: dataMap.teams[playerOut.team],
-            value: t.element_out_cost
+            value: t.element_out_cost,
+            transferCount: playerOutCount
           }
         };
       }));
