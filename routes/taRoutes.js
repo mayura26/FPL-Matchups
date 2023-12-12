@@ -78,8 +78,11 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                 currentGame: {
                     team: dataMap.teams[currentGame.opponent_team],
                     score: currentGame.total_points,
+                    minutes: currentGame.minutes,
                     xGI: currentGame.expected_goal_involvements,
                     xGC: currentGame.expected_goals_conceded,
+                    xG: currentGame.expected_goals,
+                    xA: currentGame.expected_assists,
                     ICT: currentGame.ict_index,
                     xP: player.ep_this
                 },
@@ -98,6 +101,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                     return {
                         event: game.round,
                         score: `${game.total_points} (${oppositionTeam})`,
+                        minutes: game.minutes,
                         fdr: game.difficulty,
                         xGI: game.expected_goal_involvements,
                         xGC: game.expected_goals_conceded,

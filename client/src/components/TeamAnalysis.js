@@ -106,20 +106,24 @@ export const PlayerCard = ({ player, gamedata }) => {
         <div key={player.name} className="player-frame">
             <div className="player-card-row">
                 <div className="player-name">{player.name}</div>
-                <div className="player-form">F: {player.form}</div>
+                <div className="player-form">Form: {player.form}</div>
                 <div className="player-form">ICT: {player.ICT}</div>
                 <div className="player-price">£{player.cost}</div>
                 <div className="player-team">{player.teamName}</div>
             </div>
             <div className="player-card-row">
-                <div className="player-current-fixture">Live: {player.currentGame.team}</div>
+                <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
                 <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
-                    {player.currentGame.score} [xP: {player.currentGame.xP}]
+                    <div className='player-substat player-points'>{player.currentGame.score}</div>
+                    <div className='player-substat'>xP: {player.currentGame.xP}</div>
                 </div>
                 <div className="player-stats">
-                    {(player.position === 'GKP' || player.position === 'DEF') ?
-                        (`xGC: ${player.currentGame.xGC}` + (player.currentGame.xGI > 0.4 ? `/xGI: ${player.currentGame.xGI}` : `/ICT: ${player.currentGame.ICT}`)) :
-                        `xGI: ${player.currentGame.xGI}/ICT: ${player.currentGame.ICT}`}
+                    <div className="player-substat">xG: {player.currentGame.xG}</div>
+                    <div className="player-substat">xA: {player.currentGame.xA}</div>
+                </div>
+                <div className="player-stats">
+                    <div className="player-substat">xGC: {player.currentGame.xGC}</div>
+                    <div className="player-substat">ICT: {player.currentGame.ICT}</div>
                 </div>
             </div>
             {gamedata.isFinished && (
@@ -141,9 +145,20 @@ export const PlayerCard = ({ player, gamedata }) => {
                 <div className="player-card-row">
                     {player.last5Scores.map((fixture, index) => (
                         <div key={index} className={`player-fixture-details ${showDetails ? 'visible' : ''}`}>
-                            <div>xGI: {fixture.xGI}</div>
-                            <div>xGC: {fixture.xGC}</div>
-                            <div>ICT: {fixture.ICT}</div>
+                            {/* TODO: Show xGi for def and xG/XA for attackers */}
+                            {fixture.minutes > 0 ? (
+                                <>
+                                    <div className={`player-substat ${fixture.xGI < 0.4 ? 'low-substat' : fixture.xGI < 1.0 ? 'medium-substat' : fixture.xGI < 2.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
+                                    <div className={`player-substat ${fixture.xGC < 0.2 ? 'high-high-substat' : fixture.xGC < 0.5 ? 'high-substat' : fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                                    <div className={`player-substat ${fixture.ICT < 5 ? 'low-substat' : fixture.ICT < 10 ? 'medium-substat' : fixture.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {fixture.ICT}</div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="player-substat">DNP</div>
+                                    <div className="player-substat">DNP</div>
+                                    <div className="player-substat">DNP</div>
+                                </>
+                            )}
                         </div>
                     ))}
                 </div>

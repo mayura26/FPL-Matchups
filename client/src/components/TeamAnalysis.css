@@ -181,7 +181,7 @@
 }
 
 .player-stats {
-    flex: 2;
+    flex: 1.5;
 }
 
 .player-upcoming-fixture {
@@ -295,4 +295,35 @@
 .player-fixture-next:nth-child(5) {
     border-radius: 0 0 4px 0;
     border-right: none;
+}
+
+.player-substat {
+    border-bottom: var(--borders) 1px solid;
+}
+
+.player-substat:last-child {
+    border-bottom: none;
+}
+
+.player-live-fixture-opp, .player-points {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.low-substat {
+    background-color: #ffcccc3d;
+}
+
+.medium-substat {
+    background-color: #ffcc663d;
+}
+
+.high-substat {
+    background-color: #ccff997a;
+    color: black;
+}
+
+.high-high-substat {
+    background-color: #99ccff8c;
+    color: black;
 }
