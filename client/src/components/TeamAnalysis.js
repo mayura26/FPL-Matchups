@@ -133,7 +133,7 @@ export const PlayerCard = ({ player, gamedata }) => {
             <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
                 {player.last5Scores.map((fixture, index) => (
                     <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                        {fixture.score}
+                        {fixture.score} GW{fixture.event}
                     </div>
                 ))}
             </div>

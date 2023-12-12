@@ -93,9 +93,10 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                 form: player.form,
                 ICT: player.ict_index,
 
-                last5Scores: playerDetailResponse.data.history.slice(-6, -1).map(game => {
+                last5Scores: playerDetailResponse.data.history.slice(-6, -1).reverse().map(game => {
                     const oppositionTeam = dataMap.teamsShort[dataMap.teams[game.opponent_team]];
                     return {
+                        event: game.round,
                         score: `${game.total_points} (${oppositionTeam})`,
                         fdr: game.difficulty,
                         xGI: game.expected_goal_involvements,
