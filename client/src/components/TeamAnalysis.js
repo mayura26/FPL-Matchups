@@ -13,7 +13,7 @@ function scoreClass(score) {
 
 function TeamAnalysis() {
     const { teamID } = useContext(TeamIDContext);
-    const [gameweek, setGameweek] = useState(null);  // Initialize as null
+    const [gamedata, setGamedata] = useState(null);  // Initialize as null
     const [teamData, setTeamData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -27,7 +27,7 @@ function TeamAnalysis() {
                 if (!data.apiLive) {
                     alert("The FPL API is not live.");
                 } else {
-                    setGameweek(data.data.currentGameweek);
+                    setGamedata(data.data);
                 }
             } catch (error) {
                 alert("Error fetching game data", error);
@@ -41,7 +41,7 @@ function TeamAnalysis() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/api/ta/${teamID}/${gameweek}`);
+                const response = await fetch(`/api/ta/${teamID}/${gamedata.currentGameweek}`);
                 const data = await response.json();
                 if (!data.apiLive) {
                     alert("The FPL API is not live.");
@@ -54,10 +54,10 @@ function TeamAnalysis() {
             }
             setLoading(false);
         };
-        if (gameweek) {
+        if (gamedata) {
             fetchData();
         }
-    }, [gameweek, teamID]);
+    }, [gamedata, teamID]);
 
     return (
         <div className="main-container" data-testid="team-analysis">
@@ -76,8 +76,8 @@ function TeamAnalysis() {
                             </div>
                         </div>
                         <div className="players-data">
-                            <PlayerData players={teamData.playersStarting} benchPlayers={false} />
-                            <PlayerData players={teamData.playersBench} benchPlayers={true} />
+                            <PlayerData players={teamData.playersStarting} benchPlayers={false} gamedata={gamedata} />
+                            <PlayerData players={teamData.playersBench} benchPlayers={true} gamedata={gamedata} />
                         </div>
                     </div>
                 )
@@ -86,51 +86,68 @@ function TeamAnalysis() {
     );
 }
 
-const PlayerData = ({ players, benchPlayers }) => {
+const PlayerData = ({ players, benchPlayers, gamedata }) => {
     return (
         <div>
             <h3 className='team-type-header'>{benchPlayers ? "Bench" : "Starters"}</h3>
             <div className="players-data-set">
                 {/* FEATURE: Click on player to bring up popup to compare with second player of choice. */}
                 {players.map(player => (
-                    <PlayerCard player={player} />
+                    <PlayerCard player={player} gamedata={gamedata} />
                 ))}
             </div>
         </div>
     );
 };
 
-export const PlayerCard = ({ player }) => {
+export const PlayerCard = ({ player, gamedata }) => {
+    const [showDetails, setShowDetails] = useState(false);
     return (
         <div key={player.name} className="player-frame">
             <div className="player-card-row">
                 <div className="player-name">{player.name}</div>
+                <div className="player-form">F: {player.form}</div>
+                <div className="player-form">ICT: {player.ICT}</div>
                 <div className="player-price">£{player.cost}</div>
                 <div className="player-team">{player.teamName}</div>
             </div>
             <div className="player-card-row">
-                {/* TODO: Update this text, depending on whether gameweek is over or not. */}
-                <div className="player-current-fixture">Current Fixture: {player.currentGame.team}</div>
-                {/* TODO: Add expected points next to points */}
-                {/* TODO: Add form and ICT */}
+                <div className="player-current-fixture">Live: {player.currentGame.team}</div>
                 <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
                     {player.currentGame.score} [xP: {player.currentGame.xP}]
                 </div>
                 <div className="player-stats">
-                    {/* BUG: xGi needs to be on next line */}
-                    {(player.position === 'GKP' || player.position === 'DEF') ? (`xGC: ${player.currentGame.xGC}` + (player.currentGame.xGI > 0.4 ? `xGI: ${player.currentGame.xGI}` : '')) : `xGI: ${player.currentGame.xGI}`}
+                    {(player.position === 'GKP' || player.position === 'DEF') ?
+                        (`xGC: ${player.currentGame.xGC}` + (player.currentGame.xGI > 0.4 ? `/xGI: ${player.currentGame.xGI}` : `/ICT: ${player.currentGame.ICT}`)) :
+                        `xGI: ${player.currentGame.xGI}/ICT: ${player.currentGame.ICT}`}
                 </div>
             </div>
+            {gamedata.isFinished && (
+                <div className="player-card-row">
+                    <div className="player-upcoming-fixture">Upcoming: {player.upcomingGame.team}</div>
+                    <div className="player-upcoming-xP">FDR: {player.upcomingGame.fdr}</div>
+                    <div className="player-upcoming-xP">xP: {player.upcomingGame.xP}</div>
+                </div>
+            )}
             <div className="player-card-row-divider"></div>
-            <div className="player-card-row">
+            <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
                 {player.last5Scores.map((fixture, index) => (
                     <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score.split(' ')[0]))}`}>
-                        {/* TODO: Add xGi/xGc next to result as next line*/}
-                        {/* TODO: Add ICT */}
                         {fixture.score}
                     </div>
                 ))}
             </div>
+            {showDetails && (
+                <div className="player-card-row">
+                    {player.last5Scores.map((fixture, index) => (
+                        <div key={index} className={`player-fixture-details ${showDetails ? 'visible' : ''}`}>
+                            <div>xGI: {fixture.xGI}</div>
+                            <div>xGC: {fixture.xGC}</div>
+                            <div>ICT: {fixture.ICT}</div>
+                        </div>
+                    ))}
+                </div>
+            )}
             <div className="player-card-row-divider"></div>
             <div className="player-card-row">
                 {player.next5Fixtures.map((fixture, index) => (

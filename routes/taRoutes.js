@@ -69,6 +69,8 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         return await Promise.all(players.map(async (player) => {
             const playerDetailResponse = await getPlayerData(req, player.id);
             const currentGame = playerDetailResponse.data.history.slice(-1)[0];     
+            const nextGame = playerDetailResponse.data.fixtures[0];     
+            const oppositionNextTeam = nextGame.is_home ? nextGame.team_a : nextGame.team_h;
 
             return {
                 name: player.web_name,
@@ -78,10 +80,18 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                     score: currentGame.total_points,
                     xGI: currentGame.expected_goal_involvements,
                     xGC: currentGame.expected_goals_conceded,
+                    ICT: currentGame.ict_index,
                     xP: player.ep_this
+                },
+                upcomingGame: {
+                    team: `${dataMap.teams[oppositionNextTeam]} ${nextGame.is_home ? '(H)' : '(A)'}`,
+                    fdr: nextGame.difficulty,
+                    xP: player.ep_next
                 },
                 position: dataMap.positions[player.element_type],
                 cost: player.now_cost / 10,
+                form: player.form,
+                ICT: player.ict_index,
 
                 last5Scores: playerDetailResponse.data.history.slice(-6, -1).map(game => {
                     const oppositionTeam = dataMap.teamsShort[dataMap.teams[game.opponent_team]];
@@ -90,13 +100,14 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                         fdr: game.difficulty,
                         xGI: game.expected_goal_involvements,
                         xGC: game.expected_goals_conceded,
+                        ICT: game.ict_index
                     };
                 }),
                 next5Fixtures: playerDetailResponse.data.fixtures.slice(0, 5).map(fix => {
                     const oppositionTeam = fix.is_home ? fix.team_a : fix.team_h;
                     return {
                         event: fix.event,
-                        fixture: dataMap.teamsShort[dataMap.teams[oppositionTeam]],
+                        fixture: `${dataMap.teamsShort[dataMap.teams[oppositionTeam]]} ${fix.is_home ? '(H)' : '(A)'}`,
                         fdr: fix.difficulty
                     };
                 })

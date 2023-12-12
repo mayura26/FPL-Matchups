@@ -186,7 +186,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           } else if (player.id === viceCaptainId) {
             captainStatus = 'VC';
           }
-
+          // TODO: Review autosubs and indicate autosub status for the player.
           // TODO: [HARD] Update gameweek total points to be a summation of all the events that give the score so then bonus can be added. Consider hits when calculating live score
           return {
             id: player.id,

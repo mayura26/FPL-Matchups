@@ -1,4 +1,5 @@
 // FEATURE: Bring up popup on player match up showing player card
+// FEATURE: Show matchups for the coming week
 import React, { useState, useEffect, useContext } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
@@ -244,6 +245,21 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   const player2Class = player2 ? `player ${player2.playStatus} ${player2.captainStatus}` : 'player';
   const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
   const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
+
+  const getSinglePlayerStatus = ({ playerScore }) => {
+    let playerStatus = '';
+    if (playerScore >= 8) {
+      playerStatus = '🏆';
+    } else if (playerScore >= 4) {
+      playerStatus = '✅';
+    } else if (playerScore > 1) {
+      playerStatus = '🟠';
+    } else {
+      playerStatus = '💥';
+    }
+    return playerStatus;
+  }
+
   // Determine the status of the players based on their scores
   let player1Status = player1 ? '' : null;
   let player2Status = player2 ? '' : null;
@@ -259,31 +275,27 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
         player1Status = '🔵'; // Draw
         player2Status = '🔵'; // Draw
       }
+    } else if ((player1.playStatus === 'played' || player1.playStatus === 'playing') && (player2.playStatus === 'unplayed')) {
+      player1Status = getSinglePlayerStatus(player1Score);
+    } else if ((player2.playStatus === 'played' || player2.playStatus === 'playing') && (player1.playStatus === 'unplayed')) {
+      player2Status = getSinglePlayerStatus(player2Score);
     }
   } else if (player1 && !player2) {
     if (player1.playStatus === 'played' || player1.playStatus === 'playing') {
-      if (player1Score >= 8) {
-        player1Status = '🏆';
-      } else if (player1Score >= 4) {
-        player1Status = '✅';
-      } else if (player1Score > 1) {
-        player1Status = '🟠';
-      } else {
-        player1Status = '💥';
-      }
+      player1Status = getSinglePlayerStatus(player1Score);
     }
   } else if (!player1 && player2) {
     if (player2.playStatus === 'played' || player2.playStatus === 'playing') {
-      if (player2Score >= 8) {
-        player2Status = '🏆';
-      } else if (player2Score >= 4) {
-        player2Status = '✅';
-      } else if (player2Score > 1) {
-        player2Status = '🟠';
-      } else {
-        player2Status = '💥';
-      }
+      player2Status = getSinglePlayerStatus(player2Score);
     }
+  }
+
+  if (player1 && player1.playStatus === 'unplayed') {
+    player1Status = '🔻';
+  }
+
+  if (player2 && player2.playStatus === 'unplayed') {
+    player2Status = '🔻';
   }
 
   return (
@@ -335,13 +347,13 @@ const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers,
           <tr><th className='team-type-heading' colSpan={"100%"}>Starting</th></tr>
           <tr>
             <th>Player</th>
-            <th>Position</th>
-            <th>Score</th>
-            <th> </th>
+            <th>Pos.</th>
+            <th>P</th>
+            <th>S</th>
             <th>Player</th>
-            <th>Position</th>
-            <th>Score</th>
-            <th> </th>
+            <th>Pos.</th>
+            <th>P</th>
+            <th>S</th>
           </tr>
         </thead>
         <tbody>
@@ -368,13 +380,13 @@ const MatchupDetailsBench = ({ team1Details, team2Details, hideCommonPlayers, hi
           <tr><th className='team-type-heading' colSpan={"100%"}>Bench</th></tr>
           <tr>
             <th>Player</th>
-            <th>Position</th>
-            <th>Score</th>
-            <th> </th>
+            <th>Pos.</th>
+            <th>P</th>
+            <th>S</th>
             <th>Player</th>
-            <th>Position</th>
-            <th>Score</th>
-            <th> </th>
+            <th>Pos.</th>
+            <th>P</th>
+            <th>S</th>
           </tr>
         </thead>
         <tbody>

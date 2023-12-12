@@ -10,7 +10,6 @@
 
 .matchup-table-container {
     overflow-x: auto;
-    /* Allows horizontal scrolling */
     margin: 10px 0;
 }
 
@@ -104,11 +103,11 @@
 }
 
 .winner {
-    background-color: #4CAF50;
+    background-color: #3a8d3d;
 }
 
 .draw {
-    background-color: #af874c;
+    background-color: #9e7941;
 }
 
 .loser {
@@ -135,7 +134,7 @@
 
 .matchup-container .matchup-details.open {
     max-height: 1000px;
-    /* Adjust as needed */
+    width: 100%;
 }
 
 .hide-btns {
