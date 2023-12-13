@@ -319,11 +319,9 @@
 }
 
 .high-substat {
-    background-color: #ccff997a;
-    color: black;
+    background-color: rgba(75, 136, 13, 0.562);
 }
 
 .high-high-substat {
-    background-color: #99ccffa8;
-    color: black;
+    background-color: rgba(9, 79, 150, 0.726);
 }
