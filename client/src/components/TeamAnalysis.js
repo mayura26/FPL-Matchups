@@ -93,7 +93,7 @@ const PlayerData = ({ players, benchPlayers, gamedata }) => {
             <div className="players-data-set">
                 {/* FEATURE: Click on player to bring up popup to compare with second player of choice. */}
                 {players.map(player => (
-                    <PlayerCard player={player} gamedata={gamedata} />
+                    <PlayerCard key={player.id} player={player} gamedata={gamedata} />
                 ))}
             </div>
         </div>
@@ -148,8 +148,17 @@ export const PlayerCard = ({ player, gamedata }) => {
                             {/* TODO: Show xGi for def and xG/XA for attackers */}
                             {fixture.minutes > 0 ? (
                                 <>
-                                    <div className={`player-substat ${fixture.xGI < 0.4 ? 'low-substat' : fixture.xGI < 1.0 ? 'medium-substat' : fixture.xGI < 2.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
-                                    <div className={`player-substat ${fixture.xGC < 0.2 ? 'high-high-substat' : fixture.xGC < 0.5 ? 'high-substat' : fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                                    {['GKP', 'DEF'].includes(player.position) ? (
+                                        <>
+                                            <div className={`player-substat ${fixture.xGC < 0.2 ? 'high-high-substat' : fixture.xGC < 0.5 ? 'high-substat' : fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                                            <div className={`player-substat ${fixture.xGI < 0.2 ? 'low-substat' : fixture.xGI < 0.4 ? 'medium-substat' : fixture.xGI < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className={`player-substat ${fixture.xG < 0.3 ? 'low-substat' : fixture.xG < 0.6 ? 'medium-substat' : fixture.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {fixture.xG}</div>
+                                            <div className={`player-substat ${fixture.xA < 0.3 ? 'low-substat' : fixture.xA < 0.6 ? 'medium-substat' : fixture.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {fixture.xA}</div>
+                                        </>
+                                    )}
                                     <div className={`player-substat ${fixture.ICT < 5 ? 'low-substat' : fixture.ICT < 10 ? 'medium-substat' : fixture.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {fixture.ICT}</div>
                                 </>
                             ) : (

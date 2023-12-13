@@ -311,11 +311,11 @@
 }
 
 .low-substat {
-    background-color: #ffcccc3d;
+    background-color: #ffcccc33;
 }
 
 .medium-substat {
-    background-color: #ffcc663d;
+    background-color: #ffcc664b;
 }
 
 .high-substat {
@@ -324,6 +324,6 @@
 }
 
 .high-high-substat {
-    background-color: #99ccff8c;
+    background-color: #99ccffa8;
     color: black;
 }

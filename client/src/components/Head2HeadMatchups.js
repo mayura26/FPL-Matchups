@@ -246,7 +246,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
   const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
-  const getSinglePlayerStatus = ({ playerScore }) => {
+  const getSinglePlayerStatus = (playerScore) => {
     let playerStatus = '';
     if (playerScore >= 8) {
       playerStatus = '🏆';

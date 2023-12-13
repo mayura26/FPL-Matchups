@@ -9,7 +9,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         // Fetch general information (players and teams)
         const bootstrapData = await getBootstrapData(req);
         const dataMap = await getMaps(bootstrapData);
-        
+
         // Fetch team details
         const teamResponse = await getTeamGWData(req, teamID, gameweek);
         // First, sort the picks array by position
@@ -59,7 +59,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         };
 
         res.json({ data: responseData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
- 
+
     } catch (error) {
         console.log("Error getting TeamID-GW info");
         console.error(error);
@@ -68,8 +68,8 @@ router.get('/:teamID/:gameweek', async (req, res) => {
     async function getPlayerInfo(players, dataMap) {
         return await Promise.all(players.map(async (player) => {
             const playerDetailResponse = await getPlayerData(req, player.id);
-            const currentGame = playerDetailResponse.data.history.slice(-1)[0];     
-            const nextGame = playerDetailResponse.data.fixtures[0];     
+            const currentGame = playerDetailResponse.data.history.slice(-1)[0];
+            const nextGame = playerDetailResponse.data.fixtures[0];
             const oppositionNextTeam = nextGame.is_home ? nextGame.team_a : nextGame.team_h;
 
             return {
@@ -105,6 +105,8 @@ router.get('/:teamID/:gameweek', async (req, res) => {
                         fdr: game.difficulty,
                         xGI: game.expected_goal_involvements,
                         xGC: game.expected_goals_conceded,
+                        xG: game.expected_goals,
+                        xA: game.expected_assists,
                         ICT: game.ict_index
                     };
                 }),
