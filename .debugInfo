@@ -3,5 +3,5 @@ https://fantasy.premierleague.com/api/event/16/live/
 
 teamID = 948006 https://fantasy.premierleague.com/api/entry/948006/event/16/picks/
 leagueID = 548646 (OH H2H) https://fantasy.premierleague.com/api/leagues-h2h-matches/league/548646/?event=16
-leagueID = 148215 (Justice League)
+leagueID = 148215 (Justice League) https://fantasy.premierleague.com/api/leagues-classic/148215/standings/
 playerID = 355 (Haaland) https://fantasy.premierleague.com/api/element-summary/355/

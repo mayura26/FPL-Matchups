@@ -9,7 +9,6 @@ function scoreClass(score) {
     return 'score-blue';
 }
 
-// FEATURE: Create slim playercard which is player name, fixture, score and stats for that weeks game + last three games
 export const PlayerCard = ({ player, showNextFix }) => {
     const [showDetails, setShowDetails] = useState(false);
     return (

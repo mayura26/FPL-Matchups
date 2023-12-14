@@ -99,7 +99,7 @@ function LeagueUpdates() {
                                     ))}
                                 </select>
                             </div>
-                            <button className='ripple-btn'onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
+                            <button className='ripple-btn' onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                         </div>
                     )}
                 </div>
@@ -125,10 +125,15 @@ function LeagueUpdates() {
                                         <tr key={`${change.managerName}-${index}`} className="league-change-row">
                                             {index === 0 && (
                                                 <>
-                                                {/* FEATURE: Add arrow to show move up or down in rank */}
-                                                    <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>{change.managerName}</td>
+                                                    <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>
+                                                        {change.managerName}
+                                                    </td>
                                                     <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
-                                                    <td rowSpan={change.transfers.length} className="position">{change.position}</td>
+                                                    <td rowSpan={change.transfers.length} className="position">{change.position}
+                                                        {change.rankChange !== 0 && <br></br>}
+                                                        {change.rankChange > 0 && Array.from({ length: change.rankChange }).map((_, i) => <span key={i} className="rank-up">⬆️</span>)}
+                                                        {change.rankChange < 0 && Array.from({ length: Math.abs(change.rankChange) }).map((_, i) => <span key={i} className="rank-down">🔻</span>)}
+                                                    </td>
                                                 </>
                                             )}
                                             {/* FEATURE: Add click to bring up player card */}
