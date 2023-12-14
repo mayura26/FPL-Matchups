@@ -177,6 +177,7 @@ br {
 .ripple-btn {
     background-position: center;
     transition: background 0.5s;
+    cursor: pointer;
 }
 
 .ripple-btn:hover {
@@ -192,6 +193,7 @@ br {
 .ripple-row {
     background-position: center;
     transition: background 0.5s;
+    cursor: pointer;
 }
 
 .ripple-row:hover {
@@ -202,4 +204,28 @@ br {
     background-color: var(--primary);
     background-size: 100%;
     transition: background 0s;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--background); 
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    max-width: 90%; /* Adjust max-width as needed */ 
+}
+
+.modal-content button {
+    margin-left: 9px;
 }

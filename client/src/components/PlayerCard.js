@@ -103,13 +103,13 @@ export const PlayerCardSlim = ({ player }) => {
                 <div className="player-team">{player.teamName}</div>
             </div>
             <div className="player-card-row">
-            <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
+                <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
                 <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
                     <div className='player-substat player-points'>{player.currentGame.score}</div>
                     <div className='player-substat'>xP: {player.currentGame.xP}</div>
                 </div>
-                </div>
-               <div className="player-card-row">
+            </div>
+            <div className="player-card-row">
                 <div className="player-stats">
                     <div className="player-substat">xG: {player.currentGame.xG}</div>
                     <div className="player-substat">xA: {player.currentGame.xA}</div>
@@ -120,9 +120,14 @@ export const PlayerCardSlim = ({ player }) => {
                 </div>
             </div>
             <div className="player-card-row-divider"></div>
+            <div className="player-card-row player-row-topborder">
+                <div className="player-form ">Form: {player.form}</div>
+                <div className="player-form">ICT: {player.ICT}</div>
+            </div>
+            <div className="player-card-row-divider"></div>
             <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
                 {player.last5Scores.slice(0, 3).map((fixture, index) => (
-                    <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score))}`}>
+                    <div key={index} className={`player-fixture ${showDetails ? '' : 'player-row-no-botborder player-fixture-rounded-border'} ${scoreClass(parseInt(fixture.score))}`}>
                         <div>{fixture.score}</div>
                         <div>({fixture.opposition})</div>
                     </div>
@@ -130,8 +135,8 @@ export const PlayerCardSlim = ({ player }) => {
             </div>
             {showDetails && (
                 <div className="player-card-row">
-                    {player.last5Scores.map((fixture, index) => (
-                        <div key={index} className={`player-fixture-details ${showDetails ? 'visible' : ''}`}>
+                    {player.last5Scores.slice(0, 3).map((fixture, index) => (
+                        <div key={index} className={`player-fixture-details  ${showDetails ? 'player-row-no-botborder player-fixture-rounded-border visible' : ''}`}>
                             {fixture.minutes > 0 ? (
                                 <>
                                     {['GKP', 'DEF'].includes(player.position) ? (

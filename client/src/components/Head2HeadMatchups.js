@@ -264,8 +264,8 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
   const player2Class = player2 ? `player ${player2.playStatus} ${player2.captainStatus}` : 'player';
-  const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
-  const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
+  let player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
+  let player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
   const getSinglePlayerStatus = (playerScore) => {
     let playerStatus = '';
@@ -314,13 +314,13 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   if (player1 && (player1.playStatus === 'unplayed' || player1.subStatus === "Out")) {
     player1Status = '🔻';
   } else if (player1 && player1.subStatus === "In") {
-    player1Status += '🔼'
+    player1Name += ' 🔼'
   }
 
   if (player2 && (player2.playStatus === 'unplayed' || player2.subStatus === "Out")) {
     player2Status = '🔻';
   } else if (player2 && player2.subStatus === "In") {
-    player2Status += '🔼'
+    player2Name += ' 🔼'
   }
 
   const handleRowClick = async () => {
@@ -343,7 +343,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
             player2ResponseData = await players2Response.json();
           }
 
-          if ((player1ResponseData.length > 0 && !player1Data.apiLive) || (player2ResponseData.length > 0 && !player2Data.apiLive)) {
+          if ((player1ResponseData.length > 0 && !player1ResponseData.apiLive) || (player2ResponseData.length > 0 && !player2ResponseData.apiLive)) {
             alert("The FPL API is not live.");
           } else {
             if (player1ResponseData.data) {
@@ -372,7 +372,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
       {player1Data && (
         showPlayer1Card ? (
           <td className="player-card-popup" colSpan={4}>
-            <PlayerCardSlim player={player1Data} showNextFix={false} />
+            <PlayerCardSlim player={player1Data} />
           </td>
         ) : (
           <td className="player-card-popup" colSpan={4}></td>

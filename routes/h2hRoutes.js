@@ -140,7 +140,7 @@ router.get('/player-matchup/:playerID', async (req, res) => {
       data: playerInfo, source: bootstrapData.source, apiLive: bootstrapData.apiLive
     });
   } catch (error) {
-    console.log("Error getting TeamID-H2H-Matchup info");
+    console.log("Error getting TeamID-H2H-PlayerMatchup info");
     console.error(error);
   }
 });

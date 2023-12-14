@@ -61,12 +61,14 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
         const playerOutCount = validTransfersDetails.filter(detail => detail.transfers.some(transfer => transfer.element_out === t.element_out)).length;
         return {
           playerIn: {
+            id: playerIn.id,
             name: playerIn.web_name,
             club: dataMap.teams[playerIn.team],
             value: t.element_in_cost,
             transferCount: playerInCount
           },
           playerOut: {
+            id: playerOut.id,
             name: playerOut.web_name,
             club: dataMap.teams[playerOut.team],
             value: t.element_out_cost,

@@ -139,7 +139,7 @@
 }
 
 .player-name {
-    flex: 4;
+    flex: 3.8;
     /* player name might need more space */
     margin: 0;
     font-size: 1.4em;
@@ -148,6 +148,7 @@
     border-top: none;
     border-left: none;
     background-color: var(--primary);
+    border-radius: 4px 0 0 0;
 }
 
 .player-price {
@@ -244,6 +245,22 @@
 .player-live-fixture-opp, .player-points {
     font-weight: bold;
     font-size: 1.1em;
+}
+
+.player-row-topborder {
+    border-top: var(--borders) 1px solid;
+}
+
+.player-row-no-botborder {
+    border-bottom: none;
+}
+
+.player-fixture-rounded-border:nth-child(1) {
+    border-radius: 0 0 0 4px;
+}
+
+.player-fixture-rounded-border:nth-child(3) {
+    border-radius: 0 0 4px 0;
 }
 
 .low-substat {
