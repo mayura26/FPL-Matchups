@@ -1,9 +1,9 @@
-// FEATURE: Bring up popup on player match up showing player card
 // FEATURE: Show matchups for the coming week
 import React, { useState, useEffect, useContext } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
+import { PlayerCardSlim } from './PlayerCard';
 
 const Head2HeadMatchups = () => {
   const { teamID } = useContext(TeamIDContext);
@@ -163,7 +163,15 @@ const Head2HeadMatchups = () => {
                     <tbody>
                       <tr className='ripple-row'>
                         <td className={match.entry_1_livepoints > match.entry_2_livepoints ? 'winner' : (match.entry_1_livepoints === match.entry_2_livepoints ? 'draw' : 'loser')} title={`Team ID: ${match.entry_1_entry}`}>
-                          <span>{match.entry_1_name}</span><span>({match.entry_1_player_name})</span><span>P: {leagueData.managerData[match.entry_1_entry].points} R: {leagueData.managerData[match.entry_1_entry].rank}</span><span>{"[" + leagueData.managerData[match.entry_1_entry].matches_won}-{leagueData.managerData[match.entry_1_entry].matches_drawn}-{leagueData.managerData[match.entry_1_entry].matches_lost + "]"}</span>
+                          {leagueData.managerData[match.entry_1_entry] ? (
+                            <>
+                              <span>{match.entry_1_name}</span><span>({match.entry_1_player_name})</span><span>P: {leagueData.managerData[match.entry_1_entry].points} R: {leagueData.managerData[match.entry_1_entry].rank}</span><span>{"[" + leagueData.managerData[match.entry_1_entry].matches_won}-{leagueData.managerData[match.entry_1_entry].matches_drawn}-{leagueData.managerData[match.entry_1_entry].matches_lost + "]"}</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>{match.entry_1_name}</span><span>({match.entry_1_player_name})</span>
+                            </>
+                          )}
                         </td>
                         <td>
                           {Number(fetchedGameweek) === Number(maxGameweek) ? (
@@ -173,11 +181,21 @@ const Head2HeadMatchups = () => {
                             </>
                           ) :
                             (
-                              <pre>{match.entry_1_points} - {match.entry_2_points}</pre>
+                              <>
+                                <pre>{match.entry_1_points} - {match.entry_2_points}</pre>
+                              </>
                             )}
                         </td>
                         <td className={match.entry_2_livepoints > match.entry_1_livepoints ? 'winner' : (match.entry_1_livepoints === match.entry_2_livepoints ? 'draw' : 'loser')} title={`Team ID: ${match.entry_2_entry}`}>
-                          <span>{match.entry_2_name}</span><span>({match.entry_2_player_name})</span><span>P: {leagueData.managerData[match.entry_2_entry].points} R: {leagueData.managerData[match.entry_2_entry].rank}</span><span>{"[" + leagueData.managerData[match.entry_2_entry].matches_won}-{leagueData.managerData[match.entry_2_entry].matches_drawn}-{leagueData.managerData[match.entry_2_entry].matches_lost + "]"}</span>
+                          {leagueData.managerData[match.entry_2_entry] ? (
+                            <>
+                              <span>{match.entry_2_name}</span><span>({match.entry_2_player_name})</span><span>P: {leagueData.managerData[match.entry_2_entry].points} R: {leagueData.managerData[match.entry_2_entry].rank}</span><span>{"[" + leagueData.managerData[match.entry_2_entry].matches_won}-{leagueData.managerData[match.entry_2_entry].matches_drawn}-{leagueData.managerData[match.entry_2_entry].matches_lost + "]"}</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>{match.entry_2_name}</span><span>({match.entry_2_player_name})</span>
+                            </>
+                          )}
                         </td>
                       </tr>
                     </tbody>
@@ -228,6 +246,11 @@ const Head2HeadMatchups = () => {
 }
 
 const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
+  const [showPlayer1Card, setShowPlayer1Card] = useState(false);
+  const [showPlayer2Card, setShowPlayer2Card] = useState(false);
+  const [player1Data, setPlayer1Data] = useState(null);
+  const [player2Data, setPlayer2Data] = useState(null);
+
   // Hide the row if hideCommon is true and both players are the same (identified by ID)
   if ((hideCommon && player1 && player2 && player1.id === player2.id) ||
     (hidePlayed &&
@@ -237,8 +260,6 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
     return null;
   }
 
-  // FEATURE: Need to have a popup when you click the players name showing minutes played, team they play for points, expected points
-  // TODO: [HARD] Highlight player coming off the bench 
   const player1Score = player1 ? player1.gameWeekScore : '';
   const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
@@ -290,25 +311,99 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
     }
   }
 
-  if (player1 && player1.playStatus === 'unplayed') {
+  if (player1 && (player1.playStatus === 'unplayed' || player1.subStatus === "Out")) {
     player1Status = '🔻';
+  } else if (player1 && player1.subStatus === "In") {
+    player1Status += '🔼'
   }
 
-  if (player2 && player2.playStatus === 'unplayed') {
+  if (player2 && (player2.playStatus === 'unplayed' || player2.subStatus === "Out")) {
     player2Status = '🔻';
+  } else if (player2 && player2.subStatus === "In") {
+    player2Status += '🔼'
   }
+
+  const handleRowClick = async () => {
+    try {
+      if (showPlayer1Card || showPlayer2Card) {
+        setShowPlayer1Card(false);
+        setShowPlayer2Card(false);
+      } else {
+        if (player1 || player2) {
+          let player1ResponseData = [];
+          let player2ResponseData = [];
+
+          if (player1) {
+            const players1Response = await fetch(`/api/h2h/player-matchup/${player1.id}`);
+            player1ResponseData = await players1Response.json();
+          }
+
+          if (player2) {
+            const players2Response = await fetch(`/api/h2h/player-matchup/${player2.id}`);
+            player2ResponseData = await players2Response.json();
+          }
+
+          if ((player1ResponseData.length > 0 && !player1Data.apiLive) || (player2ResponseData.length > 0 && !player2Data.apiLive)) {
+            alert("The FPL API is not live.");
+          } else {
+            if (player1ResponseData.data) {
+              setPlayer1Data(player1ResponseData.data);
+              setShowPlayer1Card(true);
+            } else {
+              setPlayer1Data([]);
+            }
+            if (player2ResponseData.data) {
+              setPlayer2Data(player2ResponseData.data);
+              setShowPlayer2Card(true);
+            } else {
+              setPlayer2Data([]);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      alert("Error fetching player matchup", error);
+      console.error("Error fetching player matchup:", error);
+    }
+  };
+
+  const playerCardPopup = (showPlayer1Card || showPlayer2Card) ? (
+    <>
+      {player1Data && (
+        showPlayer1Card ? (
+          <td className="player-card-popup" colSpan={4}>
+            <PlayerCardSlim player={player1Data} showNextFix={false} />
+          </td>
+        ) : (
+          <td className="player-card-popup" colSpan={4}></td>
+        )
+      )}
+      {player2Data && (
+        showPlayer2Card ? (
+          <td className="player-card-popup" colSpan={4}>
+            <PlayerCardSlim player={player2Data} showNextFix={false} />
+          </td>
+        ) : (
+          <td className="player-card-popup" colSpan={4}></td>
+        )
+      )}
+    </>
+  ) : null;
 
   return (
-    <tr className="player-row ripple-row">
-      <td className={player1Class}>{player1Name}</td>
-      <td className={player1Class}>{player1 ? player1.position : ''}</td>
-      <td className={player1Class}>{player1Score}</td>
-      <td className={player1Class}>{player1Status}</td>
-      <td className={player2Class}>{player2Name}</td>
-      <td className={player2Class}>{player2 ? player2.position : ''}</td>
-      <td className={player2Class}>{player2Score}</td>
-      <td className={player2Class}>{player2Status}</td>
-    </tr>
+    <>
+      <tr className="player-row ripple-row" onClick={handleRowClick}>
+        <td className={player1Class}>{player1Name}</td>
+        <td className={player1Class}>{player1 ? player1.position : ''}</td>
+        <td className={player1Class}>{player1Score}</td>
+        <td className={player1Class}>{player1Status}</td>
+        <td className={player2Class}>{player2Name}</td>
+        <td className={player2Class}>{player2 ? player2.position : ''}</td>
+        <td className={player2Class}>{player2Score}</td>
+        <td className={player2Class}>{player2Status}</td>
+      </tr>
+      <tr>{playerCardPopup}</tr>
+    </>
   );
 };
 
@@ -320,12 +415,21 @@ const PlayerRowBench = ({ player1, player2 }) => {
   const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
   const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
-  // TODO: Update symbol to be an up if they got subbed in, and down if they subbed out
   let player1Status = player1 ? (player1.playStatus === 'unplayed' ? '☠️' : player1.playStatus === 'not-played' ? '' : '➖') : null; // Ready symbol if played, dead symbol if not
   let player2Status = player2 ? (player2.playStatus === 'unplayed' ? '☠️' : player2.playStatus === 'not-played' ? '' : '➖') : null;  // Ready symbol if played, dead symbol if not
+  if (player1 && player1.subStatus === "Out") {
+    player1Status = '🔻';
+  } else if (player1 && player1.subStatus === "In") {
+    player1Status += '🔼';
+  }
 
+  if (player2 && player2.subStatus === "Out") {
+    player2Status = '🔻';
+  } else if (player2 && player2.subStatus === "In") {
+    player2Status += '🔼';
+  }
   return (
-    <tr className="player-row ripple-row">
+    <tr className="player-row">
       <td className={player1Class}>{player1Name}</td>
       <td className={player1Class}>{player1 ? player1.position : ''}</td>
       <td className={player1Class}>{player1Score}</td>

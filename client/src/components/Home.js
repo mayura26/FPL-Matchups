@@ -30,7 +30,6 @@ const Home = () => {
 
     return (
         <div className="main-container">
-            {/*TODO: Update logo to be suitable for matchups */}
             <div className='logo-container'>
                 <img src={logo} alt="FPL Logo" className="logo" />
             </div>
@@ -42,7 +41,7 @@ const Home = () => {
                 <p>Enter your Team ID below and click on top banner to get started</p>
             </div>
             <br></br>
-            <div  className='home-inputs'>
+            <div className='home-inputs'>
                 <div className="input-mainrow">
                     <div className="input-row">
                         <div className="input-container">
@@ -93,7 +92,6 @@ const Home = () => {
                         </div>
                     )}
                     {gameData.data && (
-                        // FIXME: Add check that teamID is valid
                         <Link className='link-btn ripple-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
                     )}
                     {/*FEATURE: Add dropdown for team selection by player name */}

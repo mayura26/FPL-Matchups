@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getBootstrapData } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, checkTeamID } = require('../lib/fplAPIWrapper');
 
 const getGameData = (data) => {
     const currentGameweek = data.events.find(event => event.is_current).id;

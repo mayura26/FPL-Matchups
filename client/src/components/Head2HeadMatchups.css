@@ -135,9 +135,14 @@
 .matchup-container .matchup-details.open {
     max-height: 1000px;
     width: 100%;
+    overflow-y: auto;
 }
 
 .hide-btns {
     display: flex;
     justify-content: space-between;
+}
+
+.player-card-popup {
+    padding: 10px;
 }

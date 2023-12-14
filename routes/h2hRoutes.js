@@ -1,6 +1,7 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData } = require('../lib/fplAPIWrapper');
 const router = express.Router();
+const { getPlayerInfo } = require('../lib/generalFunc');
 
 router.get('/leagues/:teamId', async (req, res) => {
   try {
@@ -20,56 +21,55 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const gameweek = req.params.gameWeek;
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
     const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
+    const gwLive = await getGWLiveData(req, gameweek);
     const calculateTotalPoints = async (req, teamData, gameweek) => {
-      const teamPlayerStartingIDs = teamData.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
-      const captainId = teamData.data.picks.find(pick => pick.is_captain).element;
-      const viceCaptainId = teamData.data.picks.find(pick => pick.is_vice_captain).element;
-      let totalPoints = 0;
-      let captainPlayed = false;
+      if (teamData.data.picks) {
+        const teamPlayerStartingIDs = teamData.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
+        const captainId = teamData.data.picks.find(pick => pick.is_captain).element;
+        const viceCaptainId = teamData.data.picks.find(pick => pick.is_vice_captain).element;
+        let totalPoints = 0;
+        let captainPlayed = false;
 
-      // Get current date/time in UTC
-      const now = new Date();
-      const currentTimeUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-      for (let playerID of teamPlayerStartingIDs) {
-        // FIXME:  Switch to use this API https://fantasy.premierleague.com/api/event/{GW}/live/
-        const playerData = await getPlayerData(req, playerID);
-        const gameWeekData = playerData.data.history.filter(history => history.round == gameweek);
-        let playersPoints = 0;
-        // Allow for double GW
-        for (let match of gameWeekData) {
-          totalPoints += match.total_points;
-        }
+        // Get current date/time in UTC
+        const now = new Date();
+        const currentTimeUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        for (let playerID of teamPlayerStartingIDs) {
+          const playerData = await getPlayerData(req, playerID);
+          const gameWeekData = playerData.data.history.filter(history => history.round == gameweek);
+          const gameWeekLiveData = gwLive.data.elements.find(element => element.id === playerID);
 
-        if (playerID == captainId) {
-          for (let match of gameWeekData) {
-            // Parse the kickoff time as UTC
+          // Allow for double GW
+          totalPoints += gameWeekLiveData.stats.total_points;
+
+          if (playerID == captainId) {
+            let match = gameWeekData[gameWeekData.length - 1];
             const kickoffTimeUTC = new Date(match.kickoff_time).getTime(); // This is already in UTC
             const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
 
+            // Check if the match is the last one in the array
             if (match.minutes == 0 && currentTimeUTC > twoHoursAfterKickoff) {
               captainPlayed = false;
             }
             else {
-              totalPoints += match.total_points;
+              totalPoints += gameWeekLiveData.stats.total_points;
               captainPlayed = true;
             }
           }
         }
-      }
 
-      // If captain didn't play, add vice captain's points
-      if (!captainPlayed) {
-        const viceCaptainData = await getPlayerData(req, viceCaptainId);
-        const viceCaptainGameWeekData = viceCaptainData.data.history.filter(history => history.round == gameweek);
-        for (let match of viceCaptainGameWeekData) {
-          totalPoints += match.total_points;
+        // If captain didn't play, add vice captain's points
+        if (!captainPlayed) {
+          const gameWeekLiveData = gwLive.data.elements.find(element => element.id === viceCaptainId);
+          totalPoints += gameWeekLiveData.stats.total_points;
         }
+
+        // Subtract any penalty points (hits) from the total points
+        totalPoints -= teamData.data.entry_history.event_transfers_cost;
+
+        return totalPoints;
+      } else {
+        return 0;
       }
-
-      // Subtract any penalty points (hits) from the total points
-      totalPoints -= teamData.data.entry_history.event_transfers_cost;
-
-      return totalPoints;
     }
 
     // For each team in the league, get all the players in the person's starting lineup
@@ -127,10 +127,29 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   }
 });
 
+// Endpoint to get player details for two teams
+router.get('/player-matchup/:playerID', async (req, res) => {
+  const { playerID } = req.params;
+
+  try {
+    const bootstrapData = await getBootstrapData(req);
+    const dataMap = await getMaps(bootstrapData);
+    const playerData = bootstrapData.data.elements.find(player => player.id == playerID);
+    const playerInfo = await getPlayerInfo(req, playerData, dataMap);
+    res.json({
+      data: playerInfo, source: bootstrapData.source, apiLive: bootstrapData.apiLive
+    });
+  } catch (error) {
+    console.log("Error getting TeamID-H2H-Matchup info");
+    console.error(error);
+  }
+});
+
 const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
     // Step 1: Fetch general information
     const playersInfo = bootstrapData.data.elements;
+    const gwLive = await getGWLiveData(req, gameweek);
 
     // Helper function to get team details
     const getTeamDetails = async (teamID) => {
@@ -153,18 +172,20 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
       async function getPlayerDetails(players, captainId, viceCaptainId) {
         return await Promise.all(players.map(async (player) => {
           const playerDetailResponse = await getPlayerData(req, player.id);
-          const gameWeekData = playerDetailResponse.data.history.find(history => history.round === gameweek);
+          const gameWeekLiveData = gwLive.data.elements.find(element => element.id === player.id);
+          const gameWeekData = playerDetailResponse.data.history.filter(history => history.round === gameweek);
+          const finalMatch = gameWeekData[gameWeekData.length - 1];
 
           // Get current date/time in UTC
           const now = new Date();
           const currentTimeUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
 
           // Parse the kickoff time as UTC
-          const kickoffTimeUTC = new Date(gameWeekData.kickoff_time).getTime(); // This is already in UTC
+          const kickoffTimeUTC = new Date(finalMatch.kickoff_time).getTime(); // This is already in UTC
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
-          const minutesPlayed = gameWeekData.minutes;
+          const minutesPlayed = finalMatch.minutes;
           let playedStatus;
-          // TODO: [HARD] Create logic for if player is potentially playing but on the bench
+
           if (currentTimeUTC > kickoffTimeUTC) {
             if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
               if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
@@ -186,18 +207,29 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           } else if (player.id === viceCaptainId) {
             captainStatus = 'VC';
           }
-          // TODO: Review autosubs and indicate autosub status for the player.
-          // TODO: [HARD] Update gameweek total points to be a summation of all the events that give the score so then bonus can be added. Consider hits when calculating live score
+
+          // TODO: [HARD] Create logic for if player is potentially playing but on the bench
+          let subStatus = 'N';
+          const subInStatus = teamResponse.data.automatic_subs.find(pick => pick.element_in === player.id);
+          const subOutStatus = teamResponse.data.automatic_subs.find(pick => pick.element_out === player.id);
+          if (subInStatus) {
+            subStatus = 'In';
+          } else if (subOutStatus) {
+            subStatus = 'Out';
+          }
+
+          // TODO: Update score to take into account BPS
           return {
             id: player.id,
             name: player.web_name,
             teamName: dataMap.teams[player.team],
             position: dataMap.positions[player.element_type],
             price: player.now_cost / 10,
-            gameWeekScore: gameWeekData ? gameWeekData.total_points : 0,
+            gameWeekScore: gameWeekLiveData ? gameWeekLiveData.stats.total_points : 0,
             playStatus: playedStatus,
             captainStatus: captainStatus,
-            pickPosition: teamResponse.data.picks.find(pick => pick.element === player.id).position
+            pickPosition: teamResponse.data.picks.find(pick => pick.element === player.id).position,
+            subStatus: subStatus
           };
         }));
       }
