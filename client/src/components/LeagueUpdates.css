@@ -70,17 +70,20 @@
 }
 
 .manager-popup-info h2 {
-    padding: 5px;
+    padding: 5px 10px;
     margin: 0px;
-    border: solid 1px var(--borders);
     background-color: var(--secondary);
 }
 
 .manager-popup-name-info {
-    border: solid 2px var(--borders);
+    border: solid 1px var(--borders);
     background-color: var(--primary50);
     border-radius: 4px;
-    padding: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
 }
 
 .manager-popup-info-btns {

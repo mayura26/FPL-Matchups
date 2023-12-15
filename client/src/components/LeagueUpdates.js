@@ -102,11 +102,15 @@ function LeagueUpdates() {
                 <div className="modal-content">
                     <div className='manager-popup-info'>
                         <div className="manager-popup-name-info">
-                            <h1>{selectedManagerData.managerName}</h1>
-                            <h2>{selectedManagerData.teamName}</h2>
+                            <div>
+                                <h1>{selectedManagerData.managerName}</h1>
+                            </div>
+                            <div>
+                                <h2>{selectedManagerData.teamName}</h2>
+                            </div>
                         </div>
                         <div className='manager-popup-info-btns'>
-                            <button className='ripple-btn' onClick={() => loadManagerSquad(selectedManagerData.teamID)}>Set TeamID to Manager</button>
+                            <button className='ripple-btn' onClick={() => loadManagerSquad(selectedManagerData.teamID)}>Fetch Squad</button>
                             <button onClick={onClose}>Close</button>
                         </div>
                     </div>
@@ -200,7 +204,7 @@ function LeagueUpdates() {
                                                     <>
                                                         <td style={{ wordWrap: "break-word" }}
                                                             rowSpan={change.transfers.length}
-                                                            className="manager-name-table"
+                                                            className="manager-name-table ripple-row"
                                                             title={`Team ID: ${change.teamID}`}
                                                             onClick={() => handleManagerRowClick(change)}>
                                                             {change.managerName}
