@@ -9,7 +9,7 @@ router.get('/team-leagues/:teamId', async (req, res) => {
     const teamID = req.params.teamId;
     const response = await getTeamData(req, teamID);
     // Filter out public leagues
-    const smallLeagues = response.data.leagues.classic.filter(league => (league.entry_can_leave || league.entry_can_admin));
+    const smallLeagues = response.data.leagues.classic.filter(league => (league.league_type !== "s"));
     res.json({ data: smallLeagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
     console.log("Error getting TeamLeagues-TeamID info");

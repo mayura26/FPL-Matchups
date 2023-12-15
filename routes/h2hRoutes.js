@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS } = require('../lib/fplAPIWrapper');
 const router = express.Router();
 const { getPlayerInfo } = require('../lib/generalFunc');
 
@@ -22,6 +22,14 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
     const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
     const gwLive = await getGWLiveData(req, gameweek);
+    const bpsData = await calculateBPS(req);
+    const bootstrapData = await getBootstrapData(req);
+    const playersInfo = bootstrapData.data.elements;
+
+    bpsData.data.forEach(player => {
+      player.name = playersInfo.find(playerI => playerI.id === player.element).web_name;
+    })
+
     const calculateTotalPoints = async (req, teamData, gameweek) => {
       if (teamData.data.picks) {
         const teamPlayerStartingIDs = teamData.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
@@ -38,8 +46,15 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
           const gameWeekData = playerData.data.history.filter(history => history.round == gameweek);
           const gameWeekLiveData = gwLive.data.elements.find(element => element.id === playerID);
 
+          let bonusPoints = 0;
+          const playerBonus = bpsData.data.find(bpsPlayer => bpsPlayer.element === playerID);
+          if (playerBonus) {
+            bonusPoints = playerBonus.bonusPoints;
+          }
+          const gameweekPoints = gameWeekLiveData ? gameWeekLiveData.stats.total_points + bonusPoints : 0;
+
           // Allow for double GW
-          totalPoints += gameWeekLiveData.stats.total_points;
+          totalPoints += gameweekPoints;
 
           if (playerID == captainId) {
             let match = gameWeekData[gameWeekData.length - 1];
@@ -55,6 +70,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
               captainPlayed = true;
             }
           }
+
         }
 
         // If captain didn't play, add vice captain's points
@@ -101,7 +117,8 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     res.json({
       data: {
         results: leagueData.data.results,
-        managerData: managerData
+        managerData: managerData,
+        bpsData: bpsData
       },
       source: leagueData.source,
       apiLive: leagueData.apiLive
@@ -150,6 +167,11 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     // Step 1: Fetch general information
     const playersInfo = bootstrapData.data.elements;
     const gwLive = await getGWLiveData(req, gameweek);
+    const bpsData = await calculateBPS(req);
+
+    bpsData.data.forEach(player => {
+      player.name = playersInfo.find(playerI => playerI.id === player.element).web_name;
+    })
 
     // Helper function to get team details
     const getTeamDetails = async (teamID) => {
@@ -218,17 +240,20 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
             subStatus = 'Out';
           }
 
-          // TODO: Update score to take into account BPS.
-          // Create array of live bonus by checking event status endpoint and pulling back the current day where bonus hasn't been added for this gameweek. with the day i want to pull back all fixtures for that day,
-          // for each fixture in this array, sort BPS and pull out the top 3 BPS. put in array element id and BPS
-          // each player just needs to check this BPS array and add any points
+          let bonusPoints = 0;
+          const playerBonus = bpsData.data.find(bpsPlayer => bpsPlayer.element === player.id);
+          if (playerBonus) {
+            bonusPoints = playerBonus.bonusPoints;
+          }
+          const gameweekPoints = gameWeekLiveData ? gameWeekLiveData.stats.total_points + bonusPoints : 0;
+
           return {
             id: player.id,
             name: player.web_name,
             teamName: dataMap.teams[player.team],
             position: dataMap.positions[player.element_type],
             price: player.now_cost / 10,
-            gameWeekScore: gameWeekLiveData ? gameWeekLiveData.stats.total_points : 0,
+            gameWeekScore: gameweekPoints,
             playStatus: playedStatus,
             captainStatus: captainStatus,
             pickPosition: teamResponse.data.picks.find(pick => pick.element === player.id).position,
@@ -242,7 +267,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     const team1Details = await getTeamDetails(team1Id);
     const team2Details = await getTeamDetails(team2Id);
 
-    return { team1Details, team2Details };
+    return { team1Details, team2Details, bpsData };
   } catch (error) {
     console.error('Error generating matchup data', error);
     throw error;

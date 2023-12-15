@@ -205,43 +205,70 @@ const Head2HeadMatchups = () => {
                     </tbody>
                   </table>
                 </div>
+
                 {selectedMatchupId === match.id && (
                   loadingMatchup ? (
                     <div className="loading-wheel"></div>
                   ) : (
-
                     matchupData && (
-                      <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
-                        <div className='hide-btns'>
-                          <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
-                            {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
-                          </button>
-                          <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
-                            {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
-                          </button>
-                        </div>
-                        {Number(fetchedGameweek) === Number(maxGameweek) && (
-                          <div className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
-                            Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
+                      <>
+                        <div className={`matchup-details ${selectedMatchupId === match.id ? 'open' : ''}`}>
+                          <div className='hide-btns'>
+                            <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
+                              {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
+                            </button>
+                            <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
+                              {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
+                            </button>
                           </div>
-                        )}
-                        <MatchupDetailsStarting
-                          team1Details={matchupData.team1Details.startingPlayers}
-                          team2Details={matchupData.team2Details.startingPlayers}
-                          hideCommonPlayers={hideCommonPlayers}
-                          hidePlayedPlayers={hidePlayedPlayers}
-                        />
-                        <MatchupDetailsBench
-                          team1Details={matchupData.team1Details.benchPlayers}
-                          team2Details={matchupData.team2Details.benchPlayers}
-                          hideCommonPlayers={hideCommonPlayers}
-                          hidePlayedPlayers={hidePlayedPlayers}
-                        />
-                      </div>
+                          {Number(fetchedGameweek) === Number(maxGameweek) && (
+                            <div className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
+                              Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
+                            </div>
+                          )}
+                          <MatchupDetailsStarting
+                            team1Details={matchupData.team1Details.startingPlayers}
+                            team2Details={matchupData.team2Details.startingPlayers}
+                            hideCommonPlayers={hideCommonPlayers}
+                            hidePlayedPlayers={hidePlayedPlayers}
+                          />
+                          <MatchupDetailsBench
+                            team1Details={matchupData.team1Details.benchPlayers}
+                            team2Details={matchupData.team2Details.benchPlayers}
+                            hideCommonPlayers={hideCommonPlayers}
+                            hidePlayedPlayers={hidePlayedPlayers}
+                          />
+                        </div>
+                      </>
                     )
                   ))}
               </div>
             ))}
+            {(Number(fetchedGameweek) === Number(maxGameweek) && leagueData.bpsData.data.length > 0) ? (
+              <div className="bps-data">
+                <h2>BPS Data (Live)</h2>
+                <table className="bps-table info-table">
+                  <thead>
+                    <tr>
+                      <th>Player Name</th>
+                      <th>BPS</th>
+                      <th>Bonus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leagueData.bpsData.data.map((player, index) => (
+                      <tr key={index}>
+                        <td>{player.name}</td>
+                        <td>{player.value}</td>
+                        <td>{player.bonusPoints}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         )
       )}

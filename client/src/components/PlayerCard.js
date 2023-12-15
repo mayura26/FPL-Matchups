@@ -19,6 +19,7 @@ export const PlayerCard = ({ player, showNextFix }) => {
                 <div className="player-form">ICT: {player.ICT}</div>
                 <div className="player-price">£{player.cost}</div>
                 <div className="player-team">{player.teamName}</div>
+                 {/* TODO: Add xgi/p90 & xgc/90 and value form/season*/}
             </div>
             <div className="player-card-row">
                 <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
@@ -125,6 +126,7 @@ export const PlayerCardSlim = ({ player }) => {
                 <div className="player-form ">Form: {player.form}</div>
                 <div className="player-form">ICT: {player.ICT}</div>
             </div>
+            {/* TODO: Add xgi/p90 & xgc/90*/}
             <div className="player-card-row-divider"></div>
             <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
                 {player.last5Scores.slice(0, 3).map((fixture, index) => (
