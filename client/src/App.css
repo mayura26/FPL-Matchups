@@ -34,7 +34,7 @@
   --background: #282c34;
   --primary: #515E63;
   --primary50: #515e6381;
-  --primary50alt: #44647080;
+  --primary50alt: rgba(44, 77, 87, 0.502);
   --secondary: #091a20;
   --secondary50: #091a2081;
   --accent: #61dafb;
