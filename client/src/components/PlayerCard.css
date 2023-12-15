@@ -70,6 +70,12 @@
     width: 300px;
 }
 
+@media screen and (max-width: 320px) {
+    .player-frame {
+        width: 220px;
+    }
+}
+
 .player-card-row {
     display: flex;
     justify-content: space-between;

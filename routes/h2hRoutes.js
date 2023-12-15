@@ -218,7 +218,10 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
             subStatus = 'Out';
           }
 
-          // TODO: Update score to take into account BPS
+          // TODO: Update score to take into account BPS.
+          // Create array of live bonus by checking event status endpoint and pulling back the current day where bonus hasn't been added for this gameweek. with the day i want to pull back all fixtures for that day,
+          // for each fixture in this array, sort BPS and pull out the top 3 BPS. put in array element id and BPS
+          // each player just needs to check this BPS array and add any points
           return {
             id: player.id,
             name: player.web_name,
