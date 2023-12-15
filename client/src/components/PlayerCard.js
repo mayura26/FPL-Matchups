@@ -16,10 +16,24 @@ export const PlayerCard = ({ player, showNextFix }) => {
             <div className="player-card-row">
                 <div className="player-name">{player.name}</div>
                 <div className="player-form">Form: {player.form}</div>
-                <div className="player-form">ICT: {player.ICT}</div>
                 <div className="player-price">£{player.cost}</div>
                 <div className="player-team">{player.teamName}</div>
-                 {/* TODO: Add xgi/p90 & xgc/90 and value form/season*/}
+            </div>
+            <div className="player-card-row">
+                {['GKP', 'DEF'].includes(player.position) ? (
+                    <>
+                        <div className="player-base-stats">ICT: {player.ICT}</div>
+                        <div className='player-base-stats'>xGI/90: {player.xGI90}</div>
+                        <div className='player-base-stats'>xGC/90: {player.xGC90}</div>
+                        <div className='player-base-stats'>CS/90: {player.CS90}</div>
+                    </>
+                ) : (
+                    <>
+                        <div className="player-base-stats">ICT: {player.ICT}</div>
+                        <div className='player-base-stats'>xG/90: {player.xG90}</div>
+                        <div className='player-base-stats'>xA/90: {player.xA90}</div>
+                    </>
+                )}
             </div>
             <div className="player-card-row">
                 <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
@@ -105,6 +119,23 @@ export const PlayerCardSlim = ({ player }) => {
                 <div className="player-team">{player.teamName}</div>
             </div>
             <div className="player-card-row">
+                <div className="player-base-stats">Form: {player.form}</div>
+                <div className="player-base-stats">ICT: {player.ICT}</div>
+            </div>
+            <div className="player-card-row">
+            {['GKP', 'DEF'].includes(player.position) ? (
+                    <>
+                        <div className='player-base-stats'>xGI/90: {player.xGI90}</div>
+                        <div className='player-base-stats'>xGC/90: {player.xGC90}</div>
+                    </>
+                ) : (
+                    <>
+                        <div className='player-base-stats'>xG/90: {player.xG90}</div>
+                        <div className='player-base-stats'>xA/90: {player.xA90}</div>
+                    </>
+                )}
+            </div>
+            <div className="player-card-row">
                 <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
                 <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
                     <div className='player-substat player-points'>{player.currentGame.score}</div>
@@ -122,11 +153,7 @@ export const PlayerCardSlim = ({ player }) => {
                 </div>
             </div>
             <div className="player-card-row-divider"></div>
-            <div className="player-card-row player-row-topborder">
-                <div className="player-form ">Form: {player.form}</div>
-                <div className="player-form">ICT: {player.ICT}</div>
-            </div>
-            {/* TODO: Add xgi/p90 & xgc/90*/}
+ 
             <div className="player-card-row-divider"></div>
             <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
                 {player.last5Scores.slice(0, 3).map((fixture, index) => (

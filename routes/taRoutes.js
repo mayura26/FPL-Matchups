@@ -1,6 +1,6 @@
 const express = require('express');
 const { getBootstrapData, getMaps, getTeamGWData, getTeamData } = require('../lib/fplAPIWrapper');
-const { getPlayerInfo } = require('../lib/generalFunc');
+const { getPlayerInfo } = require('../lib/playerInfo');
 const router = express.Router();
 
 router.get('/:teamID/:gameweek', async (req, res) => {

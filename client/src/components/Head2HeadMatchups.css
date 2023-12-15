@@ -149,6 +149,7 @@
 
 .bps-data {
     border: 1px solid var(--primary);
+    margin-top: 10px;
 }
 
 .bps-data h2 {

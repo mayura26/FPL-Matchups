@@ -1,7 +1,7 @@
 const express = require('express');
 const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS } = require('../lib/fplAPIWrapper');
 const router = express.Router();
-const { getPlayerInfo } = require('../lib/generalFunc');
+const { getPlayerInfo } = require('../lib/playerInfo');
 
 router.get('/leagues/:teamId', async (req, res) => {
   try {
@@ -153,6 +153,7 @@ router.get('/player-matchup/:playerID', async (req, res) => {
     const dataMap = await getMaps(bootstrapData);
     const playerData = bootstrapData.data.elements.find(player => player.id == playerID);
     const playerInfo = await getPlayerInfo(req, playerData, dataMap);
+
     res.json({
       data: playerInfo, source: bootstrapData.source, apiLive: bootstrapData.apiLive
     });
