@@ -23,7 +23,7 @@
     left: 0;
     height: 100%;
     background-color: var(--btn-color);
-    animation: loading 5s linear infinite;
+    animation: loading 10s linear infinite;
 }
 
 @keyframes loading {

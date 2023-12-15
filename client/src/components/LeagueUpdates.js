@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 import { PlayerCard } from './PlayerCard';
 
 function LeagueUpdates() {
-    const { teamID } = useContext(TeamIDContext);
+    const { teamID, updateTeamID } = useContext(TeamIDContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');
@@ -14,7 +15,10 @@ function LeagueUpdates() {
     const [loading, setLoading] = useState(false);
     const [loadingInputs, setLoadingInputs] = useState(true);
     const [playerCardOpen, setPlayerCardOpen] = useState(false);
+    const [managerCardOpen, setManagerCardOpen] = useState(false);
     const [selectedPlayerData, setSelectedPlayerData] = useState([]);
+    const [selectedManagerData, setSelectedManagerData] = useState([]);
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         setLoading(true);
@@ -90,6 +94,32 @@ function LeagueUpdates() {
         );
     };
 
+    const ManagerCardPopup = ({ isOpen, onClose, selectedManagerData }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="modal-overlay">
+                <div className="modal-content">
+                    <div className='manager-popup-info'>
+                        <div className="manager-popup-name-info">
+                            <h1>{selectedManagerData.managerName}</h1>
+                            <h2>{selectedManagerData.teamName}</h2>
+                        </div>
+                        <div className='manager-popup-info-btns'>
+                            <button className='ripple-btn' onClick={() => loadManagerSquad(selectedManagerData.teamID)}>Set TeamID to Manager</button>
+                            <button onClick={onClose}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    const loadManagerSquad = (teamID) => {
+        updateTeamID(teamID);
+        navigate("/team-analysis");
+    }
+
     const handleRowClick = async (playerID) => {
         try {
             const playersResponse = await fetch(`/api/h2h/player-matchup/${playerID}`);
@@ -109,6 +139,11 @@ function LeagueUpdates() {
             alert("Error fetching player matchup", error);
             console.error("Error fetching player matchup:", error);
         }
+    };
+
+    const handleManagerRowClick = async (manager) => {
+        setSelectedManagerData(manager);
+        setManagerCardOpen(true);
     };
 
     return (
@@ -163,19 +198,21 @@ function LeagueUpdates() {
                                             <tr key={`${change.managerName}-${index}`} className="league-change-row">
                                                 {index === 0 && (
                                                     <>
-                                                        <td rowSpan={change.transfers.length} className="manager-name-table" title={`Team ID: ${change.teamID}`}>
+                                                        <td style={{ wordWrap: "break-word" }}
+                                                            rowSpan={change.transfers.length}
+                                                            className="manager-name-table"
+                                                            title={`Team ID: ${change.teamID}`}
+                                                            onClick={() => handleManagerRowClick(change)}>
                                                             {change.managerName}
                                                         </td>
-                                                        <td rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
+                                                        <td style={{ wordWrap: "break-word" }} rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
                                                         <td rowSpan={change.transfers.length} className="position">{change.position}
                                                             {change.rankChange !== 0 && <br></br>}
-                                                            {change.rankChange > 0 && Array.from({ length: change.rankChange }).map((_, i) => <span key={i} className="rank-up">🔼</span>)}
-                                                            {change.rankChange < 0 && Array.from({ length: Math.abs(change.rankChange) }).map((_, i) => <span key={i} className="rank-down">🔻</span>)}
+                                                            {change.rankChange > 0 && (change.rankChange > 4 ? <span className="rank-up">{change.rankChange} 🔼</span> : Array.from({ length: change.rankChange }).map((_, i) => <span key={i} className="rank-up">🔼</span>))}
+                                                            {change.rankChange < 0 && (Math.abs(change.rankChange) > 4 ? <span className="rank-down">{Math.abs(change.rankChange)} 🔻</span> : Array.from({ length: Math.abs(change.rankChange) }).map((_, i) => <span key={i} className="rank-down">🔻</span>))}
                                                         </td>
                                                     </>
                                                 )}
-                                                {/* FEATURE: Add click to bring up player card */}
-                                                {/* FEATURE: Click on person to bring up their team */}
                                                 <td
                                                     className={`player-in ${transfer.playerIn.transferCount > 4 ? 'player-in-gt4' :
                                                         transfer.playerIn.transferCount > 3 ? 'player-in-gt3' :
@@ -205,6 +242,11 @@ function LeagueUpdates() {
                             onClose={() => setPlayerCardOpen(false)}
                             selectedPlayerData={selectedPlayerData}
                         />
+                        <ManagerCardPopup
+                            isOpen={managerCardOpen}
+                            onClose={() => setManagerCardOpen(false)}
+                            selectedManagerData={selectedManagerData}
+                        />
                     </>
                 )
             )}
@@ -213,6 +255,3 @@ function LeagueUpdates() {
 }
 
 export default LeagueUpdates;
-
-
-

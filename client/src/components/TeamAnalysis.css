@@ -66,3 +66,16 @@
     padding: 2px;
     margin: 2px 0 10px 0;
 }
+
+.position-header {
+    text-align: center;
+    background-color: var(--borders);
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.positions-set {
+    border: solid 1px var(--borders);
+    margin: 2px;
+}

@@ -95,7 +95,13 @@ const Home = () => {
                         <Link className='link-btn ripple-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
                     )}
                     {/*FEATURE: Add dropdown for team selection by player name */}
-                    {/*FEATURE: Add go button with option of Example user */}
+                </div>
+                <div className="input-mainrow home-input-second-row">
+                    <div className="input-row">
+                        <div className="input-container">
+                            <button className='ripple-btn' onClick={() => updateTeamID('948006')}>Set to Example User</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

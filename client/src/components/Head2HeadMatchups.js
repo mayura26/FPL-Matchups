@@ -66,11 +66,11 @@ const Head2HeadMatchups = () => {
           } else {
             if (data.data.length > 0) {
               setLeagues(data.data);
-              setLoadingInputs(false);
             } else {
               alert("No leagues found");
               setLeagues([]);
             }
+            setLoadingInputs(false);
           }
         } catch (error) {
           alert("Error fetching league list", error);
@@ -125,30 +125,34 @@ const Head2HeadMatchups = () => {
       {loadingInputs ? (
         <div className="loading-wheel"></div>
       ) : (
-        <div className="input-mainrow">
-          {leagues.length > 0 && (
-            <div className="input-row">
-              <div className="input-container">
-                <label htmlFor="league">Select League:</label>
-                <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
-                  <option value="">Select a league</option>
-                  {leagues.map((league) => (
-                    <option key={league.id} value={league.id}>{league.name}</option>
-                  ))}
-                </select>
+        leagues.length > 0 ? (
+          <div className="input-mainrow">
+            {leagues.length > 0 && (
+              <div className="input-row">
+                <div className="input-container">
+                  <label htmlFor="league">Select League:</label>
+                  <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
+                    <option value="">Select a league</option>
+                    {leagues.map((league) => (
+                      <option key={league.id} value={league.id}>{league.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="input-container">
+                  <label htmlFor="gameweek">Gameweek:</label>
+                  <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
+                    {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
+                      <option key={week} value={week}>GW{week}</option>
+                    ))}
+                  </select>
+                </div>
+                <button className='ripple-btn' onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
               </div>
-              <div className="input-container">
-                <label htmlFor="gameweek">Gameweek:</label>
-                <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                  {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
-                    <option key={week} value={week}>GW{week}</option>
-                  ))}
-                </select>
-              </div>
-              <button className='ripple-btn' onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <></>
+        )
       )}
 
       {loading ? (

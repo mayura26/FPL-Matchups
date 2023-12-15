@@ -151,6 +151,10 @@
     border-radius: 4px 0 0 0;
 }
 
+.player-name-slim {
+    font-size: 1.2em;
+}
+
 .player-price {
     border-top: none;
     border-right: none;

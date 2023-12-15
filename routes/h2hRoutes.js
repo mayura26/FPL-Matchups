@@ -122,7 +122,7 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
     const matchupData = await fetchTeamMatchupData(req, team1Id, team2Id, parseInt(gameweek), bootstrapData, dataMap);
     res.json({ data: matchupData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
   } catch (error) {
-    console.log("Error getting TeamID-H2H-Matchup info");
+    console.log(`Error getting TeamID-H2H-Matchup info. Team1ID: ${team1Id} Team2ID: ${team2Id}`);
     console.error(error);
   }
 });
@@ -140,7 +140,7 @@ router.get('/player-matchup/:playerID', async (req, res) => {
       data: playerInfo, source: bootstrapData.source, apiLive: bootstrapData.apiLive
     });
   } catch (error) {
-    console.log("Error getting TeamID-H2H-PlayerMatchup info");
+    console.log(`Error getting TeamID-H2H-PlayerMatchup info. PlayerID: ${playerID}`);
     console.error(error);
   }
 });

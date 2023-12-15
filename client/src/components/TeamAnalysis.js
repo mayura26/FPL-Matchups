@@ -84,15 +84,40 @@ function TeamAnalysis() {
 }
 
 const PlayerData = ({ players, benchPlayers, gamedata }) => {
+    // Group players by their positions
+    const playersGroupedByPosition = players.reduce((groups, player) => {
+        const position = player.position;
+        if (!groups[position]) {
+            groups[position] = [];
+        }
+        groups[position].push(player);
+        return groups;
+    }, {});
+
     return (
         <div>
             <h3 className='team-type-header'>{benchPlayers ? "Bench" : "Starters"}</h3>
-            <div className="players-data-set">
-                {/* FEATURE: Click on player to bring up popup to compare with second player of choice. */}
-                {players.map(player => (
-                    <PlayerCard key={player.id} player={player} showNextFix={gamedata.isFinshed} />
-                ))}
-            </div>
+            {benchPlayers ? (
+                <div className="players-data-set">
+                    {players.map(player => (
+                        <PlayerCard key={player.id} player={player} showNextFix={gamedata.isFinshed} />
+                    ))}
+                </div>
+            ) : (
+                <div className="players-data-set">
+                    {Object.entries(playersGroupedByPosition).map(([position, players]) => (
+                        <>
+                            
+                            <div className='positions-set' key={position}>
+                            <h4 className='position-header'>{position}</h4>
+                                {players.map(player => (
+                                    <PlayerCard key={player.id} player={player} showNextFix={gamedata.isFinshed} />
+                                ))}
+                            </div>
+                        </>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

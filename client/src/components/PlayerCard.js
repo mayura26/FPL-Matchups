@@ -93,12 +93,13 @@ export const PlayerCard = ({ player, showNextFix }) => {
     );
 }
 
+// FEATURE: Click on playername to bring up popup to compare with second player of choice. 
 export const PlayerCardSlim = ({ player }) => {
     const [showDetails, setShowDetails] = useState(false);
     return (
         <div key={player.name} className="player-frame-slim">
             <div className="player-card-row">
-                <div className="player-name">{player.name}</div>
+                <div className="player-name player-name-slim">{player.name}</div>
                 <div className="player-price">£{player.cost}</div>
                 <div className="player-team">{player.teamName}</div>
             </div>
