@@ -272,7 +272,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
 
           let playedStatus;
-          // FEATURE: Check fixtures and if player not in squad, then set to unplayed.
+          // FEATURE: [4] Check fixtures and if player not in squad, then set to unplayed. If final match = today, and team is in this array of fixturesquads.
           if (currentTimeUTC > kickoffTimeUTC) {
             if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
               if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {

@@ -1,3 +1,6 @@
+// FEATURE: [6] Add livescoreboard
+// FEATURE: [6.5] Add live squad score per players team
+
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';

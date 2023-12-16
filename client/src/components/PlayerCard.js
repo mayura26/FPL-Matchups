@@ -108,7 +108,7 @@ export const PlayerCard = ({ player, showNextFix }) => {
     );
 }
 
-// FEATURE: Click on playername to bring up popup to compare with second player of choice. 
+// FEATURE: [3] Click on playername to bring up popup to compare with second player of choice. 
 export const PlayerCardSlim = ({ player }) => {
     const [showDetails, setShowDetails] = useState(false);
     return (

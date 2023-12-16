@@ -95,7 +95,8 @@ const Home = () => {
                     {gameData.data && (
                         <Link className='link-btn ripple-btn' to={(!teamID || !gameData.data.currentGameweek) ? "#" : "/team-analysis"} style={{ opacity: (gameData.data.currentGameweek && teamID) ? 1 : 0.5, pointerEvents: (!teamID || !gameData.data.currentGameweek) ? "none" : "auto" }}>Fetch Squad</Link>
                     )}
-                    {/*FEATURE: Add dropdown for team selection by player name */}
+                    {/*FEATURE: [5] Add dropdown for team selection by player name 
+                    Need to create an endpoint which can loop through all teamID from say 1 to 10mil and get the playername, team name, teamID. Then we need to store this data offline*/}
                 </div>
                 <div className="input-mainrow home-input-second-row">
                     <div className="input-row">

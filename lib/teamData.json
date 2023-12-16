@@ -1,0 +1,5002 @@
+[
+  {
+    "teamID": 1,
+    "teamName": "The One Who Knocks",
+    "playerName": "Umar Siddique"
+  },
+  {
+    "teamID": 2,
+    "teamName": "Plan FPL",
+    "playerName": "Reece Chown"
+  },
+  {
+    "teamID": 3,
+    "teamName": "Reece's Set Pieces",
+    "playerName": "Mitchell Forster"
+  },
+  {
+    "teamID": 4,
+    "teamName": "ID 4, men Udogie-lig",
+    "playerName": "Nikolai Røinaas"
+  },
+  {
+    "teamID": 5,
+    "teamName": "Willy's Wanderers",
+    "playerName": "William Macnair"
+  },
+  {
+    "teamID": 6,
+    "teamName": "Tangers FC",
+    "playerName": "Kevin McGuire"
+  },
+  {
+    "teamID": 7,
+    "teamName": "Darwin's Theory",
+    "playerName": "Cameron Thompson"
+  },
+  {
+    "teamID": 8,
+    "teamName": "mks_rui",
+    "playerName": "Markus Ruiner"
+  },
+  {
+    "teamID": 9,
+    "teamName": "Gunners XI",
+    "playerName": "Lee Byron"
+  },
+  {
+    "teamID": 10,
+    "teamName": "Toonali",
+    "playerName": "Ben Tomes"
+  },
+  {
+    "teamID": 11,
+    "teamName": "Villa Velour",
+    "playerName": "Harry Gwynne"
+  },
+  {
+    "teamID": 12,
+    "teamName": "The Malouda Triangle",
+    "playerName": "BigMan Bakar"
+  },
+  {
+    "teamID": 13,
+    "teamName": "Better call Saúl",
+    "playerName": "J ."
+  },
+  {
+    "teamID": 14,
+    "teamName": "U dog ie",
+    "playerName": "Ivar Mehl Olsen"
+  },
+  {
+    "teamID": 15,
+    "teamName": "Aimless Wanderers",
+    "playerName": "Sam Holland"
+  },
+  {
+    "teamID": 16,
+    "teamName": "Nancy Boy Shredder",
+    "playerName": "Lee Jackson"
+  },
+  {
+    "teamID": 17,
+    "teamName": "?",
+    "playerName": "anti fpl"
+  },
+  {
+    "teamID": 18,
+    "teamName": "ZarouryTheRacingCar",
+    "playerName": "Joseph Findlay-Bada"
+  },
+  {
+    "teamID": 19,
+    "teamName": "Jurgen Plopp",
+    "playerName": "Alex Ball"
+  },
+  {
+    "teamID": 20,
+    "teamName": "Enzo Fællali",
+    "playerName": "Martin Ellevold"
+  },
+  {
+    "teamID": 21,
+    "teamName": "Havertz Got A Clue",
+    "playerName": "Tom Ashdown"
+  },
+  {
+    "teamID": 22,
+    "teamName": "Howe-ay the Lads",
+    "playerName": "Sean Thompson"
+  },
+  {
+    "teamID": 23,
+    "teamName": "माया फंतास्य को",
+    "playerName": "Sudeep Pokharel"
+  },
+  {
+    "teamID": 24,
+    "teamName": "Hull Vale",
+    "playerName": "Joshua Selby"
+  },
+  {
+    "teamID": 25,
+    "teamName": "Zero Negativity",
+    "playerName": "Jason Curry"
+  },
+  {
+    "teamID": 26,
+    "teamName": "Benni's",
+    "playerName": "Benjamin Våge Nilsen"
+  },
+  {
+    "teamID": 27,
+    "teamName": "Class of 23",
+    "playerName": "David Rees"
+  },
+  {
+    "teamID": 28,
+    "teamName": "Digestive Busquets",
+    "playerName": "Jason Carmody"
+  },
+  {
+    "teamID": 29,
+    "teamName": "Botman and Robin",
+    "playerName": "Robin Van Kleef"
+  },
+  {
+    "teamID": 30,
+    "teamName": "Deleted",
+    "playerName": "Deleted Player"
+  },
+  {
+    "teamID": 31,
+    "teamName": "Ilidža United",
+    "playerName": "Isa Ismaili"
+  },
+  {
+    "teamID": 32,
+    "teamName": "Kulinovi Brothers FC",
+    "playerName": "Georgi Tanovski"
+  },
+  {
+    "teamID": 33,
+    "teamName": "Finding Neco",
+    "playerName": "Chris Bass"
+  },
+  {
+    "teamID": 34,
+    "teamName": "Onana What's My Name",
+    "playerName": "Simon Johansen"
+  },
+  {
+    "teamID": 35,
+    "teamName": "Lallana Airlines",
+    "playerName": "Kristian Eidesvik"
+  },
+  {
+    "teamID": 36,
+    "teamName": "‘",
+    "playerName": "Chris Jenkins"
+  },
+  {
+    "teamID": 37,
+    "teamName": "Of Rice And Men",
+    "playerName": "Felix Leyland"
+  },
+  {
+    "teamID": 38,
+    "teamName": "Pathetico Madrid",
+    "playerName": "Alex Hemmings"
+  },
+  {
+    "teamID": 39,
+    "teamName": "Tea & Busquets",
+    "playerName": "Rawand A"
+  },
+  {
+    "teamID": 40,
+    "teamName": "Cobra Kai",
+    "playerName": "Cameron Scott"
+  },
+  {
+    "teamID": 41,
+    "teamName": "Whelans Wanderers",
+    "playerName": "Matt Whelan"
+  },
+  {
+    "teamID": 42,
+    "teamName": "Haaland of Hope",
+    "playerName": "Steve Hirst"
+  },
+  {
+    "teamID": 43,
+    "teamName": "Pep a Pig",
+    "playerName": "Kato Sumner"
+  },
+  {
+    "teamID": 44,
+    "teamName": "The Differessentials",
+    "playerName": "Alim Amershi"
+  },
+  {
+    "teamID": 45,
+    "teamName": "nkunkumber",
+    "playerName": "Haydss H"
+  },
+  {
+    "teamID": 46,
+    "teamName": "No Kane? Son's Cryin",
+    "playerName": "Will Juniper"
+  },
+  {
+    "teamID": 47,
+    "teamName": "Red Arrows",
+    "playerName": "Jason H"
+  },
+  {
+    "teamID": 48,
+    "teamName": "Positive VARiance",
+    "playerName": "Jacob McLaughlin"
+  },
+  {
+    "teamID": 49,
+    "teamName": "KisScam",
+    "playerName": "Bad K"
+  },
+  {
+    "teamID": 50,
+    "teamName": "Rolls Reus",
+    "playerName": "Nishant Mehta"
+  },
+  {
+    "teamID": 51,
+    "teamName": "TheBosnianBlade",
+    "playerName": "sanjin hazbic"
+  },
+  {
+    "teamID": 52,
+    "teamName": "Pep Gvardiola",
+    "playerName": "Asad Saleem"
+  },
+  {
+    "teamID": 53,
+    "teamName": "Paqueta Crisps",
+    "playerName": "Alex Austin"
+  },
+  {
+    "teamID": 54,
+    "teamName": "Sad Little Life Kane",
+    "playerName": "Ryan Lane"
+  },
+  {
+    "teamID": 55,
+    "teamName": "Beyer Tapestry",
+    "playerName": "Shaun Thorpe"
+  },
+  {
+    "teamID": 56,
+    "teamName": "Top Dier",
+    "playerName": "Fredrik Sether"
+  },
+  {
+    "teamID": 57,
+    "teamName": "Pastel Party FC",
+    "playerName": "Félix-Antoine Desjardins"
+  },
+  {
+    "teamID": 58,
+    "teamName": "Mahmoud in DaHood",
+    "playerName": "Mahmoud Montaser"
+  },
+  {
+    "teamID": 59,
+    "teamName": "Džon Bobi Mikel",
+    "playerName": "Bojan Pavlovic"
+  },
+  {
+    "teamID": 60,
+    "teamName": "Nkunku Nutty Ninjas",
+    "playerName": "Tapriv 😎 🤙"
+  },
+  {
+    "teamID": 61,
+    "teamName": "La Bamba",
+    "playerName": "Markus Nilsson"
+  },
+  {
+    "teamID": 62,
+    "teamName": "Danish Dynamite",
+    "playerName": "Kristian Laursen"
+  },
+  {
+    "teamID": 63,
+    "teamName": "Toon FC",
+    "playerName": "Kittituch Uaprasert"
+  },
+  {
+    "teamID": 64,
+    "teamName": "KEKW",
+    "playerName": "Konstantinos Beglitis"
+  },
+  {
+    "teamID": 65,
+    "teamName": "Alisson Wonderland",
+    "playerName": "Shahzad Yasin"
+  },
+  {
+    "teamID": 66,
+    "teamName": "Come Digne with me",
+    "playerName": "Lucas krokatsis"
+  },
+  {
+    "teamID": 67,
+    "teamName": "Olympique Mayonnaise",
+    "playerName": "Larry McKee"
+  },
+  {
+    "teamID": 68,
+    "teamName": "Spreadsheet FC",
+    "playerName": "Dan Pereira"
+  },
+  {
+    "teamID": 69,
+    "teamName": "Saunders XI",
+    "playerName": "Piran Saunders"
+  },
+  {
+    "teamID": 70,
+    "teamName": "Solami Pirates",
+    "playerName": "Adrian Gonzales"
+  },
+  {
+    "teamID": 71,
+    "teamName": "Clrt Alt De Ligt",
+    "playerName": "Precious Fatoye"
+  },
+  {
+    "teamID": 72,
+    "teamName": "Botman and Rúben",
+    "playerName": "Chris Butcher"
+  },
+  {
+    "teamID": 73,
+    "teamName": "Fosh Joster",
+    "playerName": "Josh Foster"
+  },
+  {
+    "teamID": 74,
+    "teamName": "MacAwoniyi Cheese",
+    "playerName": "Matt S"
+  },
+  {
+    "teamID": 75,
+    "teamName": "Splash Mountain",
+    "playerName": "Michael Beard"
+  },
+  {
+    "teamID": 76,
+    "teamName": "Deja Vu",
+    "playerName": "Changhao Shu"
+  },
+  {
+    "teamID": 77,
+    "teamName": "A Stupid Nan",
+    "playerName": "Connor Gibson"
+  },
+  {
+    "teamID": 78,
+    "teamName": "New Horizon City FC",
+    "playerName": "Minh Quân Trương"
+  },
+  {
+    "teamID": 79,
+    "teamName": "Rubber Digne Rapids",
+    "playerName": "Kalim Davies"
+  },
+  {
+    "teamID": 80,
+    "teamName": "AFC 0 European Cups",
+    "playerName": "Jake O'Flynn"
+  },
+  {
+    "teamID": 81,
+    "teamName": "Ohhhh Moises Caicedo",
+    "playerName": "Dom W"
+  },
+  {
+    "teamID": 82,
+    "teamName": "IbroFC",
+    "playerName": "Ib T"
+  },
+  {
+    "teamID": 83,
+    "teamName": "Kloppenheimer",
+    "playerName": "Christian Trap"
+  },
+  {
+    "teamID": 84,
+    "teamName": "Joshua's team",
+    "playerName": "Joshua ."
+  },
+  {
+    "teamID": 85,
+    "teamName": "God Moder On",
+    "playerName": "Gustaw Nowak"
+  },
+  {
+    "teamID": 86,
+    "teamName": "FC92",
+    "playerName": "Seamus O"
+  },
+  {
+    "teamID": 87,
+    "teamName": "Lei detta spelet",
+    "playerName": "Christoffer Erik Kongsvold"
+  },
+  {
+    "teamID": 88,
+    "teamName": "Air Pickford",
+    "playerName": "Marcel Churý"
+  },
+  {
+    "teamID": 89,
+    "teamName": "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+    "playerName": "Milan Stevanović"
+  },
+  {
+    "teamID": 90,
+    "teamName": "Baba ghanoush",
+    "playerName": "Rohan DSouza"
+  },
+  {
+    "teamID": 91,
+    "teamName": "Onana what's my name",
+    "playerName": "Olly Roberts"
+  },
+  {
+    "teamID": 92,
+    "teamName": "Sheffield Thursday",
+    "playerName": "Lewis Culhane"
+  },
+  {
+    "teamID": 93,
+    "teamName": "Happy to pass",
+    "playerName": "Marta Dąbrowska"
+  },
+  {
+    "teamID": 94,
+    "teamName": "Hitman's Hitters",
+    "playerName": "Adarsh Nair"
+  },
+  {
+    "teamID": 95,
+    "teamName": "Nergaards Disipler",
+    "playerName": "Ask Nergaard"
+  },
+  {
+    "teamID": 96,
+    "teamName": "TMBG",
+    "playerName": "J L"
+  },
+  {
+    "teamID": 97,
+    "teamName": "M",
+    "playerName": "Maxwell Cattermole"
+  },
+  {
+    "teamID": 98,
+    "teamName": "(C)aptain Slabhead",
+    "playerName": "Martin S."
+  },
+  {
+    "teamID": 99,
+    "teamName": "Alfonsos Army",
+    "playerName": "Alfie Greenwood"
+  },
+  {
+    "teamID": 100,
+    "teamName": "Tok",
+    "playerName": "BBsan ♥"
+  },
+  {
+    "teamID": 101,
+    "teamName": "TBC",
+    "playerName": "Oliver Brown"
+  },
+  {
+    "teamID": 102,
+    "teamName": "Pfizer Chiefs",
+    "playerName": "Nick Davies"
+  },
+  {
+    "teamID": 103,
+    "teamName": "Fred Dead Redemption",
+    "playerName": "Leon Greenhalgh"
+  },
+  {
+    "teamID": 104,
+    "teamName": "Jevanzz FC",
+    "playerName": "Josh Evans"
+  },
+  {
+    "teamID": 105,
+    "teamName": "Świry",
+    "playerName": "Mikołaj Ćwirko"
+  },
+  {
+    "teamID": 106,
+    "teamName": "Real Heston",
+    "playerName": "Owen Lloyd"
+  },
+  {
+    "teamID": 107,
+    "teamName": "Always Give Up",
+    "playerName": "Fredrik Lingås"
+  },
+  {
+    "teamID": 108,
+    "teamName": "Mina Girls",
+    "playerName": "John Taudte"
+  },
+  {
+    "teamID": 109,
+    "teamName": ">>>",
+    "playerName": "Jesper Wijk"
+  },
+  {
+    "teamID": 110,
+    "teamName": "Takes Two To Dango",
+    "playerName": "Callum Durow"
+  },
+  {
+    "teamID": 111,
+    "teamName": "Tinners Winners",
+    "playerName": "Jonathan Tingate"
+  },
+  {
+    "teamID": 112,
+    "teamName": "Major League Saka",
+    "playerName": "Mark GK"
+  },
+  {
+    "teamID": 113,
+    "teamName": "Piperooney",
+    "playerName": "Daniel Piper"
+  },
+  {
+    "teamID": 114,
+    "teamName": "Haa Haa Land",
+    "playerName": "Seamas Fallon"
+  },
+  {
+    "teamID": 115,
+    "teamName": "FPL Mayor",
+    "playerName": "Bradley Lyne"
+  },
+  {
+    "teamID": 116,
+    "teamName": "Fazball",
+    "playerName": "Ayman Fazeli"
+  },
+  {
+    "teamID": 117,
+    "teamName": "AimiSound",
+    "playerName": "babak fathi"
+  },
+  {
+    "teamID": 118,
+    "teamName": "HollyGunnarSolskjær",
+    "playerName": "Holly Shand"
+  },
+  {
+    "teamID": 119,
+    "teamName": "Kovin(?) Sakki",
+    "playerName": "Markku Ojala"
+  },
+  {
+    "teamID": 120,
+    "teamName": "KingOfFpl",
+    "playerName": "Anders Gambarini"
+  },
+  {
+    "teamID": 121,
+    "teamName": "Kioskvältarna CF",
+    "playerName": "Viktor Sandberg"
+  },
+  {
+    "teamID": 122,
+    "teamName": "FANTASYA THE SHOW",
+    "playerName": "Theodoros Antoniou"
+  },
+  {
+    "teamID": 123,
+    "teamName": "GlazersOut",
+    "playerName": "Alex Ng"
+  },
+  {
+    "teamID": 124,
+    "teamName": "No Carrefour My Team",
+    "playerName": "Hector Glyn-Jones"
+  },
+  {
+    "teamID": 125,
+    "teamName": "Owls in Towels",
+    "playerName": "Christopher Lo"
+  },
+  {
+    "teamID": 126,
+    "teamName": "DARWIN DARWIN NUNEZ",
+    "playerName": "Elias Hovland"
+  },
+  {
+    "teamID": 127,
+    "teamName": "好堡",
+    "playerName": "李 李"
+  },
+  {
+    "teamID": 128,
+    "teamName": "Bandookdhaari",
+    "playerName": "Neelesh Kapoor"
+  },
+  {
+    "teamID": 129,
+    "teamName": "When Harry Met Alli",
+    "playerName": "Conal Irvine"
+  },
+  {
+    "teamID": 130,
+    "teamName": "koukis",
+    "playerName": "Antti Kosonen"
+  },
+  {
+    "teamID": 131,
+    "teamName": "Mings & Roundabouts",
+    "playerName": "Joe Collins"
+  },
+  {
+    "teamID": 132,
+    "teamName": "SonRise Warriors",
+    "playerName": "Hugo Camavinga"
+  },
+  {
+    "teamID": 133,
+    "teamName": "NoKaneNoGain",
+    "playerName": "Ryan Allen"
+  },
+  {
+    "teamID": 134,
+    "teamName": "Samde Guru FC",
+    "playerName": "Samuel Adelusi"
+  },
+  {
+    "teamID": 135,
+    "teamName": "GTGFC",
+    "playerName": "Per Kristian Leikanger"
+  },
+  {
+    "teamID": 136,
+    "teamName": "ACW Milan",
+    "playerName": "Daniel Brain"
+  },
+  {
+    "teamID": 137,
+    "teamName": "Ivan Toney FGS 11/8",
+    "playerName": "Kris Dunne"
+  },
+  {
+    "teamID": 138,
+    "teamName": "Moneyball*",
+    "playerName": "Krzysztof Z"
+  },
+  {
+    "teamID": 139,
+    "teamName": "Toon Toon",
+    "playerName": "Ashley James"
+  },
+  {
+    "teamID": 140,
+    "teamName": "DT",
+    "playerName": "Damian Tracey"
+  },
+  {
+    "teamID": 141,
+    "teamName": "Air Conditioned FC",
+    "playerName": "James Adams"
+  },
+  {
+    "teamID": 142,
+    "teamName": "Discmaniac",
+    "playerName": "Johannes Husa"
+  },
+  {
+    "teamID": 143,
+    "teamName": "Ndombele Button",
+    "playerName": "Bryan Clarke"
+  },
+  {
+    "teamID": 144,
+    "teamName": "Upstairs Downstairs",
+    "playerName": "Joe Self"
+  },
+  {
+    "teamID": 145,
+    "teamName": "Leuveneers",
+    "playerName": "Kevin Murphy"
+  },
+  {
+    "teamID": 146,
+    "teamName": "Three-O Walcott",
+    "playerName": "Nathan Ashley"
+  },
+  {
+    "teamID": 147,
+    "teamName": "Bee Kind to Mee",
+    "playerName": "@ elevenify"
+  },
+  {
+    "teamID": 148,
+    "teamName": "ba",
+    "playerName": "Andrew Green"
+  },
+  {
+    "teamID": 149,
+    "teamName": "adfc",
+    "playerName": "Patrick Dunton"
+  },
+  {
+    "teamID": 150,
+    "teamName": "Jürgen's Army",
+    "playerName": "Michael Giovanni"
+  },
+  {
+    "teamID": 151,
+    "teamName": "boNG fC",
+    "playerName": "Jerald Wong"
+  },
+  {
+    "teamID": 152,
+    "teamName": "Olympique Marcseille",
+    "playerName": "Marc Burrows"
+  },
+  {
+    "teamID": 153,
+    "teamName": "Better Call Saúl",
+    "playerName": "Matt Capanna"
+  },
+  {
+    "teamID": 154,
+    "teamName": "Party 4-4-2",
+    "playerName": "Caoimhín Laoide-Kemp"
+  },
+  {
+    "teamID": 155,
+    "teamName": "Saving Private Raya",
+    "playerName": "Thorbjørn Borge"
+  },
+  {
+    "teamID": 156,
+    "teamName": "Boys in Dahoud",
+    "playerName": "Ben Bilgili"
+  },
+  {
+    "teamID": 157,
+    "teamName": "RetroHeaven",
+    "playerName": "Ronny Andersen"
+  },
+  {
+    "teamID": 158,
+    "teamName": "Szobolicious",
+    "playerName": "David Williams"
+  },
+  {
+    "teamID": 159,
+    "teamName": "OldHavertzDieHard",
+    "playerName": "Ben O’Brien"
+  },
+  {
+    "teamID": 160,
+    "teamName": "Castolo Peppsy Boyz",
+    "playerName": "Luke Yorke"
+  },
+  {
+    "teamID": 161,
+    "teamName": "Team Team",
+    "playerName": "Lukas Tarabochia"
+  },
+  {
+    "teamID": 162,
+    "teamName": "will fc",
+    "playerName": "Will iam"
+  },
+  {
+    "teamID": 163,
+    "teamName": "Rice Rice Baby",
+    "playerName": "Sean Armstrong"
+  },
+  {
+    "teamID": 164,
+    "teamName": "Wembley FC",
+    "playerName": "Chief Zizu"
+  },
+  {
+    "teamID": 165,
+    "teamName": "LukkhaLog",
+    "playerName": "Akil Kothari"
+  },
+  {
+    "teamID": 166,
+    "teamName": "Deleted",
+    "playerName": "Deleted Player"
+  },
+  {
+    "teamID": 167,
+    "teamName": "MurderOnZidaneFloor",
+    "playerName": "Shamil gillani"
+  },
+  {
+    "teamID": 168,
+    "teamName": "Board FC",
+    "playerName": "RED J"
+  },
+  {
+    "teamID": 169,
+    "teamName": "Onana What's My Name",
+    "playerName": "Jarle-André Almendingen"
+  },
+  {
+    "teamID": 170,
+    "teamName": "Felkarlix",
+    "playerName": "Karl Felix Krafft"
+  },
+  {
+    "teamID": 171,
+    "teamName": "KP Pruszcz Gdański",
+    "playerName": "Wojciech Sobczuk"
+  },
+  {
+    "teamID": 172,
+    "teamName": "Diaby County",
+    "playerName": "Billy Taylor"
+  },
+  {
+    "teamID": 173,
+    "teamName": "I Know Nothing",
+    "playerName": "Siddharth Mohindroo"
+  },
+  {
+    "teamID": 174,
+    "teamName": "I AM THE FPL MONSTER",
+    "playerName": "Amrit Potiwal"
+  },
+  {
+    "teamID": 175,
+    "teamName": "Netflix And Chilwell",
+    "playerName": "Alfie Willingale"
+  },
+  {
+    "teamID": 176,
+    "teamName": "Pep a Pig",
+    "playerName": "Connor Wattam"
+  },
+  {
+    "teamID": 177,
+    "teamName": "VAR Humbug! ☃️",
+    "playerName": "Sam Smith"
+  },
+  {
+    "teamID": 178,
+    "teamName": "FC Tall Boys",
+    "playerName": "Max Wallis"
+  },
+  {
+    "teamID": 179,
+    "teamName": "Shawventus",
+    "playerName": "Liam Shaw"
+  },
+  {
+    "teamID": 180,
+    "teamName": "Can Papi X Put It In",
+    "playerName": "David Chaaya"
+  },
+  {
+    "teamID": 181,
+    "teamName": "Szob Story",
+    "playerName": "Cameron Frederick"
+  },
+  {
+    "teamID": 182,
+    "teamName": "Jonny Boy",
+    "playerName": "Jonathan Syer"
+  },
+  {
+    "teamID": 183,
+    "teamName": "Hatates Over TheSide",
+    "playerName": "Kieran McKenna"
+  },
+  {
+    "teamID": 184,
+    "teamName": "No Kane No Gain",
+    "playerName": "James Watson"
+  },
+  {
+    "teamID": 185,
+    "teamName": "Darwin's Evolution",
+    "playerName": "Martyn Dring"
+  },
+  {
+    "teamID": 186,
+    "teamName": "Back of the Neto",
+    "playerName": "Cairan Colaco"
+  },
+  {
+    "teamID": 187,
+    "teamName": "Born to Dyche",
+    "playerName": "Andrew James"
+  },
+  {
+    "teamID": 188,
+    "teamName": "Kälvesta BK",
+    "playerName": "Simon Wallin"
+  },
+  {
+    "teamID": 189,
+    "teamName": "Jayden Bogle fanclub",
+    "playerName": "Alexander Todd"
+  },
+  {
+    "teamID": 190,
+    "teamName": "Unbelievable Tekkers",
+    "playerName": "Randeep Lalli"
+  },
+  {
+    "teamID": 191,
+    "teamName": "X",
+    "playerName": "Tomuś Brudziński"
+  },
+  {
+    "teamID": 192,
+    "teamName": "Floppenheimer",
+    "playerName": "Sasank Channapragada"
+  },
+  {
+    "teamID": 193,
+    "teamName": "Hoof Hearted FC",
+    "playerName": "Hannes Larsson"
+  },
+  {
+    "teamID": 194,
+    "teamName": "Prough FC",
+    "playerName": "James Prough"
+  },
+  {
+    "teamID": 195,
+    "teamName": "Chewbacca the Wheel",
+    "playerName": "Darren Fox"
+  },
+  {
+    "teamID": 196,
+    "teamName": "xMins FC ⭐️",
+    "playerName": "Anuth Duangmarn"
+  },
+  {
+    "teamID": 197,
+    "teamName": "NikNaks",
+    "playerName": "Nik Matthews"
+  },
+  {
+    "teamID": 198,
+    "teamName": "Smith-RoweYourBoat",
+    "playerName": "Nandish Gorasia"
+  },
+  {
+    "teamID": 199,
+    "teamName": "Why so Serious?⭐️",
+    "playerName": "Mojtaba Altimime"
+  },
+  {
+    "teamID": 200,
+    "teamName": "Szobossla",
+    "playerName": "Murray B"
+  },
+  {
+    "teamID": 201,
+    "teamName": "Not First Furlong",
+    "playerName": "Matthew Furlong"
+  },
+  {
+    "teamID": 202,
+    "teamName": "Første_08",
+    "playerName": "Første_08 💙"
+  },
+  {
+    "teamID": 203,
+    "teamName": "flink bisk",
+    "playerName": "Jarl Anders Ruset Hjelle"
+  },
+  {
+    "teamID": 204,
+    "teamName": "Cash in the Attic",
+    "playerName": "Tom Mountfield"
+  },
+  {
+    "teamID": 205,
+    "teamName": "Fee Fi Foden",
+    "playerName": "Alex Cartwright"
+  },
+  {
+    "teamID": 206,
+    "teamName": "Estupiña Colada",
+    "playerName": "David W"
+  },
+  {
+    "teamID": 207,
+    "teamName": "Reservoir N'Gog's",
+    "playerName": "Josh Meredith"
+  },
+  {
+    "teamID": 208,
+    "teamName": "Heskey Ajax 8★ 2✩",
+    "playerName": "Ben Craig"
+  },
+  {
+    "teamID": 209,
+    "teamName": "Black.Mamba.Cats",
+    "playerName": "Tudor Pana"
+  },
+  {
+    "teamID": 210,
+    "teamName": "Blue Brazil",
+    "playerName": "Stuart Allan"
+  },
+  {
+    "teamID": 211,
+    "teamName": "Perła Radogoszcz",
+    "playerName": "Mateusz Wójcik"
+  },
+  {
+    "teamID": 212,
+    "teamName": "In the 212",
+    "playerName": "Daniel Fleming"
+  },
+  {
+    "teamID": 213,
+    "teamName": "Are you Shaw",
+    "playerName": "Euan Sanderson"
+  },
+  {
+    "teamID": 214,
+    "teamName": "BAYERN BRU",
+    "playerName": "John Leight"
+  },
+  {
+    "teamID": 215,
+    "teamName": "Zinédine Butane",
+    "playerName": "Jonas Rocco Hansen"
+  },
+  {
+    "teamID": 216,
+    "teamName": "المهيب ابو عدي ☆☆☆",
+    "playerName": "Yaseen Taha"
+  },
+  {
+    "teamID": 217,
+    "teamName": "Bierschaaß United",
+    "playerName": "Manuel Vergeiner"
+  },
+  {
+    "teamID": 218,
+    "teamName": "Botman vs. gRoßin",
+    "playerName": "Tauheed Syed"
+  },
+  {
+    "teamID": 219,
+    "teamName": "Savage Ødegaarden",
+    "playerName": "James Savage"
+  },
+  {
+    "teamID": 220,
+    "teamName": "Reus Krispies",
+    "playerName": "Aadam Manan"
+  },
+  {
+    "teamID": 221,
+    "teamName": "Artist KB9",
+    "playerName": "Sayed Mahmood"
+  },
+  {
+    "teamID": 222,
+    "teamName": "Al_kandari123",
+    "playerName": "Ebraheem Alkandari"
+  },
+  {
+    "teamID": 223,
+    "teamName": "Estupiñacolada",
+    "playerName": "Christopher Ingham"
+  },
+  {
+    "teamID": 224,
+    "teamName": "The Redeem Team",
+    "playerName": "Paulius Narkevičius"
+  },
+  {
+    "teamID": 225,
+    "teamName": "Im Sorry Nic Jackson",
+    "playerName": "Michael Agra"
+  },
+  {
+    "teamID": 226,
+    "teamName": "⚽  Wilkinson FC ⚽",
+    "playerName": "Dan Wilkinson"
+  },
+  {
+    "teamID": 227,
+    "teamName": "theWilsonTheBus",
+    "playerName": "Rei Tan"
+  },
+  {
+    "teamID": 228,
+    "teamName": "Hakuna Mateta",
+    "playerName": "Courtney Leanne Sparkes"
+  },
+  {
+    "teamID": 229,
+    "teamName": "asfgasdfsdf",
+    "playerName": "Elliot Han"
+  },
+  {
+    "teamID": 230,
+    "teamName": "FC Barlow",
+    "playerName": "Liam Allen"
+  },
+  {
+    "teamID": 231,
+    "teamName": "Disciples of Geesus",
+    "playerName": "Cameron Gee"
+  },
+  {
+    "teamID": 232,
+    "teamName": "SFC",
+    "playerName": "Sion Evans"
+  },
+  {
+    "teamID": 233,
+    "teamName": "Chaos is a ladder",
+    "playerName": "H a s a n"
+  },
+  {
+    "teamID": 234,
+    "teamName": "That's too Eze",
+    "playerName": "Petter Johansson"
+  },
+  {
+    "teamID": 235,
+    "teamName": "Ilarin joukkue",
+    "playerName": "Ilari Taskinen"
+  },
+  {
+    "teamID": 236,
+    "teamName": "A Letter To Olise",
+    "playerName": "Jake Kennerley"
+  },
+  {
+    "teamID": 237,
+    "teamName": "Salah Bout That Bass",
+    "playerName": "Orin Ferguson"
+  },
+  {
+    "teamID": 238,
+    "teamName": "Schmeichel Jackson",
+    "playerName": "Ahmer Israr"
+  },
+  {
+    "teamID": 239,
+    "teamName": "ippepool",
+    "playerName": "Iiro Lehtiö"
+  },
+  {
+    "teamID": 240,
+    "teamName": "Good Colwill Hunting",
+    "playerName": "Emil Bjørn"
+  },
+  {
+    "teamID": 241,
+    "teamName": "El Dopa",
+    "playerName": "Abdul-Raheem Rafiq"
+  },
+  {
+    "teamID": 242,
+    "teamName": "QuiQonJim",
+    "playerName": "James Gildea"
+  },
+  {
+    "teamID": 243,
+    "teamName": "Eze Money",
+    "playerName": "Abdulrahman Al Luqman"
+  },
+  {
+    "teamID": 244,
+    "teamName": "41.65074 41.63483 XI",
+    "playerName": "Pavel Danchenko"
+  },
+  {
+    "teamID": 245,
+    "teamName": "ㅤ",
+    "playerName": "Phillip Richardson"
+  },
+  {
+    "teamID": 246,
+    "teamName": "Kinder Mbuemo",
+    "playerName": "Joshua 27"
+  },
+  {
+    "teamID": 247,
+    "teamName": "Vote For Pedro Porro",
+    "playerName": "Niklavs Grava"
+  },
+  {
+    "teamID": 248,
+    "teamName": "Milpool FC",
+    "playerName": "Anthony Ede"
+  },
+  {
+    "teamID": 249,
+    "teamName": "Livin’ Lavia Loca",
+    "playerName": "Daniel James"
+  },
+  {
+    "teamID": 250,
+    "teamName": "Mmaee Team",
+    "playerName": "Jack Chappell"
+  },
+  {
+    "teamID": 251,
+    "teamName": "These Charming Men",
+    "playerName": "Rob Ayerst"
+  },
+  {
+    "teamID": 252,
+    "teamName": "The Irish Dancers",
+    "playerName": "Steven Irish"
+  },
+  {
+    "teamID": 253,
+    "teamName": "FC Natho",
+    "playerName": "Nathan C"
+  },
+  {
+    "teamID": 254,
+    "teamName": "Riskuits",
+    "playerName": "Noel Bambrick"
+  },
+  {
+    "teamID": 255,
+    "teamName": "The FPL Prophecy",
+    "playerName": "Robert Hawley"
+  },
+  {
+    "teamID": 256,
+    "teamName": "Not Raskin For Much",
+    "playerName": "Kyle Dawson"
+  },
+  {
+    "teamID": 257,
+    "teamName": "Nitish",
+    "playerName": "Nitish Potti"
+  },
+  {
+    "teamID": 258,
+    "teamName": "Yellow FC",
+    "playerName": "Radek Wojciechowski"
+  },
+  {
+    "teamID": 259,
+    "teamName": "._.",
+    "playerName": "Mothiur Rahman"
+  },
+  {
+    "teamID": 260,
+    "teamName": "Backstreet Moyes",
+    "playerName": "Mark Walker"
+  },
+  {
+    "teamID": 261,
+    "teamName": "Like Kloppwork",
+    "playerName": "Jack Filburn-Main"
+  },
+  {
+    "teamID": 262,
+    "teamName": "Pooventus FC",
+    "playerName": "Lee Pascoe"
+  },
+  {
+    "teamID": 263,
+    "teamName": "The Glory Hunters",
+    "playerName": "Alimpan Barua"
+  },
+  {
+    "teamID": 264,
+    "teamName": "Punter's Paradise",
+    "playerName": "Kerem Aci"
+  },
+  {
+    "teamID": 265,
+    "teamName": "Norfolk & Chance FC",
+    "playerName": "Tom Cunliffe-Whitford"
+  },
+  {
+    "teamID": 266,
+    "teamName": "Eze Come Eze Go",
+    "playerName": "Tom Sargent"
+  },
+  {
+    "teamID": 267,
+    "teamName": "Slide into her CDMs",
+    "playerName": "Andrew Marshall"
+  },
+  {
+    "teamID": 268,
+    "teamName": "The Big Mussel",
+    "playerName": "Ronnie Dey"
+  },
+  {
+    "teamID": 269,
+    "teamName": "São Paulo Wanderers",
+    "playerName": "Karl Simkin"
+  },
+  {
+    "teamID": 270,
+    "teamName": "The Red Force",
+    "playerName": "Sandesh Dahal"
+  },
+  {
+    "teamID": 271,
+    "teamName": "Last Minute Penn",
+    "playerName": "Jade Penn"
+  },
+  {
+    "teamID": 272,
+    "teamName": "A",
+    "playerName": "Ammar Hussain"
+  },
+  {
+    "teamID": 273,
+    "teamName": "My Team",
+    "playerName": "Mickey Williams"
+  },
+  {
+    "teamID": 274,
+    "teamName": "Inferno Blitzers",
+    "playerName": "Youssef Soufi"
+  },
+  {
+    "teamID": 275,
+    "teamName": "Cancelo Culture",
+    "playerName": "Jack Kingston"
+  },
+  {
+    "teamID": 276,
+    "teamName": "Oter",
+    "playerName": "Mathias Wiik"
+  },
+  {
+    "teamID": 277,
+    "teamName": "∆viiz BLuNd€R$®",
+    "playerName": "Aviinesh Kumar"
+  },
+  {
+    "teamID": 278,
+    "teamName": "Ballon d'Awson",
+    "playerName": "Gabe Russell"
+  },
+  {
+    "teamID": 279,
+    "teamName": "Pumped up Klichs",
+    "playerName": "Scott Graham"
+  },
+  {
+    "teamID": 280,
+    "teamName": "Palmer Chameleon",
+    "playerName": "Eddy Hughes"
+  },
+  {
+    "teamID": 281,
+    "teamName": "Hotel? Thiago",
+    "playerName": "Georgina Walsh"
+  },
+  {
+    "teamID": 282,
+    "teamName": "k0kst",
+    "playerName": "Isaac Kok"
+  },
+  {
+    "teamID": 283,
+    "teamName": "Szoboszlad",
+    "playerName": "Marcus Bradshaw"
+  },
+  {
+    "teamID": 284,
+    "teamName": "Saka Potatoes",
+    "playerName": "Oscar Byrne"
+  },
+  {
+    "teamID": 285,
+    "teamName": "Bingolaget",
+    "playerName": "Axel Klingsheim"
+  },
+  {
+    "teamID": 286,
+    "teamName": "Sorry, Nic Jackson",
+    "playerName": "Tim O'Sullivan"
+  },
+  {
+    "teamID": 287,
+    "teamName": "QueenOfAce",
+    "playerName": "Bryan Ong"
+  },
+  {
+    "teamID": 288,
+    "teamName": "Big Man Baker",
+    "playerName": "Mark Baker"
+  },
+  {
+    "teamID": 289,
+    "teamName": "Los Porro Hermanos",
+    "playerName": "Jack Pullan"
+  },
+  {
+    "teamID": 290,
+    "teamName": "Billie Eilish FC",
+    "playerName": "Aaron Lofthouse"
+  },
+  {
+    "teamID": 291,
+    "teamName": "Konsapated",
+    "playerName": "Ryan Dowie"
+  },
+  {
+    "teamID": 292,
+    "teamName": "Super Mavericks FC",
+    "playerName": "Scott Kent"
+  },
+  {
+    "teamID": 293,
+    "teamName": "Kughat",
+    "playerName": "Marko Đukić"
+  },
+  {
+    "teamID": 294,
+    "teamName": "All the small**ings",
+    "playerName": "Joe Campbell"
+  },
+  {
+    "teamID": 295,
+    "teamName": "TEMPO FC",
+    "playerName": "Michael Tempestoso"
+  },
+  {
+    "teamID": 296,
+    "teamName": "In Fod We Trust",
+    "playerName": "James Hodari"
+  },
+  {
+    "teamID": 297,
+    "teamName": "CHART F.C.",
+    "playerName": "Callum Ison"
+  },
+  {
+    "teamID": 298,
+    "teamName": "Inter Stella",
+    "playerName": "Ross Jenkinson"
+  },
+  {
+    "teamID": 299,
+    "teamName": "-.-. ..- -. -",
+    "playerName": "shagaire welsh"
+  },
+  {
+    "teamID": 300,
+    "teamName": "Bad team on paper",
+    "playerName": "Mohamed Adel Awad"
+  },
+  {
+    "teamID": 301,
+    "teamName": "Zokora's All Stars",
+    "playerName": "Alastair Cowper"
+  },
+  {
+    "teamID": 302,
+    "teamName": "Hod Dogs",
+    "playerName": "Jamie Hodson"
+  },
+  {
+    "teamID": 303,
+    "teamName": "BorisGPT's Stars",
+    "playerName": "Boris Voronin"
+  },
+  {
+    "teamID": 304,
+    "teamName": "Rice Rice Baby",
+    "playerName": "FPL Toro"
+  },
+  {
+    "teamID": 305,
+    "teamName": "Dingers Strike Back",
+    "playerName": "Matthew Broomhall"
+  },
+  {
+    "teamID": 306,
+    "teamName": "Thiago's Catalogue",
+    "playerName": "Rich Painter"
+  },
+  {
+    "teamID": 307,
+    "teamName": "PREM TIPSTER ⭐",
+    "playerName": "Prem Tipster"
+  },
+  {
+    "teamID": 308,
+    "teamName": "Kloppenheimer",
+    "playerName": "Conrad Dragan"
+  },
+  {
+    "teamID": 309,
+    "teamName": "Murphy's Law",
+    "playerName": "Paavo Eerola"
+  },
+  {
+    "teamID": 310,
+    "teamName": "El Loco XI",
+    "playerName": "Sean M"
+  },
+  {
+    "teamID": 311,
+    "teamName": "BigAsGiroud",
+    "playerName": "大 吉鲁"
+  },
+  {
+    "teamID": 312,
+    "teamName": "Yes Don",
+    "playerName": "Dan McCormack"
+  },
+  {
+    "teamID": 313,
+    "teamName": "1Hit Is All It Takes",
+    "playerName": "Melissa Laws"
+  },
+  {
+    "teamID": 314,
+    "teamName": "The Saliban",
+    "playerName": "Mike Molyneux"
+  },
+  {
+    "teamID": 315,
+    "teamName": "Mattsfield Town",
+    "playerName": "Matt Hitches"
+  },
+  {
+    "teamID": 316,
+    "teamName": "Finding Timo FC",
+    "playerName": "Gregor Booth"
+  },
+  {
+    "teamID": 317,
+    "teamName": "Farke-A-Doodle-Doo",
+    "playerName": "Fergus Collins"
+  },
+  {
+    "teamID": 318,
+    "teamName": "United Again",
+    "playerName": "Harshdeep Singh"
+  },
+  {
+    "teamID": 319,
+    "teamName": "Im sorry Nic Jackson",
+    "playerName": "Jacob May"
+  },
+  {
+    "teamID": 320,
+    "teamName": "Al-Chelsea",
+    "playerName": "Chinedu Decker"
+  },
+  {
+    "teamID": 321,
+    "teamName": "Jung and Restless",
+    "playerName": "Divine Precious"
+  },
+  {
+    "teamID": 322,
+    "teamName": "wolej",
+    "playerName": "franek Gulczynsk"
+  },
+  {
+    "teamID": 323,
+    "teamName": "Kaiser Permounkante",
+    "playerName": "Rồng Lùi"
+  },
+  {
+    "teamID": 324,
+    "teamName": "Rice bez kurXhaka",
+    "playerName": "Michał Maćkowiak"
+  },
+  {
+    "teamID": 325,
+    "teamName": "khiari",
+    "playerName": "Ali Abedini"
+  },
+  {
+    "teamID": 326,
+    "teamName": "WakaWakaEggsNBissaka",
+    "playerName": "Eoghan O'Brien"
+  },
+  {
+    "teamID": 327,
+    "teamName": "Rice Spice",
+    "playerName": "Anish Bharatrajan"
+  },
+  {
+    "teamID": 328,
+    "teamName": "Onana what's my name",
+    "playerName": "Tom Rowe"
+  },
+  {
+    "teamID": 329,
+    "teamName": "seventypercentcacao",
+    "playerName": "Abdul Hafeez Abdul Ghani"
+  },
+  {
+    "teamID": 330,
+    "teamName": "Bulls on Parade",
+    "playerName": "Jonas C"
+  },
+  {
+    "teamID": 331,
+    "teamName": "FFP",
+    "playerName": "Fantasy Football Pundit"
+  },
+  {
+    "teamID": 332,
+    "teamName": "Pasado de Moda",
+    "playerName": "Tom Ruzyllo"
+  },
+  {
+    "teamID": 333,
+    "teamName": "Kloppenheimer",
+    "playerName": "Jack Hopperton"
+  },
+  {
+    "teamID": 334,
+    "teamName": "Saka Potatoes",
+    "playerName": "Josh Smile"
+  },
+  {
+    "teamID": 335,
+    "teamName": "Shiver Mee Timbers",
+    "playerName": "Oscar Searl"
+  },
+  {
+    "teamID": 336,
+    "teamName": "Dembo FC",
+    "playerName": "Jacob Lindberg"
+  },
+  {
+    "teamID": 337,
+    "teamName": "[VFPL]. DARK",
+    "playerName": "Mr. LNMD"
+  },
+  {
+    "teamID": 338,
+    "teamName": "Hits&Chips",
+    "playerName": "Håvard Barøy"
+  },
+  {
+    "teamID": 339,
+    "teamName": "Bronkarna",
+    "playerName": "Jimmy Hellström"
+  },
+  {
+    "teamID": 340,
+    "teamName": "Viva Ronaldo",
+    "playerName": "( Abdullah Ahmed )"
+  },
+  {
+    "teamID": 341,
+    "teamName": "kinder mbeumo",
+    "playerName": "Finn Simpson"
+  },
+  {
+    "teamID": 342,
+    "teamName": "Moulton Wanderers",
+    "playerName": "James Richards"
+  },
+  {
+    "teamID": 343,
+    "teamName": "Kinder Mbeumo",
+    "playerName": "Sam McGreevy"
+  },
+  {
+    "teamID": 344,
+    "teamName": "All good in Dahoud",
+    "playerName": "Ross Morey"
+  },
+  {
+    "teamID": 345,
+    "teamName": "Reece's Pieces",
+    "playerName": "Tor Even Pettersen"
+  },
+  {
+    "teamID": 346,
+    "teamName": "Real Mottrid",
+    "playerName": "Rob Mottram"
+  },
+  {
+    "teamID": 347,
+    "teamName": "The Cesc Pistols",
+    "playerName": "Peter Daniels"
+  },
+  {
+    "teamID": 348,
+    "teamName": "Wingradium Larveeosa",
+    "playerName": "Wei Jing Ooi"
+  },
+  {
+    "teamID": 349,
+    "teamName": "Dunk’n Donuts",
+    "playerName": "Eric Shaun"
+  },
+  {
+    "teamID": 350,
+    "teamName": "kitch",
+    "playerName": "Richard Kitching"
+  },
+  {
+    "teamID": 351,
+    "teamName": "Ange Jol",
+    "playerName": "Leif Inge Ramsdal"
+  },
+  {
+    "teamID": 352,
+    "teamName": "KDBinho",
+    "playerName": "Adnan Hajrulahovič"
+  },
+  {
+    "teamID": 353,
+    "teamName": "Team USMH",
+    "playerName": "Oussama Brihmat"
+  },
+  {
+    "teamID": 354,
+    "teamName": "POOM FC",
+    "playerName": "Thanapoom Kittipimpanon"
+  },
+  {
+    "teamID": 355,
+    "teamName": "Least Van",
+    "playerName": "Parry Malm"
+  },
+  {
+    "teamID": 356,
+    "teamName": "Fenway Saudi Group",
+    "playerName": "Thomas Mæland"
+  },
+  {
+    "teamID": 357,
+    "teamName": "Szob Story",
+    "playerName": "Jamie Baker"
+  },
+  {
+    "teamID": 358,
+    "teamName": "Attock Athletic",
+    "playerName": "Abdul Rehman"
+  },
+  {
+    "teamID": 359,
+    "teamName": "@Schadenfreud1st",
+    "playerName": "JD K"
+  },
+  {
+    "teamID": 360,
+    "teamName": "Polska �",
+    "playerName": "michal laskiewicz"
+  },
+  {
+    "teamID": 361,
+    "teamName": "On Holiday in Saudi",
+    "playerName": "Sean Pinnington"
+  },
+  {
+    "teamID": 362,
+    "teamName": "ChunderDog",
+    "playerName": "George Falvey"
+  },
+  {
+    "teamID": 363,
+    "teamName": "Sneaky Pete",
+    "playerName": "Atticus Finch"
+  },
+  {
+    "teamID": 364,
+    "teamName": "I Jota Go",
+    "playerName": "Nathan Bentley"
+  },
+  {
+    "teamID": 365,
+    "teamName": "Frenchy XI",
+    "playerName": "Frenchy FPL"
+  },
+  {
+    "teamID": 366,
+    "teamName": "147 Elite",
+    "playerName": "Adam Finn-Campbell"
+  },
+  {
+    "teamID": 367,
+    "teamName": "Mike Bassett XI",
+    "playerName": "FPL Partridge"
+  },
+  {
+    "teamID": 368,
+    "teamName": "SuperSaddlers 2nd XI",
+    "playerName": "Josh Rudge"
+  },
+  {
+    "teamID": 369,
+    "teamName": "Vandelay Industries",
+    "playerName": "Christopher Brennan"
+  },
+  {
+    "teamID": 370,
+    "teamName": "Herro Ball",
+    "playerName": "Dinko Bracanov"
+  },
+  {
+    "teamID": 371,
+    "teamName": "Szoboslayy",
+    "playerName": "Petter Medbø"
+  },
+  {
+    "teamID": 372,
+    "teamName": "Butters",
+    "playerName": "Yuen Hei Ko"
+  },
+  {
+    "teamID": 373,
+    "teamName": "InciVinci",
+    "playerName": "Kunaal Ahuja"
+  },
+  {
+    "teamID": 374,
+    "teamName": "Numero Uno",
+    "playerName": "Jonny Murphy"
+  },
+  {
+    "teamID": 375,
+    "teamName": "Ping FC",
+    "playerName": "Possathorn Surapongrukcharoen"
+  },
+  {
+    "teamID": 376,
+    "teamName": "Teach Me How Udogie",
+    "playerName": "Antoine Pigeon"
+  },
+  {
+    "teamID": 377,
+    "teamName": "HojlundEze Sauce",
+    "playerName": "André Shenoizy"
+  },
+  {
+    "teamID": 378,
+    "teamName": ".",
+    "playerName": "Kristian Dragolov"
+  },
+  {
+    "teamID": 379,
+    "teamName": "Stranger Mings",
+    "playerName": "Tim Brown"
+  },
+  {
+    "teamID": 380,
+    "teamName": "White Rice",
+    "playerName": "Mizanur Rahman"
+  },
+  {
+    "teamID": 381,
+    "teamName": "m1st3ry",
+    "playerName": "Nemanja Vignjevic"
+  },
+  {
+    "teamID": 382,
+    "teamName": "Onana What's My Name",
+    "playerName": "Alex Bennett"
+  },
+  {
+    "teamID": 383,
+    "teamName": "Berkaluring",
+    "playerName": "Andreas Blackne"
+  },
+  {
+    "teamID": 384,
+    "teamName": "Haalalaland FC",
+    "playerName": "Konstantinos Tsioleridis"
+  },
+  {
+    "teamID": 385,
+    "teamName": "The Bings",
+    "playerName": "Salman Fayyazi"
+  },
+  {
+    "teamID": 386,
+    "teamName": "Malencia",
+    "playerName": "Daniel Mallory"
+  },
+  {
+    "teamID": 387,
+    "teamName": "Team Name Goes Here",
+    "playerName": "Andy LTFPL"
+  },
+  {
+    "teamID": 388,
+    "teamName": "Show Me The Mané",
+    "playerName": "Matt Heldt"
+  },
+  {
+    "teamID": 389,
+    "teamName": "⚽️BF24⚽️",
+    "playerName": "Barry Flynn"
+  },
+  {
+    "teamID": 390,
+    "teamName": "For All Those Miles",
+    "playerName": "Matteo Fiorindi"
+  },
+  {
+    "teamID": 391,
+    "teamName": "EnterKais RentASchär",
+    "playerName": "Ben Fisher"
+  },
+  {
+    "teamID": 392,
+    "teamName": "Pep a Pig",
+    "playerName": "Harry Sumner"
+  },
+  {
+    "teamID": 393,
+    "teamName": "ABCDEFC",
+    "playerName": "Amrik Gill"
+  },
+  {
+    "teamID": 394,
+    "teamName": "Jøhny's Giants",
+    "playerName": "John Lambert"
+  },
+  {
+    "teamID": 395,
+    "teamName": "Tantamount 2 Tinton",
+    "playerName": "Edward Tinton"
+  },
+  {
+    "teamID": 396,
+    "teamName": "DELA™ FC",
+    "playerName": "De Lam Hoang"
+  },
+  {
+    "teamID": 397,
+    "teamName": "Olympique Leopold II",
+    "playerName": "Lewis Griffiths"
+  },
+  {
+    "teamID": 398,
+    "teamName": "Gangster’s Allardyce",
+    "playerName": "Richard Lewis"
+  },
+  {
+    "teamID": 399,
+    "teamName": "Artetaball",
+    "playerName": "George Pîrcălabu"
+  },
+  {
+    "teamID": 400,
+    "teamName": "Bayer Neverlusen",
+    "playerName": "Brett Woods"
+  },
+  {
+    "teamID": 401,
+    "teamName": "MrFormo",
+    "playerName": "Arild Formo"
+  },
+  {
+    "teamID": 402,
+    "teamName": "Ha la land",
+    "playerName": "Katie Chapman-Cutler"
+  },
+  {
+    "teamID": 403,
+    "teamName": "TheHungryMen",
+    "playerName": "Valentin Dimitrov"
+  },
+  {
+    "teamID": 404,
+    "teamName": "error 404",
+    "playerName": "Piotr Frasiński"
+  },
+  {
+    "teamID": 405,
+    "teamName": "Reece's Set Pieces",
+    "playerName": "Jake Russell"
+  },
+  {
+    "teamID": 406,
+    "teamName": "General John Stones",
+    "playerName": "Jake Sumbland"
+  },
+  {
+    "teamID": 407,
+    "teamName": "Antony from up there",
+    "playerName": "James Proctor"
+  },
+  {
+    "teamID": 408,
+    "teamName": "Cru Alexander",
+    "playerName": "Alex Cruden"
+  },
+  {
+    "teamID": 409,
+    "teamName": "Bili",
+    "playerName": "Stefan Vasiljevic"
+  },
+  {
+    "teamID": 410,
+    "teamName": "Cobra Kai",
+    "playerName": "Luke Howson"
+  },
+  {
+    "teamID": 411,
+    "teamName": "Saanchos",
+    "playerName": "Przemysław Malaca"
+  },
+  {
+    "teamID": 412,
+    "teamName": "Nakamba Forever",
+    "playerName": "Alan Kelly"
+  },
+  {
+    "teamID": 413,
+    "teamName": "LGFC",
+    "playerName": "Luke Gardner"
+  },
+  {
+    "teamID": 414,
+    "teamName": "999",
+    "playerName": "Nikola Ivanovski"
+  },
+  {
+    "teamID": 415,
+    "teamName": "haha lol",
+    "playerName": "Dino ­"
+  },
+  {
+    "teamID": 416,
+    "teamName": "Spela Shawline",
+    "playerName": "Daniel Andersson"
+  },
+  {
+    "teamID": 417,
+    "teamName": "Salaland",
+    "playerName": "Karam Tayseer"
+  },
+  {
+    "teamID": 418,
+    "teamName": "Grounderz",
+    "playerName": "Joel Lim"
+  },
+  {
+    "teamID": 419,
+    "teamName": "Sivberski",
+    "playerName": "Alexander von Sivers"
+  },
+  {
+    "teamID": 420,
+    "teamName": "FC Bazalona",
+    "playerName": "Baz Robinson"
+  },
+  {
+    "teamID": 421,
+    "teamName": "Diamond Dogs",
+    "playerName": "Seth Jones"
+  },
+  {
+    "teamID": 422,
+    "teamName": "Saka Potatoes",
+    "playerName": "Anthony Needs"
+  },
+  {
+    "teamID": 423,
+    "teamName": "Udogie 5tyle",
+    "playerName": "Ayush Panchal"
+  },
+  {
+    "teamID": 424,
+    "teamName": "Truly Chadli Deeply",
+    "playerName": "Sam Brown"
+  },
+  {
+    "teamID": 425,
+    "teamName": "Bauhinia",
+    "playerName": "Andrew Liu"
+  },
+  {
+    "teamID": 426,
+    "teamName": "Kai Kai Fish",
+    "playerName": "IJ Kunwor"
+  },
+  {
+    "teamID": 427,
+    "teamName": "Enby",
+    "playerName": "Amirul Nizam"
+  },
+  {
+    "teamID": 428,
+    "teamName": "Kdb17",
+    "playerName": "Marios Sarlidis"
+  },
+  {
+    "teamID": 429,
+    "teamName": "Sun Jihai 17",
+    "playerName": "hUgo tang"
+  },
+  {
+    "teamID": 430,
+    "teamName": "Redemption",
+    "playerName": "Sreeraj Sreekumar"
+  },
+  {
+    "teamID": 431,
+    "teamName": "Golden XI",
+    "playerName": "Chris Hyman"
+  },
+  {
+    "teamID": 432,
+    "teamName": "My Little Toney",
+    "playerName": "Petur Arnason"
+  },
+  {
+    "teamID": 433,
+    "teamName": "Chupapi Semenyo",
+    "playerName": "XJ Yan"
+  },
+  {
+    "teamID": 434,
+    "teamName": "MoneyMase7",
+    "playerName": "Kieran Bakhtiari"
+  },
+  {
+    "teamID": 435,
+    "teamName": "SlamDunk",
+    "playerName": "Sivert Spigseth"
+  },
+  {
+    "teamID": 436,
+    "teamName": "Drewe Attlexandra",
+    "playerName": "Sean Dreweatt"
+  },
+  {
+    "teamID": 437,
+    "teamName": "Rice To The Occasion",
+    "playerName": "Marcus Chia"
+  },
+  {
+    "teamID": 438,
+    "teamName": "ExpectedToulouse",
+    "playerName": "Rogier Deelstra"
+  },
+  {
+    "teamID": 439,
+    "teamName": "Mount Rashmore",
+    "playerName": "Raahul S"
+  },
+  {
+    "teamID": 440,
+    "teamName": "tea time",
+    "playerName": "Jonathan Tham"
+  },
+  {
+    "teamID": 441,
+    "teamName": "ЩΛKΛПDΛ FӨЯΣVΣЯ",
+    "playerName": "Trung Ho"
+  },
+  {
+    "teamID": 442,
+    "teamName": "Mbeumo No. 5",
+    "playerName": "Ryan Pond"
+  },
+  {
+    "teamID": 443,
+    "teamName": "Were Going Toulouse",
+    "playerName": "Aaron Hart"
+  },
+  {
+    "teamID": 444,
+    "teamName": "@AmirFPL",
+    "playerName": "Amir Safraoui"
+  },
+  {
+    "teamID": 445,
+    "teamName": "Dumbfries FC",
+    "playerName": "Tuukka Nisonen"
+  },
+  {
+    "teamID": 446,
+    "teamName": "The Magic Sponges",
+    "playerName": "Helen Rudd"
+  },
+  {
+    "teamID": 447,
+    "teamName": "Cheatcode FC",
+    "playerName": "Ayan Santosh Kumar Bajpai"
+  },
+  {
+    "teamID": 448,
+    "teamName": "Finding Glory",
+    "playerName": "Gila M"
+  },
+  {
+    "teamID": 449,
+    "teamName": "Botman returns",
+    "playerName": "Jeff Bannister"
+  },
+  {
+    "teamID": 450,
+    "teamName": "HAFI FC",
+    "playerName": "Adam Hafi"
+  },
+  {
+    "teamID": 451,
+    "teamName": "Pukki Blinders FC",
+    "playerName": "Anton Henriksson"
+  },
+  {
+    "teamID": 452,
+    "teamName": "Jezivo",
+    "playerName": "Nikola Barjaktarevic"
+  },
+  {
+    "teamID": 453,
+    "teamName": "Major League Saka",
+    "playerName": "Daniel Murphy"
+  },
+  {
+    "teamID": 454,
+    "teamName": "Titty taka FC",
+    "playerName": "ali jameel"
+  },
+  {
+    "teamID": 455,
+    "teamName": "Boys in Dahoud",
+    "playerName": "Eoin Marlow"
+  },
+  {
+    "teamID": 456,
+    "teamName": "Botman Returns",
+    "playerName": "Matthew Plumtree"
+  },
+  {
+    "teamID": 457,
+    "teamName": "Better Call Solanke",
+    "playerName": "Smit Patel"
+  },
+  {
+    "teamID": 458,
+    "teamName": "IIIIIIIIIIIIIIIIIIII",
+    "playerName": "Taranjot Deol"
+  },
+  {
+    "teamID": 459,
+    "teamName": "Erlings HaulLads",
+    "playerName": "Robin Vestersten"
+  },
+  {
+    "teamID": 460,
+    "teamName": "Backagain",
+    "playerName": "Deleted Player"
+  },
+  {
+    "teamID": 461,
+    "teamName": "No Kane No Gain",
+    "playerName": "Kushagra Agrawal"
+  },
+  {
+    "teamID": 462,
+    "teamName": "A",
+    "playerName": "Arun Kumar"
+  },
+  {
+    "teamID": 463,
+    "teamName": "Stranger Mings",
+    "playerName": "Rory Cartwright"
+  },
+  {
+    "teamID": 464,
+    "teamName": "Farhan",
+    "playerName": "Mohd Farhan"
+  },
+  {
+    "teamID": 465,
+    "teamName": "Perfect Pitch",
+    "playerName": "Matt Hawken"
+  },
+  {
+    "teamID": 466,
+    "teamName": "Murderball",
+    "playerName": "Enda Fallon"
+  },
+  {
+    "teamID": 467,
+    "teamName": "Pep Team",
+    "playerName": "Marcin Stoba"
+  },
+  {
+    "teamID": 468,
+    "teamName": "a",
+    "playerName": "A P"
+  },
+  {
+    "teamID": 469,
+    "teamName": "Braut Force",
+    "playerName": "Karl Bennett"
+  },
+  {
+    "teamID": 470,
+    "teamName": "Why Ayew Running?",
+    "playerName": "Jack Ransom"
+  },
+  {
+    "teamID": 471,
+    "teamName": "De Bruyne Identity",
+    "playerName": "Ray Sawyer"
+  },
+  {
+    "teamID": 472,
+    "teamName": "Levy La Vida Loca",
+    "playerName": "Gurjit Sahdra"
+  },
+  {
+    "teamID": 473,
+    "teamName": "♚SattiFantassi࿐",
+    "playerName": "αmjad ®"
+  },
+  {
+    "teamID": 474,
+    "teamName": "Free Palestine �",
+    "playerName": "H4D Adem"
+  },
+  {
+    "teamID": 475,
+    "teamName": "dsds",
+    "playerName": "Valentino Orehoci"
+  },
+  {
+    "teamID": 476,
+    "teamName": "We Still Believe",
+    "playerName": "Tom Houston"
+  },
+  {
+    "teamID": 477,
+    "teamName": "Matixo United",
+    "playerName": "Krystian Falkowski"
+  },
+  {
+    "teamID": 478,
+    "teamName": "Down Underdogs",
+    "playerName": "Amar Bhargava"
+  },
+  {
+    "teamID": 479,
+    "teamName": "Casadei 'N' Nite",
+    "playerName": "Adam Marczewski"
+  },
+  {
+    "teamID": 480,
+    "teamName": "Mam go na kapitanie!",
+    "playerName": "Patryk @FPLPoland"
+  },
+  {
+    "teamID": 481,
+    "teamName": "UTA",
+    "playerName": "Keane Guest"
+  },
+  {
+    "teamID": 482,
+    "teamName": "Gill City",
+    "playerName": "Farooq Ashraf Gill"
+  },
+  {
+    "teamID": 483,
+    "teamName": "Mitro Boomin",
+    "playerName": "Alexander Camon"
+  },
+  {
+    "teamID": 484,
+    "teamName": "Nkunkumber",
+    "playerName": "Ethan Collumbell"
+  },
+  {
+    "teamID": 485,
+    "teamName": "Sorry Nick Jackson",
+    "playerName": "David Mayer"
+  },
+  {
+    "teamID": 486,
+    "teamName": "Mitoma Faith",
+    "playerName": "Ralph Jordan"
+  },
+  {
+    "teamID": 487,
+    "teamName": "Blues FC",
+    "playerName": "Lawrence Noronha"
+  },
+  {
+    "teamID": 488,
+    "teamName": "Albins XI",
+    "playerName": "Albin Holmgren"
+  },
+  {
+    "teamID": 489,
+    "teamName": "Peteringout",
+    "playerName": "Peter Howarth"
+  },
+  {
+    "teamID": 490,
+    "teamName": "DatDeanDreamTeam",
+    "playerName": "Dean Rigney"
+  },
+  {
+    "teamID": 491,
+    "teamName": "Zubs Dream Team",
+    "playerName": "Zubair Imran"
+  },
+  {
+    "teamID": 492,
+    "teamName": "Sikający Pod Wiatr",
+    "playerName": "Paweł Jakubowski"
+  },
+  {
+    "teamID": 493,
+    "teamName": "Los Porros Hermanos",
+    "playerName": "Charlie Paris-McKenzie"
+  },
+  {
+    "teamID": 494,
+    "teamName": "McGinn & Toneyc",
+    "playerName": "Vankush Lall"
+  },
+  {
+    "teamID": 495,
+    "teamName": "Gaza United",
+    "playerName": "Syed Basim Hyder"
+  },
+  {
+    "teamID": 496,
+    "teamName": "Potey's Players",
+    "playerName": "Connor Pote"
+  },
+  {
+    "teamID": 497,
+    "teamName": "Ange Management",
+    "playerName": "James Dailey"
+  },
+  {
+    "teamID": 498,
+    "teamName": "Bohlins Björnar",
+    "playerName": "Rasmus Bohlin"
+  },
+  {
+    "teamID": 499,
+    "teamName": "Deleted",
+    "playerName": "Deleted Player"
+  },
+  {
+    "teamID": 500,
+    "teamName": "Muchachos",
+    "playerName": "Steffen Brandt"
+  },
+  {
+    "teamID": 501,
+    "teamName": "The UnluckyTigers",
+    "playerName": "Asbjørn Ihlen"
+  },
+  {
+    "teamID": 502,
+    "teamName": "Saka Potatoes",
+    "playerName": "Samuel Worthington"
+  },
+  {
+    "teamID": 503,
+    "teamName": "CUl8r Cucurellagator",
+    "playerName": "Niels Appels"
+  },
+  {
+    "teamID": 504,
+    "teamName": "Botman and Robben",
+    "playerName": "Aadam Saleem"
+  },
+  {
+    "teamID": 505,
+    "teamName": "Txiki Nandos",
+    "playerName": "Jack Cooper"
+  },
+  {
+    "teamID": 506,
+    "teamName": "Saka Potatoes",
+    "playerName": "Oliver Chaplin"
+  },
+  {
+    "teamID": 507,
+    "teamName": "FC Alg",
+    "playerName": "Robin Andersson"
+  },
+  {
+    "teamID": 508,
+    "teamName": "EFIL4zaggin",
+    "playerName": "Alistair Hughes"
+  },
+  {
+    "teamID": 509,
+    "teamName": "Bruynland",
+    "playerName": "Roeland Scheys"
+  },
+  {
+    "teamID": 510,
+    "teamName": "Manéball",
+    "playerName": "Albert Gudmundsson"
+  },
+  {
+    "teamID": 511,
+    "teamName": "The Rice of Arsenal",
+    "playerName": "Ashton Tan"
+  },
+  {
+    "teamID": 512,
+    "teamName": "Saint no fun anymore",
+    "playerName": "Chris Payne"
+  },
+  {
+    "teamID": 513,
+    "teamName": "Cech Mate",
+    "playerName": "Dom Holden"
+  },
+  {
+    "teamID": 514,
+    "teamName": "FC leo",
+    "playerName": "Kuba Stawicki"
+  },
+  {
+    "teamID": 515,
+    "teamName": "FC Amol",
+    "playerName": "Ali Eslamy"
+  },
+  {
+    "teamID": 516,
+    "teamName": "Ashraf3la2",
+    "playerName": "Ashraf Aboshady"
+  },
+  {
+    "teamID": 517,
+    "teamName": "TempyTemp",
+    "playerName": "Steven Armstrong"
+  },
+  {
+    "teamID": 518,
+    "teamName": "Onanas not my name",
+    "playerName": "Jack Seal"
+  },
+  {
+    "teamID": 519,
+    "teamName": "TBFC",
+    "playerName": "Terje Balteskard"
+  },
+  {
+    "teamID": 520,
+    "teamName": "WiltordAtOldTrafford",
+    "playerName": "Olu Adeite"
+  },
+  {
+    "teamID": 521,
+    "teamName": "Haller High Water",
+    "playerName": "Luke Price"
+  },
+  {
+    "teamID": 522,
+    "teamName": "Thinking Reed",
+    "playerName": "John Kam"
+  },
+  {
+    "teamID": 523,
+    "teamName": "Too Eze",
+    "playerName": "Chris Lloyd"
+  },
+  {
+    "teamID": 524,
+    "teamName": "Heighway to FPHell",
+    "playerName": "Steve Street"
+  },
+  {
+    "teamID": 525,
+    "teamName": "⌛B⚉mber웃Man⌛",
+    "playerName": "Slavcho Zdravkov"
+  },
+  {
+    "teamID": 526,
+    "teamName": "Enjoy Your Lunch",
+    "playerName": "Harry Smith-Kozɫowski"
+  },
+  {
+    "teamID": 527,
+    "teamName": "ReVolted FC",
+    "playerName": "Bartosz Kowalczyk"
+  },
+  {
+    "teamID": 528,
+    "teamName": "Clarks Chiefs",
+    "playerName": "Martyn Clark"
+  },
+  {
+    "teamID": 529,
+    "teamName": "Kings Crusaders",
+    "playerName": "Colin King"
+  },
+  {
+    "teamID": 530,
+    "teamName": "Team Ty",
+    "playerName": "Ty Walton"
+  },
+  {
+    "teamID": 531,
+    "teamName": "Sunday Olise",
+    "playerName": "Alex Payne"
+  },
+  {
+    "teamID": 532,
+    "teamName": "Muffin Licker",
+    "playerName": "zaid ali"
+  },
+  {
+    "teamID": 533,
+    "teamName": "Yall",
+    "playerName": "Ben Cohen"
+  },
+  {
+    "teamID": 534,
+    "teamName": "Slow Lerma",
+    "playerName": "Tom Kelly"
+  },
+  {
+    "teamID": 535,
+    "teamName": "NkuNkuNkuNkuNkuNku",
+    "playerName": "Dan G"
+  },
+  {
+    "teamID": 536,
+    "teamName": "Haalandaise Sauce",
+    "playerName": "Jerome Hughes"
+  },
+  {
+    "teamID": 537,
+    "teamName": "Ballselona",
+    "playerName": "Arek Chmiel"
+  },
+  {
+    "teamID": 538,
+    "teamName": "Zenith",
+    "playerName": "Vasanth JS"
+  },
+  {
+    "teamID": 539,
+    "teamName": "KluB KaRet BaN",
+    "playerName": "Ifrul Harahap"
+  },
+  {
+    "teamID": 540,
+    "teamName": "Have Aguerd Day",
+    "playerName": "Joe Palmer"
+  },
+  {
+    "teamID": 541,
+    "teamName": "Fidelma Bowles",
+    "playerName": "Romano Valente"
+  },
+  {
+    "teamID": 542,
+    "teamName": "CodySwaran Gakpo",
+    "playerName": "Kaushik Krishnan"
+  },
+  {
+    "teamID": 543,
+    "teamName": "Devil's Own",
+    "playerName": "Chandan Gupta"
+  },
+  {
+    "teamID": 544,
+    "teamName": "Lash Team",
+    "playerName": "Milad Lashkari"
+  },
+  {
+    "teamID": 545,
+    "teamName": "Astronaut Xl",
+    "playerName": "Mohit Patel"
+  },
+  {
+    "teamID": 546,
+    "teamName": "The Scamps",
+    "playerName": "Darren Connolly"
+  },
+  {
+    "teamID": 547,
+    "teamName": "Manuel’s Stars",
+    "playerName": "Manuel Simperler"
+  },
+  {
+    "teamID": 548,
+    "teamName": "Paris Sam's-Yerman",
+    "playerName": "Sam Hastings"
+  },
+  {
+    "teamID": 549,
+    "teamName": "Sadio Penmané",
+    "playerName": "Rory Penman"
+  },
+  {
+    "teamID": 550,
+    "teamName": "Mitoeman FC",
+    "playerName": "Toby Hussain"
+  },
+  {
+    "teamID": 551,
+    "teamName": "indywec",
+    "playerName": "Chris Daniels"
+  },
+  {
+    "teamID": 552,
+    "teamName": "Bobbydazzlers",
+    "playerName": "Richard Fraser"
+  },
+  {
+    "teamID": 553,
+    "teamName": "Struijk One",
+    "playerName": "William Sharp"
+  },
+  {
+    "teamID": 554,
+    "teamName": "Nimeta Meeskond FC",
+    "playerName": "Sam James"
+  },
+  {
+    "teamID": 555,
+    "teamName": "Raya Sonshine",
+    "playerName": "Nicholas Simpson"
+  },
+  {
+    "teamID": 556,
+    "teamName": "Relegation fodder",
+    "playerName": "Scott Bishop"
+  },
+  {
+    "teamID": 557,
+    "teamName": "JayFC",
+    "playerName": "Jamie Robertson"
+  },
+  {
+    "teamID": 558,
+    "teamName": "Kinder Mbeumo",
+    "playerName": "Lewis Wood"
+  },
+  {
+    "teamID": 559,
+    "teamName": "Netflix and Chilwell",
+    "playerName": "Jack Whitfield"
+  },
+  {
+    "teamID": 560,
+    "teamName": "Marx Attacks",
+    "playerName": "Daniel Fraser"
+  },
+  {
+    "teamID": 561,
+    "teamName": "Eze Money",
+    "playerName": "Måns Rosin"
+  },
+  {
+    "teamID": 562,
+    "teamName": "Psychohistorians",
+    "playerName": "payam V"
+  },
+  {
+    "teamID": 563,
+    "teamName": "The B Team ☘️",
+    "playerName": "Beth McKevitt"
+  },
+  {
+    "teamID": 564,
+    "teamName": "TopMaster",
+    "playerName": "Mohamad Abdulaziz"
+  },
+  {
+    "teamID": 565,
+    "teamName": "Enter Shaqiri",
+    "playerName": "Alastair Johnston"
+  },
+  {
+    "teamID": 566,
+    "teamName": "RICEGUYSFINISHLAST",
+    "playerName": "Oscar Readwin"
+  },
+  {
+    "teamID": 567,
+    "teamName": "Siuuuu",
+    "playerName": "Luka Harasic"
+  },
+  {
+    "teamID": 568,
+    "teamName": "Roll the Dyche",
+    "playerName": "Thomas O'Brien"
+  },
+  {
+    "teamID": 569,
+    "teamName": "ChroniclesOfRuddock",
+    "playerName": "Stephan Haugsrud"
+  },
+  {
+    "teamID": 570,
+    "teamName": "UD Las Palmas",
+    "playerName": "Boris Marić"
+  },
+  {
+    "teamID": 571,
+    "teamName": "Wrecks Ham",
+    "playerName": "Japesh Seewoopersad"
+  },
+  {
+    "teamID": 572,
+    "teamName": "Tullevaal",
+    "playerName": "Jon Petter Johnsen"
+  },
+  {
+    "teamID": 573,
+    "teamName": "Smell the glove",
+    "playerName": "Ben Churchill"
+  },
+  {
+    "teamID": 574,
+    "teamName": "Geraghty Gladiators",
+    "playerName": "Luke Geraghty"
+  },
+  {
+    "teamID": 575,
+    "teamName": "Rice is nice!",
+    "playerName": "Maksym Tryus"
+  },
+  {
+    "teamID": 576,
+    "teamName": "Deportivo de Clonard",
+    "playerName": "Michael Losty"
+  },
+  {
+    "teamID": 577,
+    "teamName": "Winther Is Coming",
+    "playerName": "Yasin Ertan"
+  },
+  {
+    "teamID": 578,
+    "teamName": "Insert Coin",
+    "playerName": "Alvaro Mas Baga"
+  },
+  {
+    "teamID": 579,
+    "teamName": "Team Name Pending",
+    "playerName": "Nikunj Patel"
+  },
+  {
+    "teamID": 580,
+    "teamName": "FC Cheeky",
+    "playerName": "Pierre Mouton"
+  },
+  {
+    "teamID": 581,
+    "teamName": "Ten Hag Farmers",
+    "playerName": "Marteinn Oskarsson"
+  },
+  {
+    "teamID": 582,
+    "teamName": "xCasualFPL",
+    "playerName": "John Benfield"
+  },
+  {
+    "teamID": 583,
+    "teamName": "Wojownicze żółwie",
+    "playerName": "Tomek Kulig"
+  },
+  {
+    "teamID": 584,
+    "teamName": "1860 Stokke",
+    "playerName": "Bjarne Martinussen"
+  },
+  {
+    "teamID": 585,
+    "teamName": "Boyz in Dahoud",
+    "playerName": "Mark Kavanagh"
+  },
+  {
+    "teamID": 586,
+    "teamName": "Unseen Academicals",
+    "playerName": "Ted Bendell"
+  },
+  {
+    "teamID": 587,
+    "teamName": "Dunder Mifflin FC",
+    "playerName": "Marcin Kurzawa"
+  },
+  {
+    "teamID": 588,
+    "teamName": "FC Quantum",
+    "playerName": "Amir Parsa Noroozi"
+  },
+  {
+    "teamID": 589,
+    "teamName": "caesar SALAH(trio)",
+    "playerName": "Ben F"
+  },
+  {
+    "teamID": 590,
+    "teamName": "How sweet it is to b",
+    "playerName": "Rob Westaway"
+  },
+  {
+    "teamID": 591,
+    "teamName": "British meatballs",
+    "playerName": "Pyrrhic Nika"
+  },
+  {
+    "teamID": 592,
+    "teamName": "Inter Malager",
+    "playerName": "Will Maxwell"
+  },
+  {
+    "teamID": 593,
+    "teamName": "cry me a riVAR",
+    "playerName": "Max Brill"
+  },
+  {
+    "teamID": 594,
+    "teamName": "Simmo FC",
+    "playerName": "Greg Simpson"
+  },
+  {
+    "teamID": 595,
+    "teamName": "Qilin FC",
+    "playerName": "Ola Svanheld"
+  },
+  {
+    "teamID": 596,
+    "teamName": "Sorry Miss Jackson",
+    "playerName": "Dylan Nanuck"
+  },
+  {
+    "teamID": 597,
+    "teamName": "ZXCV",
+    "playerName": "Seán Devilly"
+  },
+  {
+    "teamID": 598,
+    "teamName": "SHAH ALAM FC",
+    "playerName": "ANG JUN"
+  },
+  {
+    "teamID": 599,
+    "teamName": "Gray Mata",
+    "playerName": "Tom Waugh"
+  },
+  {
+    "teamID": 600,
+    "teamName": "☢️Mad~Rid~Sum~Mess☢️",
+    "playerName": "Sumesh Dahal"
+  },
+  {
+    "teamID": 601,
+    "teamName": "Changing Ødegaard",
+    "playerName": "Nick Brewerton"
+  },
+  {
+    "teamID": 602,
+    "teamName": "Dit Kom Huis Toe.",
+    "playerName": "David (@DayvyFPL)"
+  },
+  {
+    "teamID": 603,
+    "teamName": "FC Ichiban",
+    "playerName": "Simon Vinnerholt"
+  },
+  {
+    "teamID": 604,
+    "teamName": "Los Locos",
+    "playerName": "Vangelis aka VANGEF"
+  },
+  {
+    "teamID": 605,
+    "teamName": "The Braut Express",
+    "playerName": "Sigurd Beverfjord"
+  },
+  {
+    "teamID": 606,
+    "teamName": "D.O.M.I.N.A.T.O.R.S",
+    "playerName": "Tomasz Kowalski"
+  },
+  {
+    "teamID": 607,
+    "teamName": "Flying Dutchmen",
+    "playerName": "Kishor Ravindran"
+  },
+  {
+    "teamID": 608,
+    "teamName": "TatsLads",
+    "playerName": "Andy T"
+  },
+  {
+    "teamID": 609,
+    "teamName": "Raúl's Moving Castle",
+    "playerName": "Erki Lomp"
+  },
+  {
+    "teamID": 610,
+    "teamName": "Stone Cold Stunners",
+    "playerName": "Marc Johnson"
+  },
+  {
+    "teamID": 611,
+    "teamName": "NoManéNoProblems",
+    "playerName": "Mohamed Hesham"
+  },
+  {
+    "teamID": 612,
+    "teamName": "Klopptoberfest",
+    "playerName": "Marcel Schörghofer"
+  },
+  {
+    "teamID": 613,
+    "teamName": "I Think I De Zerb",
+    "playerName": "Muhammad Fa’iz Mahomed"
+  },
+  {
+    "teamID": 614,
+    "teamName": "Red Ribbon Army",
+    "playerName": "Christian Larisch"
+  },
+  {
+    "teamID": 615,
+    "teamName": "Team",
+    "playerName": "Cillian Oconnor"
+  },
+  {
+    "teamID": 616,
+    "teamName": "@FPL_Heisenberg",
+    "playerName": "Wes Prickett"
+  },
+  {
+    "teamID": 617,
+    "teamName": "Danchester United",
+    "playerName": "Dan Robson"
+  },
+  {
+    "teamID": 618,
+    "teamName": "Kinder Mbeumo",
+    "playerName": "Jacob Parker"
+  },
+  {
+    "teamID": 619,
+    "teamName": "pain FC",
+    "playerName": "A. zzawi"
+  },
+  {
+    "teamID": 620,
+    "teamName": "Persian tiger",
+    "playerName": "Mohammad saleh Samizadeh"
+  },
+  {
+    "teamID": 621,
+    "teamName": "Gotta Get a Kimmich",
+    "playerName": "Jamie Semark"
+  },
+  {
+    "teamID": 622,
+    "teamName": "Vicario Leviosa",
+    "playerName": "Jordan Bishop"
+  },
+  {
+    "teamID": 623,
+    "teamName": "Feed the Big Dog",
+    "playerName": "Benny Hanaphy"
+  },
+  {
+    "teamID": 624,
+    "teamName": "Cullen FC",
+    "playerName": "Joe Cullen"
+  },
+  {
+    "teamID": 625,
+    "teamName": "Haul or Nothing",
+    "playerName": "Jim E"
+  },
+  {
+    "teamID": 626,
+    "teamName": "Kloppenheimer",
+    "playerName": "George Smith"
+  },
+  {
+    "teamID": 627,
+    "teamName": "Allan Saint-Minimum",
+    "playerName": "Dillon Williams"
+  },
+  {
+    "teamID": 628,
+    "teamName": "Szob Story FC",
+    "playerName": "Dan Griffiths"
+  },
+  {
+    "teamID": 629,
+    "teamName": "Duff's Donkeys",
+    "playerName": "Robert Duffill"
+  },
+  {
+    "teamID": 630,
+    "teamName": "Rice Rice Baby",
+    "playerName": "Tom Smith"
+  },
+  {
+    "teamID": 631,
+    "teamName": "TonaliAddictedToBets",
+    "playerName": "Olly Higgins"
+  },
+  {
+    "teamID": 632,
+    "teamName": "Bu rashed",
+    "playerName": "O L"
+  },
+  {
+    "teamID": 633,
+    "teamName": "Evan Almighty",
+    "playerName": "Michael Gibbs"
+  },
+  {
+    "teamID": 634,
+    "teamName": "Colonel Town",
+    "playerName": "David Curnick"
+  },
+  {
+    "teamID": 635,
+    "teamName": "Free Palestine",
+    "playerName": "Aly Ayman🇵🇸"
+  },
+  {
+    "teamID": 636,
+    "teamName": "Efan Ekoku 007",
+    "playerName": "Paul McAllister"
+  },
+  {
+    "teamID": 637,
+    "teamName": "Kidult",
+    "playerName": "Jeffrey Law"
+  },
+  {
+    "teamID": 638,
+    "teamName": "Fremen Nomads F.C.",
+    "playerName": "Tom Shouler"
+  },
+  {
+    "teamID": 639,
+    "teamName": "Unai Diaby Pau favor",
+    "playerName": "Brian O Flaherty"
+  },
+  {
+    "teamID": 640,
+    "teamName": "The A-Team",
+    "playerName": "Dan Kelleher"
+  },
+  {
+    "teamID": 641,
+    "teamName": "Alpha XI",
+    "playerName": "Ed Greenhalgh"
+  },
+  {
+    "teamID": 642,
+    "teamName": "wachu",
+    "playerName": "Michal Wachowiak"
+  },
+  {
+    "teamID": 643,
+    "teamName": "xVibes Merchants",
+    "playerName": "Ethan Chua"
+  },
+  {
+    "teamID": 644,
+    "teamName": "SDP BOYS",
+    "playerName": "Jasmin Konjic"
+  },
+  {
+    "teamID": 645,
+    "teamName": "Kloppenheimer",
+    "playerName": "Thomas McStay"
+  },
+  {
+    "teamID": 646,
+    "teamName": "Airdrop FC",
+    "playerName": "Christian DeBetta"
+  },
+  {
+    "teamID": 647,
+    "teamName": "FPL American",
+    "playerName": "Richard Piano"
+  },
+  {
+    "teamID": 648,
+    "teamName": "Mickel Artetas Army",
+    "playerName": "Michael Brennan"
+  },
+  {
+    "teamID": 649,
+    "teamName": "“Im the SPECIAL ONE”",
+    "playerName": "Anas Alfailakawi"
+  },
+  {
+    "teamID": 650,
+    "teamName": "MP Boys",
+    "playerName": "Even Hansen"
+  },
+  {
+    "teamID": 651,
+    "teamName": "Kick The Ball",
+    "playerName": "Christopher Halls"
+  },
+  {
+    "teamID": 652,
+    "teamName": "McGinn & Tonic",
+    "playerName": "Robert Kristersson"
+  },
+  {
+    "teamID": 653,
+    "teamName": "Pinball Wizard",
+    "playerName": "Zak T"
+  },
+  {
+    "teamID": 654,
+    "teamName": "Guess who’s back",
+    "playerName": "Liam Jago"
+  },
+  {
+    "teamID": 655,
+    "teamName": "Deleted",
+    "playerName": "Deleted Player"
+  },
+  {
+    "teamID": 656,
+    "teamName": "Tottenham Knottspur",
+    "playerName": "Andrew Knott"
+  },
+  {
+    "teamID": 657,
+    "teamName": "Darwin’s Theory",
+    "playerName": "Mr Hiller"
+  },
+  {
+    "teamID": 658,
+    "teamName": "Padaka FC",
+    "playerName": "Krzysztof Gregorius"
+  },
+  {
+    "teamID": 659,
+    "teamName": "White Rice Balls",
+    "playerName": "Eduard Dumitrescu"
+  },
+  {
+    "teamID": 660,
+    "teamName": "Ankrpl",
+    "playerName": "Antoni Krawiec"
+  },
+  {
+    "teamID": 661,
+    "teamName": "Eselfjes Tingeling",
+    "playerName": "Fredrik Grande Lund"
+  },
+  {
+    "teamID": 662,
+    "teamName": "Flickcoinsintoakitty",
+    "playerName": "Ashley Stevens"
+  },
+  {
+    "teamID": 663,
+    "teamName": "Nkunkuburra",
+    "playerName": "Robbie MacDiarmid"
+  },
+  {
+    "teamID": 664,
+    "teamName": "Nkunkucumber",
+    "playerName": "Arda M"
+  },
+  {
+    "teamID": 665,
+    "teamName": "Jumpers4Goalposts",
+    "playerName": "Chris Smith"
+  },
+  {
+    "teamID": 666,
+    "teamName": "nickdayre",
+    "playerName": "Nick Ayre"
+  },
+  {
+    "teamID": 667,
+    "teamName": "Royal with cheese",
+    "playerName": "Nathan Williams"
+  },
+  {
+    "teamID": 668,
+    "teamName": "Champ",
+    "playerName": "Tom Charlton"
+  },
+  {
+    "teamID": 669,
+    "teamName": "Dreymaliðið",
+    "playerName": "Ingvard Poulsen"
+  },
+  {
+    "teamID": 670,
+    "teamName": "Simons Muppar",
+    "playerName": "Simon Hansson"
+  },
+  {
+    "teamID": 671,
+    "teamName": "Joga Bonito XVII",
+    "playerName": "Zul K"
+  },
+  {
+    "teamID": 672,
+    "teamName": "Thaocute",
+    "playerName": "Nguyễn Việt Anh"
+  },
+  {
+    "teamID": 673,
+    "teamName": "Tickle Me Guglielmo",
+    "playerName": "Tanner Kaunisviita"
+  },
+  {
+    "teamID": 674,
+    "teamName": "JC Milan",
+    "playerName": "Jonny Currie"
+  },
+  {
+    "teamID": 675,
+    "teamName": "the LAWES disorder",
+    "playerName": "Andrew Lawes"
+  },
+  {
+    "teamID": 676,
+    "teamName": "me gusto",
+    "playerName": "Bernhard Moe Nyquist"
+  },
+  {
+    "teamID": 677,
+    "teamName": "Sharkingham Forest",
+    "playerName": "Marc Daffern"
+  },
+  {
+    "teamID": 678,
+    "teamName": "Galaxy Turbo Twister",
+    "playerName": "Saubarna Dutta Chowdhury"
+  },
+  {
+    "teamID": 679,
+    "teamName": "Seleção",
+    "playerName": "Tarik Fazlic"
+  },
+  {
+    "teamID": 680,
+    "teamName": "� Stonks",
+    "playerName": "Adio Segun"
+  },
+  {
+    "teamID": 681,
+    "teamName": "Lord Farkequaad",
+    "playerName": "Jake Foggitt"
+  },
+  {
+    "teamID": 682,
+    "teamName": "DJ Drogba",
+    "playerName": "Sahil Ramlochun"
+  },
+  {
+    "teamID": 683,
+    "teamName": "Natural Enthusiasm",
+    "playerName": "Chukwudi Dozie"
+  },
+  {
+    "teamID": 684,
+    "teamName": "Palla Inattiva",
+    "playerName": "Jake Spencer"
+  },
+  {
+    "teamID": 685,
+    "teamName": "Park The Bus",
+    "playerName": "Darren Linehan"
+  },
+  {
+    "teamID": 686,
+    "teamName": "Ben's XI**",
+    "playerName": "Benjamin Dillon"
+  },
+  {
+    "teamID": 687,
+    "teamName": "Shiver me Timber",
+    "playerName": "Vladimir Velciov"
+  },
+  {
+    "teamID": 688,
+    "teamName": "Pace Attorney",
+    "playerName": "Bora Urkmez"
+  },
+  {
+    "teamID": 689,
+    "teamName": "Part Mee",
+    "playerName": "Shane O'Donnell"
+  },
+  {
+    "teamID": 690,
+    "teamName": "Bruno Dos Tres",
+    "playerName": "Silje Iversen"
+  },
+  {
+    "teamID": 691,
+    "teamName": "Cocomelon",
+    "playerName": "Bradley Maybury"
+  },
+  {
+    "teamID": 692,
+    "teamName": "Not Harry Kane Team",
+    "playerName": "Ryan Kerr"
+  },
+  {
+    "teamID": 693,
+    "teamName": "Grandpa",
+    "playerName": "Alex Grun"
+  },
+  {
+    "teamID": 694,
+    "teamName": "Shivertz me Timbers",
+    "playerName": "Tom Webb"
+  },
+  {
+    "teamID": 695,
+    "teamName": "Nice to Michu",
+    "playerName": "Kieran Ive"
+  },
+  {
+    "teamID": 696,
+    "teamName": "Riyad's Pasta",
+    "playerName": "Sumit Paudel"
+  },
+  {
+    "teamID": 697,
+    "teamName": "Dynamo Torshov",
+    "playerName": "Andreas Toft"
+  },
+  {
+    "teamID": 698,
+    "teamName": "DARDAS",
+    "playerName": "khaldoon dardas"
+  },
+  {
+    "teamID": 699,
+    "teamName": "The Ayvengers",
+    "playerName": "Amit Majithia"
+  },
+  {
+    "teamID": 700,
+    "teamName": "TOO EZE",
+    "playerName": "Patrick Sutton"
+  },
+  {
+    "teamID": 701,
+    "teamName": "RC's MVPs",
+    "playerName": "Rob Craven"
+  },
+  {
+    "teamID": 702,
+    "teamName": "That mings a bell",
+    "playerName": "Faded already"
+  },
+  {
+    "teamID": 703,
+    "teamName": "Kinder Mbeumo",
+    "playerName": "Peter O'Shea"
+  },
+  {
+    "teamID": 704,
+    "teamName": "Mind The Gakpo",
+    "playerName": "Olly W"
+  },
+  {
+    "teamID": 705,
+    "teamName": "Kings of Dion",
+    "playerName": "Ryan Clarke"
+  },
+  {
+    "teamID": 706,
+    "teamName": "Marc Dinnerford",
+    "playerName": "Nathan Brown"
+  },
+  {
+    "teamID": 707,
+    "teamName": "FC Merengues",
+    "playerName": "Samuel Koivisto"
+  },
+  {
+    "teamID": 708,
+    "teamName": "Ophiocordycipitaceae",
+    "playerName": "Mitch Conner"
+  },
+  {
+    "teamID": 709,
+    "teamName": ".",
+    "playerName": "Ben Crompton"
+  },
+  {
+    "teamID": 710,
+    "teamName": "José's Bus",
+    "playerName": "Dean Hunt"
+  },
+  {
+    "teamID": 711,
+    "teamName": "Samba Boys",
+    "playerName": "FPL Ron Manager"
+  },
+  {
+    "teamID": 712,
+    "teamName": "Smith Rowe Transfer",
+    "playerName": "Ponthakorn Tiyawarakul"
+  },
+  {
+    "teamID": 713,
+    "teamName": "Vanhat jermut",
+    "playerName": "Jiri Lilja"
+  },
+  {
+    "teamID": 714,
+    "teamName": "FPL 22/23 CHAMP JJT",
+    "playerName": "Keenan Thompson"
+  },
+  {
+    "teamID": 715,
+    "teamName": "Kapinynas",
+    "playerName": "Laurynas Giedraitis"
+  },
+  {
+    "teamID": 716,
+    "teamName": "Rice Rice Baby",
+    "playerName": "Kristian Smith"
+  },
+  {
+    "teamID": 717,
+    "teamName": "Ayew Shaw?",
+    "playerName": "Sandesh Khatiwada"
+  },
+  {
+    "teamID": 718,
+    "teamName": "Mally FC",
+    "playerName": "Daniel Mallinson"
+  },
+  {
+    "teamID": 719,
+    "teamName": "$funny_team_name",
+    "playerName": "Theodoros Kokkoris"
+  },
+  {
+    "teamID": 720,
+    "teamName": "Shrimp Kai'd Rice",
+    "playerName": "Siddharth Manerkar"
+  },
+  {
+    "teamID": 721,
+    "teamName": "Митко Удоджи",
+    "playerName": "Zhivko Shopov"
+  },
+  {
+    "teamID": 722,
+    "teamName": "Goalhangers FC",
+    "playerName": "James Skerritt"
+  },
+  {
+    "teamID": 723,
+    "teamName": "Absolutely Fabregas",
+    "playerName": "Fadi Al-Mufti"
+  },
+  {
+    "teamID": 724,
+    "teamName": "Riise to the top",
+    "playerName": "Matt Davies"
+  },
+  {
+    "teamID": 725,
+    "teamName": "JOHOR BAHRU FC",
+    "playerName": "HARRIS HAZARD HAKIM"
+  },
+  {
+    "teamID": 726,
+    "teamName": "Maman Racing",
+    "playerName": "Ahmad Darmawan"
+  },
+  {
+    "teamID": 727,
+    "teamName": "Barely Ange'ing on",
+    "playerName": "Jake Armes"
+  },
+  {
+    "teamID": 728,
+    "teamName": "Baba Yaga fc",
+    "playerName": "Lior Malka"
+  },
+  {
+    "teamID": 729,
+    "teamName": "ATD",
+    "playerName": "C Couch"
+  },
+  {
+    "teamID": 730,
+    "teamName": "Pjanic At The Isco",
+    "playerName": "Ant Giannaccini"
+  },
+  {
+    "teamID": 731,
+    "teamName": "AleTypiara",
+    "playerName": "Koralina Jones"
+  },
+  {
+    "teamID": 732,
+    "teamName": "Why Ayew Running",
+    "playerName": "Dylan Brookes-Parry"
+  },
+  {
+    "teamID": 733,
+    "teamName": "Krynew Crew",
+    "playerName": "Krystian Młynarczuk"
+  },
+  {
+    "teamID": 734,
+    "teamName": "Plan T",
+    "playerName": "Tomas Galkus"
+  },
+  {
+    "teamID": 735,
+    "teamName": "Lucas No Moura",
+    "playerName": "Rory Scott"
+  },
+  {
+    "teamID": 736,
+    "teamName": "FC W.C.",
+    "playerName": "Arkadiusz Kuban"
+  },
+  {
+    "teamID": 737,
+    "teamName": "Alisson Wonderland",
+    "playerName": "Danny Edwards"
+  },
+  {
+    "teamID": 738,
+    "teamName": "Who’s a good Udogie",
+    "playerName": "Kieran Beattie"
+  },
+  {
+    "teamID": 739,
+    "teamName": "Bicky Boys",
+    "playerName": "Andy Bick"
+  },
+  {
+    "teamID": 740,
+    "teamName": "Caramel Mbappè",
+    "playerName": "Beth Pimperton"
+  },
+  {
+    "teamID": 741,
+    "teamName": "Kmaraqa",
+    "playerName": "Khaled Maraqa"
+  },
+  {
+    "teamID": 742,
+    "teamName": "Football Team FC",
+    "playerName": "Will Hawthorne"
+  },
+  {
+    "teamID": 743,
+    "teamName": "Schäring the points",
+    "playerName": "Keegan Bonthuys"
+  },
+  {
+    "teamID": 744,
+    "teamName": "Glitter Girls",
+    "playerName": "Dan Voller"
+  },
+  {
+    "teamID": 745,
+    "teamName": "Ajax Trees",
+    "playerName": "Matt O'Neill"
+  },
+  {
+    "teamID": 746,
+    "teamName": "Vellíðan",
+    "playerName": "Jóhann Ísaksson"
+  },
+  {
+    "teamID": 747,
+    "teamName": "FC Gryffindor",
+    "playerName": "Ivan Stvorić"
+  },
+  {
+    "teamID": 748,
+    "teamName": "Soccer Heads",
+    "playerName": "Khalid Ameen"
+  },
+  {
+    "teamID": 749,
+    "teamName": "Binding of Isak",
+    "playerName": "Alfie Armstrong"
+  },
+  {
+    "teamID": 750,
+    "teamName": "Kirie Beachboys",
+    "playerName": "Eirik Mæland"
+  },
+  {
+    "teamID": 751,
+    "teamName": "Ez",
+    "playerName": "Danny White"
+  },
+  {
+    "teamID": 752,
+    "teamName": "Mr. Sitter",
+    "playerName": "Dominic Campbell"
+  },
+  {
+    "teamID": 753,
+    "teamName": "Oxymorons",
+    "playerName": "Uros Draskic"
+  },
+  {
+    "teamID": 754,
+    "teamName": "Steamed Hamez",
+    "playerName": "James Edgar"
+  },
+  {
+    "teamID": 755,
+    "teamName": "Jürgen's Army",
+    "playerName": "Ayman Salah"
+  },
+  {
+    "teamID": 756,
+    "teamName": "LZS Nowa Wieś",
+    "playerName": "Piotr Gąsiński"
+  },
+  {
+    "teamID": 757,
+    "teamName": "Jenkins AFC",
+    "playerName": "Michael Jenkins"
+  },
+  {
+    "teamID": 758,
+    "teamName": "fc optimistic",
+    "playerName": "Joe Kneidel"
+  },
+  {
+    "teamID": 759,
+    "teamName": "Ben Mee Ova",
+    "playerName": "Scott Haythornthwaite"
+  },
+  {
+    "teamID": 760,
+    "teamName": "A Saka Stones",
+    "playerName": "Ben Capron"
+  },
+  {
+    "teamID": 761,
+    "teamName": "Peace and Love",
+    "playerName": "Jack Bones"
+  },
+  {
+    "teamID": 762,
+    "teamName": "Poupton's Boys",
+    "playerName": "Iad Noueyhed"
+  },
+  {
+    "teamID": 763,
+    "teamName": "Sven Batman",
+    "playerName": "Tobias VDG"
+  },
+  {
+    "teamID": 764,
+    "teamName": "Champions of Europe",
+    "playerName": "Nick Wilson"
+  },
+  {
+    "teamID": 765,
+    "teamName": "On me Ed son Alvarez",
+    "playerName": "Jamie Shea"
+  },
+  {
+    "teamID": 766,
+    "teamName": "The Way Of The Ace",
+    "playerName": "Max Soo"
+  },
+  {
+    "teamID": 767,
+    "teamName": "Red Klopp Redemption",
+    "playerName": "Sami Aumanen"
+  },
+  {
+    "teamID": 768,
+    "teamName": "FC Deletee",
+    "playerName": "Jason Schäfer"
+  },
+  {
+    "teamID": 769,
+    "teamName": "Faith Rovers",
+    "playerName": "David Weale"
+  },
+  {
+    "teamID": 770,
+    "teamName": "10hag",
+    "playerName": "Twan Pouwel"
+  },
+  {
+    "teamID": 771,
+    "teamName": "Team Rocket",
+    "playerName": "Oliver James"
+  },
+  {
+    "teamID": 772,
+    "teamName": "FCLJB",
+    "playerName": "Louie Jake Bell"
+  },
+  {
+    "teamID": 773,
+    "teamName": "Sörjan",
+    "playerName": "Jakob Holtback"
+  },
+  {
+    "teamID": 774,
+    "teamName": "1",
+    "playerName": "Andrew Ehab"
+  },
+  {
+    "teamID": 775,
+    "teamName": "Swansons",
+    "playerName": "Graham Hopkins"
+  },
+  {
+    "teamID": 776,
+    "teamName": "HallanDebruyne",
+    "playerName": "Ujjwal Lamichhane"
+  },
+  {
+    "teamID": 777,
+    "teamName": "Aguerooooooooooooooo",
+    "playerName": "Jeff Levine"
+  },
+  {
+    "teamID": 778,
+    "teamName": "Monchenflapjack",
+    "playerName": "Harry Smith"
+  },
+  {
+    "teamID": 779,
+    "teamName": "الفيل زاد غرق",
+    "playerName": "Naim Charfi"
+  },
+  {
+    "teamID": 780,
+    "teamName": "Lord of De Ings",
+    "playerName": "Abhishek Ganesan"
+  },
+  {
+    "teamID": 781,
+    "teamName": "Poisson Fruit",
+    "playerName": "Daniel Holliday"
+  },
+  {
+    "teamID": 782,
+    "teamName": "Natural Order",
+    "playerName": "Callum Lennie"
+  },
+  {
+    "teamID": 783,
+    "teamName": "CD818",
+    "playerName": "CD 818"
+  },
+  {
+    "teamID": 784,
+    "teamName": "Trust the process",
+    "playerName": "Hasan Raza"
+  },
+  {
+    "teamID": 785,
+    "teamName": "Matthew Bye",
+    "playerName": "Matthew Bye"
+  },
+  {
+    "teamID": 786,
+    "teamName": "Coalport FC",
+    "playerName": "Julian Glenesk"
+  },
+  {
+    "teamID": 787,
+    "teamName": "Iraola Grande",
+    "playerName": "Rob Lamdin"
+  },
+  {
+    "teamID": 788,
+    "teamName": "Odegaarden Partey",
+    "playerName": "Luke Prescott"
+  },
+  {
+    "teamID": 789,
+    "teamName": "Zikov",
+    "playerName": "Kaloyan Nikolov"
+  },
+  {
+    "teamID": 790,
+    "teamName": "Haven't Got a Kalou",
+    "playerName": "Jaylen Martin"
+  },
+  {
+    "teamID": 791,
+    "teamName": "太阳总冠军",
+    "playerName": "X Dou"
+  },
+  {
+    "teamID": 792,
+    "teamName": "Jong de Walkerfront",
+    "playerName": "John Drinkwater"
+  },
+  {
+    "teamID": 793,
+    "teamName": "Estups To Conquer",
+    "playerName": "simon clinton"
+  },
+  {
+    "teamID": 794,
+    "teamName": "Take It Eze",
+    "playerName": "Callum Jefferies"
+  },
+  {
+    "teamID": 795,
+    "teamName": "Mumba No. 5",
+    "playerName": "Ben East"
+  },
+  {
+    "teamID": 796,
+    "teamName": "åqxåqwxåqwqwqw",
+    "playerName": "Sam Danby Bailey"
+  },
+  {
+    "teamID": 797,
+    "teamName": "GieKSa",
+    "playerName": "Tomek Głowacz"
+  },
+  {
+    "teamID": 798,
+    "teamName": "Weberkrautsalat",
+    "playerName": "Christian Richter"
+  },
+  {
+    "teamID": 799,
+    "teamName": "Villains",
+    "playerName": "Petri Junnikkala"
+  },
+  {
+    "teamID": 800,
+    "teamName": "Team Pirlø",
+    "playerName": "Alex Dalziel"
+  },
+  {
+    "teamID": 801,
+    "teamName": "bad _ salah + mid",
+    "playerName": "Ehab ismail"
+  },
+  {
+    "teamID": 802,
+    "teamName": "FC Alex***",
+    "playerName": "Alex Amery"
+  },
+  {
+    "teamID": 803,
+    "teamName": "Elwynn Forest",
+    "playerName": "Andrew Noon"
+  },
+  {
+    "teamID": 804,
+    "teamName": "Team Thomas",
+    "playerName": "Thomas Eriksen"
+  },
+  {
+    "teamID": 805,
+    "teamName": "Theatre of Raheems",
+    "playerName": "Martin Sutcliffe"
+  },
+  {
+    "teamID": 806,
+    "teamName": "Football Fiend",
+    "playerName": "Syed Fasi Ahmed"
+  },
+  {
+    "teamID": 807,
+    "teamName": "FC Back Stronger",
+    "playerName": "Tom Would"
+  },
+  {
+    "teamID": 808,
+    "teamName": "The Biscuitmen",
+    "playerName": "James Bywater"
+  },
+  {
+    "teamID": 809,
+    "teamName": "Stubbed Mitoma",
+    "playerName": "John Hayward"
+  },
+  {
+    "teamID": 810,
+    "teamName": "Drogs Ballacks Mk VI",
+    "playerName": "Christopher Corkery"
+  },
+  {
+    "teamID": 811,
+    "teamName": "Mediocre FC",
+    "playerName": "Marius Paulsen Haugen"
+  },
+  {
+    "teamID": 812,
+    "teamName": ".....",
+    "playerName": "Roope Selander"
+  },
+  {
+    "teamID": 813,
+    "teamName": "Cancelo Culture",
+    "playerName": "Manny Johns"
+  },
+  {
+    "teamID": 814,
+    "teamName": "Saka Potatoes",
+    "playerName": "Nooruddin Hakeem"
+  },
+  {
+    "teamID": 815,
+    "teamName": "This is SPARTA",
+    "playerName": "Michael Watson"
+  },
+  {
+    "teamID": 816,
+    "teamName": "Fahad alsawagh",
+    "playerName": "Fahad Alsawagh"
+  },
+  {
+    "teamID": 817,
+    "teamName": "Orunia City",
+    "playerName": "Oskar Krasiński"
+  },
+  {
+    "teamID": 818,
+    "teamName": "Jackmanistan",
+    "playerName": "Neil Jackman"
+  },
+  {
+    "teamID": 819,
+    "teamName": "Salahvating",
+    "playerName": "Ian Ritson"
+  },
+  {
+    "teamID": 820,
+    "teamName": "Mallo’s Monsters",
+    "playerName": "Dan Prange"
+  },
+  {
+    "teamID": 821,
+    "teamName": "2137 Kremówek",
+    "playerName": "Adam Wierzbicki"
+  },
+  {
+    "teamID": 822,
+    "teamName": "TenHAAAG A DO DO DO",
+    "playerName": "Simon Smith"
+  },
+  {
+    "teamID": 823,
+    "teamName": "Mount Rushford",
+    "playerName": "Talon Baker"
+  },
+  {
+    "teamID": 824,
+    "teamName": "Pep a Pig",
+    "playerName": "Maks Kružičević"
+  },
+  {
+    "teamID": 825,
+    "teamName": "rafin333",
+    "playerName": "Mashrur Rahman Rafin"
+  },
+  {
+    "teamID": 826,
+    "teamName": "Heung-Min's Sock",
+    "playerName": "Kirill t.me/FPL_HQ"
+  },
+  {
+    "teamID": 827,
+    "teamName": "TBC",
+    "playerName": "Mark McAfee"
+  },
+  {
+    "teamID": 828,
+    "teamName": "Let him Nkunkuook",
+    "playerName": "clare merrick"
+  },
+  {
+    "teamID": 829,
+    "teamName": "Haphazard United",
+    "playerName": "Ville Ikonen"
+  },
+  {
+    "teamID": 830,
+    "teamName": "Blackburn 1337",
+    "playerName": "Natpakhal Thongwaree"
+  },
+  {
+    "teamID": 831,
+    "teamName": "Gabi x Gabi x Gabby",
+    "playerName": "Fares Hayek"
+  },
+  {
+    "teamID": 832,
+    "teamName": "Gunnars",
+    "playerName": "Dylan Smith"
+  },
+  {
+    "teamID": 833,
+    "teamName": "Ctrl, Alt, de Ligt",
+    "playerName": "James Caldwell"
+  },
+  {
+    "teamID": 834,
+    "teamName": "Pain in Dias",
+    "playerName": "Dan Rozzell"
+  },
+  {
+    "teamID": 835,
+    "teamName": "o_0",
+    "playerName": "KeIvin T"
+  },
+  {
+    "teamID": 836,
+    "teamName": "Nassef’in Villa",
+    "playerName": "russ wilson"
+  },
+  {
+    "teamID": 837,
+    "teamName": "Excel XI",
+    "playerName": "Håkon Mangersnes"
+  },
+  {
+    "teamID": 838,
+    "teamName": "Mudryk and Morty",
+    "playerName": "John Faria"
+  },
+  {
+    "teamID": 839,
+    "teamName": "Onana What’s My Name",
+    "playerName": "Daniel Barfield"
+  },
+  {
+    "teamID": 840,
+    "teamName": "LongGiaoDau",
+    "playerName": "Long Vu"
+  },
+  {
+    "teamID": 841,
+    "teamName": "Flammable11",
+    "playerName": "Bashu Acharya"
+  },
+  {
+    "teamID": 842,
+    "teamName": "Captain Are-Pih",
+    "playerName": "Mohammad Hafiz"
+  },
+  {
+    "teamID": 843,
+    "teamName": "Licha Real Smooth",
+    "playerName": "Appu Sankar"
+  },
+  {
+    "teamID": 844,
+    "teamName": "Citadel",
+    "playerName": "Ric Statham"
+  },
+  {
+    "teamID": 845,
+    "teamName": "Averøy All-Stars",
+    "playerName": "Jon Walderhaug"
+  },
+  {
+    "teamID": 846,
+    "teamName": "Team of the week",
+    "playerName": "Eetu Suoraniemi"
+  },
+  {
+    "teamID": 847,
+    "teamName": "Not A Postecoglu",
+    "playerName": "Gavin Lordan"
+  },
+  {
+    "teamID": 848,
+    "teamName": "NotEasy :(",
+    "playerName": "Mustafa Alsemawi"
+  },
+  {
+    "teamID": 849,
+    "teamName": "Ha'way the lads",
+    "playerName": "Theo Pennefather"
+  },
+  {
+    "teamID": 850,
+    "teamName": "Tractor Boys***",
+    "playerName": "Warren Cray"
+  },
+  {
+    "teamID": 851,
+    "teamName": "Matip",
+    "playerName": "Michael Beatty"
+  },
+  {
+    "teamID": 852,
+    "teamName": "Change Name",
+    "playerName": "Amritpal Bhogal"
+  },
+  {
+    "teamID": 853,
+    "teamName": "Freddy",
+    "playerName": "Fredrik Eriksen"
+  },
+  {
+    "teamID": 854,
+    "teamName": "SOUND OF EDEN",
+    "playerName": "Lee Giles"
+  },
+  {
+    "teamID": 855,
+    "teamName": "leTrollBusiness",
+    "playerName": "Justin Kowaczek"
+  },
+  {
+    "teamID": 856,
+    "teamName": "AreolaGrande",
+    "playerName": "Gregory Pritchard"
+  },
+  {
+    "teamID": 857,
+    "teamName": "Petr Cech Yo'Self",
+    "playerName": "Kevin Dorman"
+  },
+  {
+    "teamID": 858,
+    "teamName": "Beverly Hills Klopp",
+    "playerName": "Chris Musson"
+  },
+  {
+    "teamID": 859,
+    "teamName": "Tea and Busquets",
+    "playerName": "Calum Scott"
+  },
+  {
+    "teamID": 860,
+    "teamName": "Winnies Wanderers",
+    "playerName": "Chris Winship"
+  },
+  {
+    "teamID": 861,
+    "teamName": "port fail",
+    "playerName": "Richard Jones"
+  },
+  {
+    "teamID": 862,
+    "teamName": "NowJürgenerBelieveUs",
+    "playerName": "Conor Smith"
+  },
+  {
+    "teamID": 863,
+    "teamName": "Cannon Fodder",
+    "playerName": "Marcin Dreszler"
+  },
+  {
+    "teamID": 864,
+    "teamName": "Kloppenheimer",
+    "playerName": "Amol Deshpande"
+  },
+  {
+    "teamID": 865,
+    "teamName": "Mcginn it to Win it",
+    "playerName": "Luca Cervi"
+  },
+  {
+    "teamID": 866,
+    "teamName": "Rotterdam NL",
+    "playerName": "Zoey Rimmer"
+  },
+  {
+    "teamID": 867,
+    "teamName": "FPL Tinkerman♟️",
+    "playerName": "Aman Kshetri"
+  },
+  {
+    "teamID": 868,
+    "teamName": "Krul Intentions",
+    "playerName": "Kristian Slåtsve"
+  },
+  {
+    "teamID": 869,
+    "teamName": "Too Mané Men",
+    "playerName": "Benjamin Lund"
+  },
+  {
+    "teamID": 870,
+    "teamName": "Why Ayew Holding Mee",
+    "playerName": "Snorri Heiðar Andrésson"
+  },
+  {
+    "teamID": 871,
+    "teamName": "The Invertibles",
+    "playerName": "David Isaac"
+  },
+  {
+    "teamID": 872,
+    "teamName": "dwjdw",
+    "playerName": "Sam Currie"
+  },
+  {
+    "teamID": 873,
+    "teamName": "YNWA",
+    "playerName": "Joshua Tan"
+  },
+  {
+    "teamID": 874,
+    "teamName": "Crystal Gyallis",
+    "playerName": "Archie Kidd"
+  },
+  {
+    "teamID": 875,
+    "teamName": "The Underdogs",
+    "playerName": "Daniel Curtis"
+  },
+  {
+    "teamID": 876,
+    "teamName": "Shape to Shoot",
+    "playerName": "Stuart Blakesley"
+  },
+  {
+    "teamID": 877,
+    "teamName": "Witam w grze 2023",
+    "playerName": "Mateusz Kolator"
+  },
+  {
+    "teamID": 878,
+    "teamName": "Olise Clause",
+    "playerName": "Avtansh Behal"
+  },
+  {
+    "teamID": 879,
+    "teamName": "Raufarhöfn FC",
+    "playerName": "Samy Elias Seba"
+  },
+  {
+    "teamID": 880,
+    "teamName": "Rum Ham United",
+    "playerName": "Jack Palmer"
+  },
+  {
+    "teamID": 881,
+    "teamName": "I’m just watching",
+    "playerName": "Kev Gray"
+  },
+  {
+    "teamID": 882,
+    "teamName": "Scoregasm",
+    "playerName": "James Northrop"
+  },
+  {
+    "teamID": 883,
+    "teamName": "Bee proud",
+    "playerName": "dan ferguson"
+  },
+  {
+    "teamID": 884,
+    "teamName": "Im Sorry Nic Jackson",
+    "playerName": "Abdullah Otri"
+  },
+  {
+    "teamID": 885,
+    "teamName": "UNITED",
+    "playerName": "Mohamed Essam"
+  },
+  {
+    "teamID": 886,
+    "teamName": "Sussebass fk",
+    "playerName": "Amalie Aleksdottir"
+  },
+  {
+    "teamID": 887,
+    "teamName": "S☀ΠZ ☀F ΣΓ!ΣZ",
+    "playerName": "Quintus Ogwado"
+  },
+  {
+    "teamID": 888,
+    "teamName": "La Mision",
+    "playerName": "Rajaram Maharana"
+  },
+  {
+    "teamID": 889,
+    "teamName": "Horridge Harriers",
+    "playerName": "Chris Horridge"
+  },
+  {
+    "teamID": 890,
+    "teamName": "RM Fan",
+    "playerName": "Batyr Jumayev"
+  },
+  {
+    "teamID": 891,
+    "teamName": "Paqueta Crisps",
+    "playerName": "Rodrigo Marriott"
+  },
+  {
+    "teamID": 892,
+    "teamName": "Que miras bobo?",
+    "playerName": "Sami Ghazzal"
+  },
+  {
+    "teamID": 893,
+    "teamName": "Pataljoona",
+    "playerName": "Joona Vainiola"
+  },
+  {
+    "teamID": 894,
+    "teamName": "mac fc",
+    "playerName": "Aleksandar Stankovic"
+  },
+  {
+    "teamID": 895,
+    "teamName": "Sorry Nic Jackson",
+    "playerName": "Ollie Cooper"
+  },
+  {
+    "teamID": 896,
+    "teamName": "Syverkioskens Venner",
+    "playerName": "Ole Kristian Thjømøe"
+  },
+  {
+    "teamID": 897,
+    "teamName": "Szlai as a Fox",
+    "playerName": "Sam Hutchins"
+  },
+  {
+    "teamID": 898,
+    "teamName": "Team",
+    "playerName": "Joe Sutton"
+  },
+  {
+    "teamID": 899,
+    "teamName": "Dunster 899",
+    "playerName": "Christopher Dunlop"
+  },
+  {
+    "teamID": 900,
+    "teamName": "FC Fransen",
+    "playerName": "Marcus Fransen"
+  },
+  {
+    "teamID": 901,
+    "teamName": "Gwan my son",
+    "playerName": "Robert Kewley"
+  },
+  {
+    "teamID": 902,
+    "teamName": "Stang Inn",
+    "playerName": "Tore Kalleberg"
+  },
+  {
+    "teamID": 903,
+    "teamName": "Soumi",
+    "playerName": "Michael Soumi"
+  },
+  {
+    "teamID": 904,
+    "teamName": "Not So Eze Afterall",
+    "playerName": "John Finn"
+  },
+  {
+    "teamID": 905,
+    "teamName": "Mbe Soh, Mbe Noh",
+    "playerName": "Paul Bloomfield"
+  },
+  {
+    "teamID": 906,
+    "teamName": "WKS TO PIES",
+    "playerName": "Kacper Maliszewski"
+  },
+  {
+    "teamID": 907,
+    "teamName": "AlissoninBorderland",
+    "playerName": "Phil Shao"
+  },
+  {
+    "teamID": 908,
+    "teamName": "Borussia Teeth",
+    "playerName": "Dan (BlackWolf)"
+  },
+  {
+    "teamID": 909,
+    "teamName": "Dizzy XI",
+    "playerName": "Owen Macbeath"
+  },
+  {
+    "teamID": 910,
+    "teamName": "Tonali&Co",
+    "playerName": "Emil Kaba"
+  },
+  {
+    "teamID": 911,
+    "teamName": "Groß Misconduct",
+    "playerName": "Lewis Hegarty"
+  },
+  {
+    "teamID": 912,
+    "teamName": "Bottlers vol. 2",
+    "playerName": "Magnus Fagerhol"
+  },
+  {
+    "teamID": 913,
+    "teamName": "Manarianz FC",
+    "playerName": "Taslim Razin"
+  },
+  {
+    "teamID": 914,
+    "teamName": "Nkunku's Nest",
+    "playerName": "Hua Jun Chin"
+  },
+  {
+    "teamID": 915,
+    "teamName": "FC PKP Czeladź V",
+    "playerName": "Konrad Szczukiewicz"
+  },
+  {
+    "teamID": 916,
+    "teamName": "HAUL LAND",
+    "playerName": "Kjetil Hytten"
+  },
+  {
+    "teamID": 917,
+    "teamName": "WIlls 11",
+    "playerName": "will is manu"
+  },
+  {
+    "teamID": 918,
+    "teamName": "Lazy FPL Newsletter",
+    "playerName": "Ross Shorland"
+  },
+  {
+    "teamID": 919,
+    "teamName": "Al-Aboard ✰✰✰✰",
+    "playerName": "Tom Clayton"
+  },
+  {
+    "teamID": 920,
+    "teamName": "Linton Town",
+    "playerName": "Toby Ridge"
+  },
+  {
+    "teamID": 921,
+    "teamName": "Ralph's Lil' Jerseys",
+    "playerName": "Mike Rijneker"
+  },
+  {
+    "teamID": 922,
+    "teamName": "Thursday Football",
+    "playerName": "Eric Ng"
+  },
+  {
+    "teamID": 923,
+    "teamName": "Buenos Aires FC",
+    "playerName": "Shaku Patel"
+  },
+  {
+    "teamID": 924,
+    "teamName": "Deleted",
+    "playerName": "Deleted Player"
+  },
+  {
+    "teamID": 925,
+    "teamName": "Spartacus666",
+    "playerName": "Nemanja Lisov"
+  },
+  {
+    "teamID": 926,
+    "teamName": "Game of Throw-Ins",
+    "playerName": "Anthony Ngo"
+  },
+  {
+    "teamID": 927,
+    "teamName": "Mulhaaland Drive",
+    "playerName": "Reuben VT"
+  },
+  {
+    "teamID": 928,
+    "teamName": "The crow must go on",
+    "playerName": "R Croasdale"
+  },
+  {
+    "teamID": 929,
+    "teamName": "Davie's Ladies",
+    "playerName": "Jordan Davie"
+  },
+  {
+    "teamID": 930,
+    "teamName": "Kane > Haaland",
+    "playerName": "Louis Meaden"
+  },
+  {
+    "teamID": 931,
+    "teamName": "KJØH",
+    "playerName": "Stian Herseth"
+  },
+  {
+    "teamID": 932,
+    "teamName": "Maurice Minors",
+    "playerName": "Maurice Murray"
+  },
+  {
+    "teamID": 933,
+    "teamName": "HaveYouWonTheTreble?",
+    "playerName": "Zoltan Kondor"
+  },
+  {
+    "teamID": 934,
+    "teamName": "Disappointment FC",
+    "playerName": "Jimmy Walrus"
+  },
+  {
+    "teamID": 935,
+    "teamName": "Beavers & Giraffes",
+    "playerName": "Calvin Leung"
+  },
+  {
+    "teamID": 936,
+    "teamName": "Joy(A)",
+    "playerName": "siddiquee mj"
+  },
+  {
+    "teamID": 937,
+    "teamName": "henki",
+    "playerName": "Henrik Allstrin"
+  },
+  {
+    "teamID": 938,
+    "teamName": "saka saka héhé",
+    "playerName": "Romain Ponchel"
+  },
+  {
+    "teamID": 939,
+    "teamName": "Bangers & Rash",
+    "playerName": "Jonathan Hancock"
+  },
+  {
+    "teamID": 940,
+    "teamName": "Scouting for Goals",
+    "playerName": "Katherine Andrews"
+  },
+  {
+    "teamID": 941,
+    "teamName": "Mighty Rooster",
+    "playerName": "Bryan Wisnu Prabowo"
+  },
+  {
+    "teamID": 942,
+    "teamName": "The Nutmeg Brigade",
+    "playerName": "Alexander Turner"
+  },
+  {
+    "teamID": 943,
+    "teamName": "Devojačka Moć F.C.",
+    "playerName": "Milly Borkovic"
+  },
+  {
+    "teamID": 944,
+    "teamName": "Genius Fúlbol Club",
+    "playerName": "Ahmad Yasser"
+  },
+  {
+    "teamID": 945,
+    "teamName": "Wataru Doing?",
+    "playerName": "Jamie Wise"
+  },
+  {
+    "teamID": 946,
+    "teamName": "FPL Focal",
+    "playerName": "Oscar ‎"
+  },
+  {
+    "teamID": 947,
+    "teamName": "Onana What's My Name",
+    "playerName": "Reko Marttila"
+  },
+  {
+    "teamID": 948,
+    "teamName": "It's Over Vanaken",
+    "playerName": "Jack Edwards"
+  },
+  {
+    "teamID": 949,
+    "teamName": "Why Ayew Running",
+    "playerName": "Joel Broadway"
+  },
+  {
+    "teamID": 950,
+    "teamName": "Gift of the Gabs",
+    "playerName": "John Salmon"
+  },
+  {
+    "teamID": 951,
+    "teamName": "How To Win At FPL",
+    "playerName": "Richard Overton"
+  },
+  {
+    "teamID": 952,
+    "teamName": "Ally's Gators",
+    "playerName": "Ally Rudge"
+  },
+  {
+    "teamID": 953,
+    "teamName": "Game Of Jones",
+    "playerName": "Ethan Jones"
+  },
+  {
+    "teamID": 954,
+    "teamName": "Estupiña Colada",
+    "playerName": "Matthew Proud"
+  },
+  {
+    "teamID": 955,
+    "teamName": "Expected Scholes",
+    "playerName": "Michael Herbert"
+  },
+  {
+    "teamID": 956,
+    "teamName": "Erling Broadway",
+    "playerName": "Kierad McAllister"
+  },
+  {
+    "teamID": 957,
+    "teamName": "Jack Hammers",
+    "playerName": "Jack Price"
+  },
+  {
+    "teamID": 958,
+    "teamName": "GTA Rice City",
+    "playerName": "Finn Tyrrell"
+  },
+  {
+    "teamID": 959,
+    "teamName": "No Comment FC",
+    "playerName": "Doğukan Polat"
+  },
+  {
+    "teamID": 960,
+    "teamName": "TSBs",
+    "playerName": "Tom Harrison"
+  },
+  {
+    "teamID": 961,
+    "teamName": "Best In The World",
+    "playerName": "Jack Flash"
+  },
+  {
+    "teamID": 962,
+    "teamName": "BerkshireHafawayline",
+    "playerName": "John B"
+  },
+  {
+    "teamID": 963,
+    "teamName": "gorcus fc",
+    "playerName": "Dieter Minet"
+  },
+  {
+    "teamID": 964,
+    "teamName": "Kiselinov FC",
+    "playerName": "Angel Kiselinov"
+  },
+  {
+    "teamID": 965,
+    "teamName": "lewis' XI",
+    "playerName": "lewis chatwin"
+  },
+  {
+    "teamID": 966,
+    "teamName": "Leander Denploncker",
+    "playerName": "FPL Plonker"
+  },
+  {
+    "teamID": 967,
+    "teamName": "bailey spurs",
+    "playerName": "Elliott Bailey"
+  },
+  {
+    "teamID": 968,
+    "teamName": "黑白的道德复古",
+    "playerName": "子森 used2BsoBlack&White"
+  },
+  {
+    "teamID": 969,
+    "teamName": "FPL President's men",
+    "playerName": "Sigurd Eskeland"
+  },
+  {
+    "teamID": 970,
+    "teamName": "Too Eze",
+    "playerName": "Sam Morris"
+  },
+  {
+    "teamID": 971,
+    "teamName": "Kevin DePoyner",
+    "playerName": "Chris Poyner"
+  },
+  {
+    "teamID": 972,
+    "teamName": "Prague United FC",
+    "playerName": "David Neveceral (@FPL_cz)"
+  },
+  {
+    "teamID": 973,
+    "teamName": "I Stubbed Mitoma",
+    "playerName": "Alex Redshaw"
+  },
+  {
+    "teamID": 974,
+    "teamName": "Toppa lag",
+    "playerName": "Theodor Eide"
+  },
+  {
+    "teamID": 975,
+    "teamName": "Szoboszlai Seconds",
+    "playerName": "Elliot Bartlett"
+  },
+  {
+    "teamID": 976,
+    "teamName": "Fabryka Jaboli",
+    "playerName": "Szymon Bowżyk"
+  },
+  {
+    "teamID": 977,
+    "teamName": "Klopps and Szobberz",
+    "playerName": "Luke Holden"
+  },
+  {
+    "teamID": 978,
+    "teamName": "Kai-Yai-Yai",
+    "playerName": "Lord Lingardinho"
+  },
+  {
+    "teamID": 979,
+    "teamName": "Kasho & Atmos",
+    "playerName": "Julien Kang"
+  },
+  {
+    "teamID": 980,
+    "teamName": "Jaffs Mandem",
+    "playerName": "Haydn Jaffrey"
+  },
+  {
+    "teamID": 981,
+    "teamName": "The Wissa of Oz",
+    "playerName": "Søren Clemmensen"
+  },
+  {
+    "teamID": 982,
+    "teamName": "Bitter red clowns",
+    "playerName": "David Conlon"
+  },
+  {
+    "teamID": 983,
+    "teamName": "Martial Arts",
+    "playerName": "David B"
+  },
+  {
+    "teamID": 984,
+    "teamName": "Szoboszlai and Mash",
+    "playerName": "Liam O’Connor"
+  },
+  {
+    "teamID": 985,
+    "teamName": "I'm Yelling Timber",
+    "playerName": "Andrew Bourke"
+  },
+  {
+    "teamID": 986,
+    "teamName": "Shiver Me Timber",
+    "playerName": "Adam Hyams"
+  },
+  {
+    "teamID": 987,
+    "teamName": "Vinmetry FC",
+    "playerName": "Vineeth Poojary"
+  },
+  {
+    "teamID": 988,
+    "teamName": "Saka Spuds",
+    "playerName": "Matthew Bunting"
+  },
+  {
+    "teamID": 989,
+    "teamName": "Pieters Assist",
+    "playerName": "Kevin Kehoe"
+  },
+  {
+    "teamID": 990,
+    "teamName": "Groß Indecency",
+    "playerName": "Rob Allan"
+  },
+  {
+    "teamID": 991,
+    "teamName": "FSYFC",
+    "playerName": "Ray Wong"
+  },
+  {
+    "teamID": 992,
+    "teamName": "Mo Money Mo Salah",
+    "playerName": "JT Barras"
+  },
+  {
+    "teamID": 993,
+    "teamName": "Housequake Jazz",
+    "playerName": "Sam Millls"
+  },
+  {
+    "teamID": 994,
+    "teamName": "Famely_guy",
+    "playerName": "Apostolis Famelis"
+  },
+  {
+    "teamID": 995,
+    "teamName": "Danger!  Kai Voltage",
+    "playerName": "Mitch Emery"
+  },
+  {
+    "teamID": 996,
+    "teamName": "Partizan Kobo FC",
+    "playerName": "Johan Daniels"
+  },
+  {
+    "teamID": 997,
+    "teamName": "Dazzlers",
+    "playerName": "Daran Mehmet-Wise"
+  },
+  {
+    "teamID": 998,
+    "teamName": "Team of Gary Breens",
+    "playerName": "Seamus Kerlin"
+  },
+  {
+    "teamID": 999,
+    "teamName": "Hoff Team",
+    "playerName": "Søren Hoffmann Pedersen"
+  },
+  {
+    "teamID": 1000,
+    "teamName": "Dalahästen",
+    "playerName": "Linus Dahlström"
+  }
+]

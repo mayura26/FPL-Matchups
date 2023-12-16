@@ -65,7 +65,7 @@ function TeamAnalysis() {
                     <div className="team-data">
                         <div className="player-data">
                             <div className='manager-name'>
-                                {/* FEATURE: Add compare to another team with popup being H2H popup */}
+                                {/* FEATURE: [2] Add compare to another team with popup being H2H popup */}
                                 <h2>{teamData.managerName}</h2>
                             </div>
                             <div className='player-info'>
