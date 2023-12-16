@@ -217,6 +217,7 @@ const Head2HeadMatchups = () => {
                             <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
                               {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
                             </button>
+                            {/* TODO: Show transfercost */}
                             <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
                               {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
                             </button>
@@ -251,6 +252,7 @@ const Head2HeadMatchups = () => {
                   <thead>
                     <tr>
                       <th>Player Name</th>
+                      <th>Team</th>
                       <th>BPS</th>
                       <th>Bonus</th>
                     </tr>
@@ -259,6 +261,7 @@ const Head2HeadMatchups = () => {
                     {leagueData.bpsData.data.map((player, index) => (
                       <tr key={index}>
                         <td>{player.name}</td>
+                        <td>{player.team}</td>
                         <td>{player.value}</td>
                         <td>{player.bonusPoints}</td>
                       </tr>

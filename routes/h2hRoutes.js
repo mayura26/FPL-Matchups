@@ -25,9 +25,11 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const bpsData = await calculateBPS(req);
     const bootstrapData = await getBootstrapData(req);
     const playersInfo = bootstrapData.data.elements;
-
+    const dataMap = await getMaps(bootstrapData);
+    // TODO: Add fixture name
     bpsData.data.forEach(player => {
       player.name = playersInfo.find(playerI => playerI.id === player.element).web_name;
+      player.team = dataMap.teamsShort[dataMap.teams[playersInfo.find(playerI => playerI.id === player.element).team]];
     })
 
     const calculateTotalPoints = async (teamDetails) => {
@@ -53,6 +55,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
         totalPoints += viceCaptain.gameWeekScore;
       }
       // Subtract any penalty points (hits) from the total points
+      // BUG: Transfer cost not working on current gameweek
       totalPoints -= teamDetails.transferCost;
 
       // Add points from bench players who have a substatus of 'In'
