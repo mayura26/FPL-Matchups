@@ -20,6 +20,8 @@ const Head2HeadMatchups = () => {
   const [loadingInputs, setLoadingInputs] = useState(true);
   const [hideCommonPlayers, setHideCommonPlayers] = useState(false);
   const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
+  const [bpsDataVisible, setBpsDataVisible] = useState(false);
+  const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
 
   const toggleMatchupDetails = async (matchupId, team1Id, team2Id) => {
     if (selectedMatchupId === matchupId) {
@@ -247,40 +249,73 @@ const Head2HeadMatchups = () => {
               </div>
             ))}
             {(Number(fetchedGameweek) === Number(maxGameweek) && leagueData.bpsData.data.length > 0) ? (
-              <div className="bps-data">
-                <h2>BPS Data (Live)</h2>
-                <table className="bps-table info-table">
-                  <thead>
-                    <tr>
-                      <th>Player Name</th>
-                      <th>Team</th>
-                      <th>BPS</th>
-                      <th>Bonus</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {leagueData.bpsData.data
-                      .reduce((acc, player, index, arr) => {
-                        if (index === 0 || player.fixture !== arr[index - 1].fixture) {
-                          acc.push(
-                            <tr className='bps-fixture-row' key={`fixture-${index}`}>
-                              <td colSpan="4">{player.fixture}</td>
+              <>
+                <div className='bps-data'>
+                  <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
+                  {liveScoreboardVisible && (
+                    <table className="bps-table info-table">
+                      <thead>
+                        <tr>
+                          <th>Player Name</th>
+                          <th>Team</th>
+                          <th>Score</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {leagueData.results
+                          .flatMap(match => [
+                            ...(typeof match.entry_1_livepoints === 'number' ? [{ name: match.entry_1_name, playername: match.entry_1_player_name, score: match.entry_1_livepoints }] : []),
+                            ...(typeof match.entry_2_livepoints === 'number' ? [{ name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints }] : [])
+                          ])
+                          .sort((a, b) => b.score - a.score)
+                          .map((player, index) => (
+                            <tr key={index}>
+                              <td>{player.playername}</td>
+                              <td>{player.name}</td>
+                              <td>{player.score}</td>
                             </tr>
-                          );
-                        }
-                        acc.push(
-                          <tr key={index}>
-                            <td>{player.name}</td>
-                            <td>{player.team}</td>
-                            <td>{player.value}</td>
-                            <td>{player.bonusPoints}</td>
-                          </tr>
-                        );
-                        return acc;
-                      }, [])}
-                  </tbody>
-                </table>
-              </div>
+                          ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+                <div className="bps-data">
+                  <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
+                  {bpsDataVisible && (
+                    <table className="bps-table info-table">
+                      <thead>
+                        <tr>
+                          <th>Player Name</th>
+                          <th>Team</th>
+                          <th>BPS</th>
+                          <th>Bonus</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {leagueData.bpsData.data
+                          .reduce((acc, player, index, arr) => {
+                            if (index === 0 || player.fixture !== arr[index - 1].fixture) {
+                              acc.push(
+                                <tr className='bps-fixture-row' key={`fixture-${index}`}>
+                                  <td colSpan="4">{player.fixture}</td>
+                                </tr>
+                              );
+                            }
+                            acc.push(
+                              <tr key={index}>
+                                <td>{player.name}</td>
+                                <td>{player.team}</td>
+                                <td>{player.value}</td>
+                                <td>{player.bonusPoints}</td>
+                              </tr>
+                            );
+                            return acc;
+                          }, [])}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </>
             ) : (
               <></>
             )}
