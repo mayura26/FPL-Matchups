@@ -248,7 +248,7 @@ const Head2HeadMatchups = () => {
                   ))}
               </div>
             ))}
-            {(Number(fetchedGameweek) === Number(maxGameweek) && leagueData.bpsData.data.length > 0) ? (
+            {(Number(fetchedGameweek) === Number(maxGameweek)) ? (
               <>
                 <div className='bps-data'>
                   <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
@@ -279,42 +279,46 @@ const Head2HeadMatchups = () => {
                     </table>
                   )}
                 </div>
-                <div className="bps-data">
-                  <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
-                  {bpsDataVisible && (
-                    <table className="bps-table info-table">
-                      <thead>
-                        <tr>
-                          <th>Player Name</th>
-                          <th>Team</th>
-                          <th>BPS</th>
-                          <th>Bonus</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {leagueData.bpsData.data
-                          .reduce((acc, player, index, arr) => {
-                            if (index === 0 || player.fixture !== arr[index - 1].fixture) {
+                {leagueData.bpsData.data.length > 0 ? (
+                  <div className="bps-data">
+                    <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
+                    {bpsDataVisible && (
+                      <table className="bps-table info-table">
+                        <thead>
+                          <tr>
+                            <th>Player Name</th>
+                            <th>Team</th>
+                            <th>BPS</th>
+                            <th>Bonus</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {leagueData.bpsData.data
+                            .reduce((acc, player, index, arr) => {
+                              if (index === 0 || player.fixture !== arr[index - 1].fixture) {
+                                acc.push(
+                                  <tr className='bps-fixture-row' key={`fixture-${index}`}>
+                                    <td colSpan="4">{player.fixture}</td>
+                                  </tr>
+                                );
+                              }
                               acc.push(
-                                <tr className='bps-fixture-row' key={`fixture-${index}`}>
-                                  <td colSpan="4">{player.fixture}</td>
+                                <tr key={index}>
+                                  <td>{player.name}</td>
+                                  <td>{player.team}</td>
+                                  <td>{player.value}</td>
+                                  <td>{player.bonusPoints}</td>
                                 </tr>
                               );
-                            }
-                            acc.push(
-                              <tr key={index}>
-                                <td>{player.name}</td>
-                                <td>{player.team}</td>
-                                <td>{player.value}</td>
-                                <td>{player.bonusPoints}</td>
-                              </tr>
-                            );
-                            return acc;
-                          }, [])}
-                      </tbody>
-                    </table>
-                  )}
-                </div>
+                              return acc;
+                            }, [])}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
+                ) : (
+                  <></>
+                )}
               </>
             ) : (
               <></>
