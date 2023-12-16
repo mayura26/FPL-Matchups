@@ -7,7 +7,7 @@ router.get('/leagues/:teamId', async (req, res) => {
   try {
     const teamID = req.params.teamId;
     const response = await getTeamData(req, teamID);
-    const leagues = response.data.leagues.h2h;
+    const leagues = response.data.leagues ? response.data.leagues.h2h : [];
 
     res.json({ data: leagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
