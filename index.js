@@ -23,6 +23,12 @@ app.get('/status', (req, res) => {
     res.status(200).send('Backend is live');
 });
 
+// Add a route to download the teamData.json file
+app.get('/teamData', (req, res) => {
+    res.download('./lib/teamData.json');
+});
+
+
 app.use('/api/ta', taRoutes);
 app.use('/api/h2h', h2hRoutes);
 app.use('/api/lu', luRoutes);
