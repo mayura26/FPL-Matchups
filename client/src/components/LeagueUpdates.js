@@ -69,7 +69,12 @@ function LeagueUpdates() {
                     if (!data.apiLive) {
                         alert("The FPL API is not live.");
                     } else {
-                        setLeagues(data.data);
+                        if (data.data.length > 0) {
+                            setLeagues(data.data);
+                          } else {
+                            alert("No leagues found");
+                            setLeagues([]);
+                          }
                         setLoadingInputs(false);
                     }
                 } catch (error) {
