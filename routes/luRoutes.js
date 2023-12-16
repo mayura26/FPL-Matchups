@@ -17,7 +17,7 @@ router.get('/team-leagues/:teamId', async (req, res) => {
     const smallLeagues = response.data.leagues.classic.filter(league => (league.league_type !== "s"));
     res.json({ data: smallLeagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
-    console.log("Error getting TeamLeagues-TeamID info");
+    console.log(`Error getting TeamLeagues-TeamID info. TeamID: ${req.params.teamId}`);
     console.error(error);
   }
 });
@@ -28,11 +28,11 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
     const leagueId = req.params.leagueId;
     const gameWeek = req.params.gameWeek;
 
-    if (isNaN(leagueID)) {
-      return res.status(400).json({ error: `Invalid leagueID parameter. It must be a number. LeagueID: ${leagueID}` });
+    if (isNaN(leagueId)) {
+      return res.status(400).json({ error: `Invalid leagueId parameter. It must be a number. LeagueID: ${leagueId}` });
     }
-    if (isNaN(gameweek)) {
-      return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
+    if (isNaN(gameWeek)) {
+      return res.status(400).json({ error: `Invalid gameWeek parameter. It must be a number. Gameweek: ${gameWeek}` });
     }
     
     // Fetch league details from FPL API
@@ -100,7 +100,7 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
 
     res.json({ data: enrichedTransfers, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
   } catch (error) {
-    console.log("Error getting TeamLeagues-LeagueID-GW info");
+    console.log(`Error getting TeamLeagues-LeagueID-GW info. LeagueID: ${req.params.leagueId} Gameweek: ${req.params.gameWeek}`);
     console.error(error);
   }
 });
