@@ -162,7 +162,7 @@ const Head2HeadMatchups = () => {
           <div className="matchups-container">
             {leagueData.results.map((match, index) => (
               <div key={match.id} className="matchup-container">
-                <div className="matchup-summary" onClick={() => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry)}>
+                <div className="matchup-summary" onClick={match.entry_1_entry && match.entry_2_entry ? () => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry) : undefined} style={{pointerEvents: match.entry_1_entry && match.entry_2_entry ? 'auto' : 'none'}}>
                   <table className="matchup-table info-table results-table">
                     <tbody>
                       <tr className='ripple-row'>
@@ -281,6 +281,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   const [showPlayer2Card, setShowPlayer2Card] = useState(false);
   const [player1Data, setPlayer1Data] = useState(null);
   const [player2Data, setPlayer2Data] = useState(null);
+  const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);
 
   // Hide the row if hideCommon is true and both players are the same (identified by ID)
   if ((hideCommon && player1 && player2 && player1.id === player2.id) ||
@@ -327,9 +328,9 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
         player1Status = '🔵'; // Draw
         player2Status = '🔵'; // Draw
       }
-    } else if ((player1.playStatus === 'played' || player1.playStatus === 'playing') && (player2.playStatus === 'unplayed')) {
+    } else if ((player1.playStatus === 'played' || player1.playStatus === 'playing') && (player2.playStatus === 'unplayed' || player2.playStatus === 'notplayed')) {
       player1Status = getSinglePlayerStatus(player1Score);
-    } else if ((player2.playStatus === 'played' || player2.playStatus === 'playing') && (player1.playStatus === 'unplayed')) {
+    } else if ((player2.playStatus === 'played' || player2.playStatus === 'playing') && (player1.playStatus === 'unplayed' || player1.playStatus === 'notplayed')) {
       player2Status = getSinglePlayerStatus(player2Score);
     }
   } else if (player1 && !player2) {
@@ -354,6 +355,14 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
     player2Name += ' 🔼'
   }
 
+  if (player1 && player1.playStatus === 'notplayed') {
+    player1Status = '⏳';
+  }
+
+  if (player2 && player2.playStatus === 'notplayed') {
+    player2Status = '⏳';
+  }
+
   const handleRowClick = async () => {
     try {
       if (showPlayer1Card || showPlayer2Card) {
@@ -361,6 +370,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
         setShowPlayer2Card(false);
       } else {
         if (player1 || player2) {
+          setLoadingPlayerCard(true);
           let player1ResponseData = [];
           let player2ResponseData = [];
 
@@ -391,6 +401,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
             }
           }
         }
+        setLoadingPlayerCard(false);
       }
     } catch (error) {
       alert("Error fetching player matchup", error);
@@ -433,7 +444,15 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
         <td className={player2Class}>{player2Score}</td>
         <td className={player2Class}>{player2Status}</td>
       </tr>
-      <tr>{playerCardPopup}</tr>
+      <tr>
+        {loadingPlayerCard ? (
+          <td colSpan={8}>
+            <div className="loading-wheel"></div>
+          </td>
+        ) : (
+          playerCardPopup
+        )}
+      </tr>
     </>
   );
 };
@@ -543,7 +562,7 @@ const MatchupDetailsBench = ({ team1Details, team2Details, hideCommonPlayers, hi
 
 const alignPlayers = (team1Details, team2Details) => {
   const positions = ['GKP', 'DEF', 'MID', 'FWD'];
-  const alignedPlayers = [];
+  let alignedPlayers = [];
   const captains = { team1: null, team2: null };
 
   // First, find the captains, store them separately.
@@ -586,6 +605,32 @@ const alignPlayers = (team1Details, team2Details) => {
       alignedPlayers.push({ player1: null, player2: p2 });
     });
   });
+
+  // For each player1 in alignedPlayers which doesn't have a player2, select player2 with closest price from remaining players2
+  // Get all the player2s that aren't matched
+  let unmatchedPlayers2 = alignedPlayers.filter(p => p.player1 === null).map(p => p.player2);
+  let toRemovePlayer2Ids = [];
+  // For each player1 in alignedPlayers which doesn't have a player2, select player2 with closest price from unmatchedPlayers2
+  alignedPlayers.forEach(alignedPlayer => {
+    if (!alignedPlayer.player2) {
+      let closestPlayer2;
+      let closestPriceDiff = Infinity;
+      unmatchedPlayers2.forEach(p2 => {
+        const priceDiff = Math.abs(alignedPlayer.player1.price - p2.price);
+        if (priceDiff < closestPriceDiff) {
+          closestPlayer2 = p2;
+          closestPriceDiff = priceDiff;
+        }
+      });
+      if (closestPlayer2) {
+        alignedPlayer.player2 = closestPlayer2;
+        unmatchedPlayers2 = unmatchedPlayers2.filter(p2 => p2.id !== closestPlayer2.id);
+        toRemovePlayer2Ids.push(closestPlayer2.id);
+      }
+    }
+  });
+
+  alignedPlayers = alignedPlayers.filter(alignedPlayer => alignedPlayer.player1 !== null || !toRemovePlayer2Ids.includes(alignedPlayer.player2.id));
 
   // Add captains at the end of the array, aligned with each other
   // If the captain's playStatus is 'unplayed', then the viceCaptain is put in place
