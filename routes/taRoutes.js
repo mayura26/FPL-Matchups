@@ -7,6 +7,14 @@ router.get('/:teamID/:gameweek', async (req, res) => {
     try {
         const { teamID, gameweek } = req.params;
 
+        if (isNaN(teamID)) {
+            return res.status(400).json({ error: `Invalid teamID parameter. It must be a number. TeamID: ${teamID}` });
+        }
+
+        if (isNaN(gameweek)) {
+            return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
+        }
+        
         // Fetch general information (players and teams)
         const bootstrapData = await getBootstrapData(req);
         const dataMap = await getMaps(bootstrapData);
@@ -42,7 +50,6 @@ router.get('/:teamID/:gameweek', async (req, res) => {
             // Sort the startingPlayers and benchPlayers arrays based on the index maps
             const sortedStartingPlayers = startingPlayers.sort((a, b) => startingPlayerIndexMap[a.id] - startingPlayerIndexMap[b.id]);
             const sortedBenchPlayers = benchPlayers.sort((a, b) => benchPlayerIndexMap[a.id] - benchPlayerIndexMap[b.id]);
-
 
             const teamInfoResponse = await getTeamData(req, teamID);
 

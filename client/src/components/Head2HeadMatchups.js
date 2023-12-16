@@ -162,7 +162,7 @@ const Head2HeadMatchups = () => {
           <div className="matchups-container">
             {leagueData.results.map((match, index) => (
               <div key={match.id} className="matchup-container">
-                <div className="matchup-summary" onClick={match.entry_1_entry && match.entry_2_entry ? () => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry) : undefined} style={{pointerEvents: match.entry_1_entry && match.entry_2_entry ? 'auto' : 'none'}}>
+                <div className="matchup-summary" onClick={match.entry_1_entry && match.entry_2_entry ? () => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry) : undefined} style={{ pointerEvents: match.entry_1_entry && match.entry_2_entry ? 'auto' : 'none' }}>
                   <table className="matchup-table info-table results-table">
                     <tbody>
                       <tr className='ripple-row'>
@@ -217,7 +217,6 @@ const Head2HeadMatchups = () => {
                             <button onClick={() => setHideCommonPlayers(!hideCommonPlayers)}>
                               {hideCommonPlayers ? 'Show' : 'Hide'} Common Players
                             </button>
-                            {/* TODO: Show transfercost */}
                             <button onClick={() => setHidePlayedPlayers(!hidePlayedPlayers)}>
                               {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
                             </button>
@@ -227,6 +226,10 @@ const Head2HeadMatchups = () => {
                               Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
                             </div>
                           )}
+                          <MatchupDetailsGen
+                            team1Details={matchupData.team1Details}
+                            team2Details={matchupData.team2Details}
+                          />
                           <MatchupDetailsStarting
                             team1Details={matchupData.team1Details.startingPlayers}
                             team2Details={matchupData.team2Details.startingPlayers}
@@ -236,8 +239,6 @@ const Head2HeadMatchups = () => {
                           <MatchupDetailsBench
                             team1Details={matchupData.team1Details.benchPlayers}
                             team2Details={matchupData.team2Details.benchPlayers}
-                            hideCommonPlayers={hideCommonPlayers}
-                            hidePlayedPlayers={hidePlayedPlayers}
                           />
                         </div>
                       </>
@@ -258,14 +259,25 @@ const Head2HeadMatchups = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {leagueData.bpsData.data.map((player, index) => (
-                      <tr key={index}>
-                        <td>{player.name}</td>
-                        <td>{player.team}</td>
-                        <td>{player.value}</td>
-                        <td>{player.bonusPoints}</td>
-                      </tr>
-                    ))}
+                    {leagueData.bpsData.data
+                      .reduce((acc, player, index, arr) => {
+                        if (index === 0 || player.fixture !== arr[index - 1].fixture) {
+                          acc.push(
+                            <tr className='bps-fixture-row' key={`fixture-${index}`}>
+                              <td colSpan="4">{player.fixture}</td>
+                            </tr>
+                          );
+                        }
+                        acc.push(
+                          <tr key={index}>
+                            <td>{player.name}</td>
+                            <td>{player.team}</td>
+                            <td>{player.value}</td>
+                            <td>{player.bonusPoints}</td>
+                          </tr>
+                        );
+                        return acc;
+                      }, [])}
                   </tbody>
                 </table>
               </div>
@@ -302,20 +314,6 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   let player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
   let player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
-  const getSinglePlayerStatus = (playerScore) => {
-    let playerStatus = '';
-    if (playerScore >= 8) {
-      playerStatus = '🏆';
-    } else if (playerScore >= 4) {
-      playerStatus = '✅';
-    } else if (playerScore > 1) {
-      playerStatus = '🟠';
-    } else {
-      playerStatus = '💥';
-    }
-    return playerStatus;
-  }
-
   // Determine the status of the players based on their scores
   let player1Status = player1 ? '' : null;
   let player2Status = player2 ? '' : null;
@@ -347,23 +345,29 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   }
 
   if (player1 && (player1.playStatus === 'unplayed' || player1.subStatus === "Out")) {
-    player1Status = '🔻';
+    player1Status = '☠️';
+    player1Name += ' 🔻'
   } else if (player1 && player1.subStatus === "In") {
     player1Name += ' 🔼'
   }
 
   if (player2 && (player2.playStatus === 'unplayed' || player2.subStatus === "Out")) {
-    player2Status = '🔻';
+    player2Status = '☠️';
+    player2Name += ' 🔻'
   } else if (player2 && player2.subStatus === "In") {
     player2Name += ' 🔼'
   }
 
   if (player1 && player1.playStatus === 'notplayed') {
     player1Status = '⏳';
+  } else if (player1 && player1.playStatus === 'benched') {
+    player1Status = '🪑';
   }
 
   if (player2 && player2.playStatus === 'notplayed') {
     player2Status = '⏳';
+  } else if (player2 && player2.playStatus === 'benched') {
+    player2Status = '🪑';
   }
 
   const handleRowClick = async () => {
@@ -465,21 +469,34 @@ const PlayerRowBench = ({ player1, player2 }) => {
   const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
   const player2Class = player2 ? `player ${player2.playStatus} ${player2.captainStatus}` : 'player';
-  const player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
-  const player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
+  let player1Name = player1 && (player1.captainStatus === 'VC' || player1.captainStatus === 'C') ? player1.name + ` (${player1.captainStatus})` : player1 ? player1.name : '';
+  let player2Name = player2 && (player2.captainStatus === 'VC' || player2.captainStatus === 'C') ? player2.name + ` (${player2.captainStatus})` : player2 ? player2.name : '';
 
   let player1Status = player1 ? (player1.playStatus === 'unplayed' ? '☠️' : player1.playStatus === 'not-played' ? '' : '➖') : null; // Ready symbol if played, dead symbol if not
   let player2Status = player2 ? (player2.playStatus === 'unplayed' ? '☠️' : player2.playStatus === 'not-played' ? '' : '➖') : null;  // Ready symbol if played, dead symbol if not
+
   if (player1 && player1.subStatus === "Out") {
-    player1Status = '🔻';
+    player1Status = '☠️';
+    player1Name += ' 🔻';
   } else if (player1 && player1.subStatus === "In") {
-    player1Status += '🔼';
+    player1Name += ' 🔼';
+    if (player1.playStatus === 'played' || player1.playStatus === 'playing') {
+      player1Status = getSinglePlayerStatus(player1Score);
+    } else if (player1.playStatus === 'benched') {
+      player1Status = '🪑';
+    }
   }
 
   if (player2 && player2.subStatus === "Out") {
-    player2Status = '🔻';
+    player2Status = '☠️';
+    player2Name += ' 🔻';
   } else if (player2 && player2.subStatus === "In") {
-    player2Status += '🔼';
+    player2Name += ' 🔼';
+    if (player2.playStatus === 'played' || player2.playStatus === 'playing') {
+      player2Status = getSinglePlayerStatus(player1Score);
+    } else if (player1.playStatus === 'benched') {
+      player2Status = '🪑';
+    }
   }
   return (
     <tr className="player-row">
@@ -494,6 +511,20 @@ const PlayerRowBench = ({ player1, player2 }) => {
     </tr>
   );
 };
+
+const getSinglePlayerStatus = (playerScore) => {
+  let playerStatus = '';
+  if (playerScore >= 8) {
+    playerStatus = '🏆';
+  } else if (playerScore >= 4) {
+    playerStatus = '✅';
+  } else if (playerScore > 1) {
+    playerStatus = '🟠';
+  } else {
+    playerStatus = '💥';
+  }
+  return playerStatus;
+}
 
 const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers }) => {
   const alignedPlayers = alignPlayers(team1Details, team2Details);
@@ -529,7 +560,7 @@ const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers,
   );
 };
 
-const MatchupDetailsBench = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers }) => {
+const MatchupDetailsBench = ({ team1Details, team2Details }) => {
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
@@ -557,6 +588,35 @@ const MatchupDetailsBench = ({ team1Details, team2Details, hideCommonPlayers, hi
               />
             );
           })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const MatchupDetailsGen = ({ team1Details, team2Details }) => {
+  return (
+    <div className="matchup-table-container">
+      <table className="matchup-table info-table">
+        <thead>
+          <tr>
+            <th>Transfer</th>
+            <th>In Play</th>
+            <th>Remain</th>
+            <th>Transfer</th>
+            <th>In Play</th>
+            <th>Remain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{team1Details.transferCost * -1}</td>
+            <td>{team1Details.startingPlayers.filter(player => player.playStatus === 'playing').length + team1Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'playing').length}</td>
+            <td>{team1Details.startingPlayers.filter(player => player.playStatus === 'notplayed').length + team1Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'notplayed').length}</td>
+            <td>{team2Details.transferCost * -1}</td>
+            <td>{team2Details.startingPlayers.filter(player => player.playStatus === 'playing').length + team2Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'playing').length}</td>
+            <td>{team2Details.startingPlayers.filter(player => player.playStatus === 'notplayed').length + team2Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'notplayed').length}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -652,5 +712,7 @@ const alignPlayers = (team1Details, team2Details) => {
 
   return alignedPlayers;
 };
+
+
 
 export default Head2HeadMatchups;

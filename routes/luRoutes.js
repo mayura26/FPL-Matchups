@@ -7,6 +7,11 @@ const router = express.Router();
 router.get('/team-leagues/:teamId', async (req, res) => {
   try {
     const teamID = req.params.teamId;
+
+    if (isNaN(teamID)) {
+      return res.status(400).json({ error: `Invalid teamId parameter. It must be a number. TeamID: ${teamID}` });
+    }
+
     const response = await getTeamData(req, teamID);
     // Filter out public leagues
     const smallLeagues = response.data.leagues.classic.filter(league => (league.league_type !== "s"));
@@ -23,6 +28,13 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
     const leagueId = req.params.leagueId;
     const gameWeek = req.params.gameWeek;
 
+    if (isNaN(leagueID)) {
+      return res.status(400).json({ error: `Invalid leagueID parameter. It must be a number. LeagueID: ${leagueID}` });
+    }
+    if (isNaN(gameweek)) {
+      return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
+    }
+    
     // Fetch league details from FPL API
     const leagueDetails = await getLeagueClassicStandingsData(req, leagueId);
     const teams = leagueDetails.data.standings.results.length > 50 ? leagueDetails.data.standings.results.slice(0, 50) : leagueDetails.data.standings.results;

@@ -31,6 +31,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
+// TODO: Add automatic restart on crash
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on http://localhost:${process.env.PORT || PORT}`);
 });

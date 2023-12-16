@@ -1,17 +1,21 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS, getFixtureData } = require('../lib/fplAPIWrapper');
 const router = express.Router();
 const { getPlayerInfo } = require('../lib/playerInfo');
 
 router.get('/leagues/:teamId', async (req, res) => {
   try {
     const teamID = req.params.teamId;
+    // Check if teamID is a valid number
+    if (isNaN(teamID)) {
+      return res.status(400).json({ error: `Invalid teamId parameter. It must be a number. TeamID: ${teamID}` });
+    }
     const response = await getTeamData(req, teamID);
     const leagues = response.data.leagues ? response.data.leagues.h2h : [];
 
     res.json({ data: leagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
-    console.log("Error getting TeamID-H2HLeagues info");
+    console.log(`Error getting TeamID-H2HLeagues info. TeamID: ${req.params.teamId}`);
     console.error(error);
   }
 });
@@ -20,16 +24,24 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
   try {
     const leagueID = req.params.leagueId;
     const gameweek = req.params.gameWeek;
+    if (isNaN(leagueID)) {
+      return res.status(400).json({ error: `Invalid leagueID parameter. It must be a number. LeagueID: ${leagueID}` });
+    }
+    if (isNaN(gameweek)) {
+      return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
+    }
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
     const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
     const bpsData = await calculateBPS(req);
     const bootstrapData = await getBootstrapData(req);
     const playersInfo = bootstrapData.data.elements;
     const dataMap = await getMaps(bootstrapData);
-    // TODO: Add fixture name
+    const fixtureData = await getFixtureData(req, gameweek);
+
     bpsData.data.forEach(player => {
       player.name = playersInfo.find(playerI => playerI.id === player.element).web_name;
       player.team = dataMap.teamsShort[dataMap.teams[playersInfo.find(playerI => playerI.id === player.element).team]];
+      player.fixture = `${dataMap.teams[fixtureData.data.find(fix => fix.id === player.fix)?.team_h]} ${fixtureData.data.find(fix => fix.id === player.fix)?.team_h_score}-${fixtureData.data.find(fix => fix.id === player.fix)?.team_a_score} ${dataMap.teams[fixtureData.data.find(fix => fix.id === player.fix)?.team_a]}`;
     })
 
     const calculateTotalPoints = async (teamDetails) => {
@@ -55,7 +67,6 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
         totalPoints += viceCaptain.gameWeekScore;
       }
       // Subtract any penalty points (hits) from the total points
-      // BUG: Transfer cost not working on current gameweek
       totalPoints -= teamDetails.transferCost;
 
       // Add points from bench players who have a substatus of 'In'
@@ -122,6 +133,16 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
 // Endpoint to get player details for two teams
 router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   const { team1Id, team2Id, gameweek } = req.params;
+  if (isNaN(team1Id)) {
+    return res.status(400).json({ error: `Invalid team1Id parameter. It must be a number. Team1Id: ${team1Id}` });
+  }    
+  if (isNaN(team2Id)) {
+    return res.status(400).json({ error: `Invalid team2Id parameter. It must be a number. Team2Id: ${team2Id}` });
+  }    
+  if (isNaN(gameweek)) {
+    return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
+  }
+
   if (team1Id && team2Id) {
     try {
       const bootstrapData = await getBootstrapData(req);
@@ -148,6 +169,10 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
 router.get('/player-matchup/:playerID', async (req, res) => {
   const { playerID } = req.params;
 
+  if (isNaN(playerID)) {
+    return res.status(400).json({ error: `Invalid playerID parameter. It must be a number. PlayerID: ${playerID}` });
+  }    
+
   try {
     const bootstrapData = await getBootstrapData(req);
     const dataMap = await getMaps(bootstrapData);
@@ -169,7 +194,6 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     const playersInfo = bootstrapData.data.elements;
     const gwLive = await getGWLiveData(req, gameweek);
     const bpsData = await calculateBPS(req);
-
     // Helper function to get team details
     const getTeamDetails = async (teamID) => {
       try {
@@ -181,18 +205,41 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
 
         const playerStartingIDs = teamResponse.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
         const playerBenchIDs = teamResponse.data.picks.filter(pick => pick.position > 11).map(pick => pick.element);
-
         // Step 2: Fetch team details
         const teamStartingPlayers = playersInfo.filter(player => playerStartingIDs.includes(player.id));
         const teamBenchPlayers = playersInfo.filter(player => playerBenchIDs.includes(player.id));
 
         // Step 3: Enrich player details
         const startingPlayers = await getPlayerDetails(teamStartingPlayers, teamResponse);
-        const benchPlayers = await getPlayerDetails(teamBenchPlayers, teamResponse);
+        const unsortedBenchPlayers = await getPlayerDetails(teamBenchPlayers, teamResponse);
         const transferCost = teamResponse.data.entry_history.event_transfers_cost;
 
-        // Do auto subs
-        updateAutoSub(startingPlayers, benchPlayers);
+        // Sort the benchPlayers arrays based on the pick position
+        const benchPlayers = unsortedBenchPlayers.sort((a, b) => a.pickPosition - b.pickPosition);
+
+        // Do auto subs by checking starting players for subs
+        startingPlayers.forEach((player) => {
+          // If the player hasn't played, set their subStatus to 'Out'
+          if (player.playStatus === 'unplayed') {
+            player.subStatus = 'Out';
+            // Find a player in benchPlayers to sub in
+            for (let j = 0; j < benchPlayers.length; j++) {
+              // If the bench player hasn't played, set their subStatus to 'In' and break the loop
+              if (benchPlayers[j].playStatus !== 'unplayed' && benchPlayers[j].subStatus !== 'In') {
+                // Check if the number of players in each position does not go below the minimum requirement
+                const numGoalkeepers = startingPlayers.filter(p => p.position === 'GKP').length - (player.position === 'GKP' ? 1 : 0) + (benchPlayers[j].position === 'GKP' ? 1 : 0);
+                const numDefenders = startingPlayers.filter(p => p.position === 'DEF').length - (player.position === 'DEF' ? 1 : 0) + (benchPlayers[j].position === 'DEF' ? 1 : 0);
+                const numMidfielders = startingPlayers.filter(p => p.position === 'MID').length - (player.position === 'MID' ? 1 : 0) + (benchPlayers[j].position === 'MID' ? 1 : 0);
+                const numForwards = startingPlayers.filter(p => p.position === 'FWD').length - (player.position === 'FWD' ? 1 : 0) + (benchPlayers[j].position === 'FWD' ? 1 : 0);
+
+                if (numGoalkeepers === 1 && numDefenders >= 3 && numMidfielders >= 2 && numForwards >= 1) {
+                  benchPlayers[j].subStatus = 'In';
+                  break;
+                }
+              }
+            }
+          }
+        });
 
         return { startingPlayers, benchPlayers, transferCost };
       } catch (error) {
@@ -225,7 +272,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
 
           let playedStatus;
-
+          // TODO: Check fixtures and if player not in squad, then set to unplayed.
           if (currentTimeUTC > kickoffTimeUTC) {
             if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
               if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
@@ -235,6 +282,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
               }
             } else if (minutesPlayed > 0) {
               playedStatus = "playing";
+            } else {
+              playedStatus = "benched";
             }
           }
           else {
@@ -290,31 +339,5 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     throw error;
   }
 };
-
-function updateAutoSub(startingPlayers, benchPlayers) {
-  startingPlayers.forEach((player) => {
-    // If the player hasn't played, set their subStatus to 'Out'
-    if (player.playedStatus === 'unplayed') {
-      player.subStatus = 'Out';
-
-      // Find a player in benchPlayers to sub in
-      for (let j = 0; j < benchPlayers.length; j++) {
-        // If the bench player hasn't played, set their subStatus to 'In' and break the loop
-        if (benchPlayers[j].playedStatus !== 'unplayed' && benchPlayers[j].subStatus !== 'In') {
-          // Check if the number of players in each position does not go below the minimum requirement
-          const numGoalkeepers = startingPlayers.filter(p => p.position === 'GKP').length - (player.position === 'GKP' ? 1 : 0) - (benchPlayers[j].position === 'GKP' ? 1 : 0);
-          const numDefenders = startingPlayers.filter(p => p.position === 'DEF').length - (player.position === 'DEF' ? 1 : 0) - (benchPlayers[j].position === 'DEF' ? 1 : 0);
-          const numMidfielders = startingPlayers.filter(p => p.position === 'MID').length - (player.position === 'MID' ? 1 : 0) - (benchPlayers[j].position === 'MID' ? 1 : 0);
-          const numForwards = startingPlayers.filter(p => p.position === 'FWD').length - (player.position === 'FWD' ? 1 : 0) - (benchPlayers[j].position === 'FWD' ? 1 : 0);
-
-          if (numGoalkeepers === 1 && numDefenders >= 3 && numMidfielders >= 2 && numForwards >= 1) {
-            benchPlayers[j].subStatus = 'In';
-            break;
-          }
-        }
-      }
-    }
-  });
-}
 
 module.exports = router;
