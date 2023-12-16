@@ -18,6 +18,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// Add a 200 OK response route to check if the backend is live
+app.get('/status', (req, res) => {
+    res.status(200).send('Backend is live');
+});
+
 app.use('/api/ta', taRoutes);
 app.use('/api/h2h', h2hRoutes);
 app.use('/api/lu', luRoutes);
