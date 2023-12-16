@@ -63,14 +63,14 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
           playerIn: {
             id: playerIn.id,
             name: playerIn.web_name,
-            club: dataMap.teams[playerIn.team],
+            club: dataMap.teamsShort[dataMap.teams[playerIn.team]],
             value: t.element_in_cost,
             transferCount: playerInCount
           },
           playerOut: {
             id: playerOut.id,
             name: playerOut.web_name,
-            club: dataMap.teams[playerOut.team],
+            club: dataMap.teamsShort[dataMap.teams[playerOut.team]],
             value: t.element_out_cost,
             transferCount: playerOutCount
           }

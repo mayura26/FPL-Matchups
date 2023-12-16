@@ -190,6 +190,31 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
       const startingPlayers = await getPlayerDetails(teamStartingPlayers, captainId, viceCaptainId);
       const benchPlayers = await getPlayerDetails(teamBenchPlayers, captainId, viceCaptainId);
 
+      // Go through all the starting players
+      startingPlayers.forEach((player) => {
+        // If the player hasn't played, set their subStatus to 'Out'
+        if (player.playedStatus === 'unplayed') {
+          player.subStatus = 'Out';
+
+          // Find a player in benchPlayers to sub in
+          for (let j = 0; j < benchPlayers.length; j++) {
+            // If the bench player hasn't played, set their subStatus to 'In' and break the loop
+            if (benchPlayers[j].playedStatus !== 'unplayed' && benchPlayers[j].subStatus !== 'In') {
+              // Check if the number of players in each position does not go below the minimum requirement
+              const numGoalkeepers = startingPlayers.filter(p => p.position === 'GKP').length - (player.position === 'GKP' ? 1 : 0) - (benchPlayers[j].position === 'GKP' ? 1 : 0);
+              const numDefenders = startingPlayers.filter(p => p.position === 'DEF').length - (player.position === 'DEF' ? 1 : 0) - (benchPlayers[j].position === 'DEF' ? 1 : 0);
+              const numMidfielders = startingPlayers.filter(p => p.position === 'MID').length - (player.position === 'MID' ? 1 : 0) - (benchPlayers[j].position === 'MID' ? 1 : 0);
+              const numForwards = startingPlayers.filter(p => p.position === 'FWD').length - (player.position === 'FWD' ? 1 : 0) - (benchPlayers[j].position === 'FWD' ? 1 : 0);
+  
+              if (numGoalkeepers === 1 && numDefenders >= 3 && numMidfielders >= 2 && numForwards >= 1) {
+                benchPlayers[j].subStatus = 'In';
+                break;
+              }
+            }
+          }
+        }
+      });
+
       return { startingPlayers, benchPlayers };
 
       async function getPlayerDetails(players, captainId, viceCaptainId) {

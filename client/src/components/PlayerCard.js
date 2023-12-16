@@ -123,7 +123,7 @@ export const PlayerCardSlim = ({ player }) => {
                 <div className="player-base-stats">ICT: {player.ICT}</div>
             </div>
             <div className="player-card-row">
-            {['GKP', 'DEF'].includes(player.position) ? (
+                {['GKP', 'DEF'].includes(player.position) ? (
                     <>
                         <div className='player-base-stats'>xGI/90: {player.xGI90}</div>
                         <div className='player-base-stats'>xGC/90: {player.xGC90}</div>
@@ -153,7 +153,7 @@ export const PlayerCardSlim = ({ player }) => {
                 </div>
             </div>
             <div className="player-card-row-divider"></div>
- 
+
             <div className="player-card-row-divider"></div>
             <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
                 {player.last5Scores.slice(0, 3).map((fixture, index) => (
