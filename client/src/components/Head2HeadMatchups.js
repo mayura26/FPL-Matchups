@@ -41,8 +41,8 @@ const Head2HeadMatchups = () => {
     }
   };
 
-  const fetchData = useCallback(async (hideLoad = false) => {
-    if (!hideLoad) {
+  const fetchData = useCallback(async (showLoad) => {
+    if (showLoad) {
       setLoading(true);
     }
     setFetchedGameweek(gameweek);
@@ -137,7 +137,7 @@ const Head2HeadMatchups = () => {
     if (autoRefresh) {
       intervalId = setInterval(() => {
         if (teamID && gameweek) {
-          fetchData(true);
+          fetchData(false);
           if (selectedMatchupId && selectedMatchupTeam1ID && selectedMatchupTeam2ID) {
             fetchMatchupData(selectedMatchupTeam1ID, selectedMatchupTeam2ID, gameweek);
           }
@@ -179,7 +179,7 @@ const Head2HeadMatchups = () => {
                       ))}
                     </select>
                   </div>
-                  <button className='ripple-btn' onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
+                  <button className='ripple-btn' onClick={() => fetchData(true)} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                   <div className="input-container">
                     <label htmlFor="refresh-switch">Refresh</label>
                     <label className="switch" id="refresh-switch">
