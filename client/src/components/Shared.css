@@ -23,7 +23,7 @@
     left: 0;
     height: 100%;
     background-color: var(--btn-color);
-    animation: loading 12s linear infinite;
+    animation: loading 12s linear infinite; /* BUG: Need to be dynamic for bigger leagues */
 }
 
 @keyframes loading {

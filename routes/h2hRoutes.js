@@ -220,6 +220,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     const playersInfo = bootstrapData.data.elements;
     const gwLive = await getGWLiveData(req, gameweek);
     const bpsData = await calculateBPS(req);
+    const fixtureData = await getFixtureData(req, gameweek);
 
     if (!gwLive || !gwLive.data) {
       console.error('gwLive or gwLive.data is undefined');
@@ -227,7 +228,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     }
 
     // Helper function to get team details
-    const getTeamDetails = async (teamID) => {
+    const getTeamDetails = async (teamID, fixtureData) => {
       try {
         const teamResponse = await getTeamGWData(req, teamID, gameweek);
 
@@ -242,8 +243,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
         const teamBenchPlayers = playersInfo.filter(player => playerBenchIDs.includes(player.id));
 
         // Step 3: Enrich player details
-        const startingPlayers = await getPlayerDetails(teamStartingPlayers, teamResponse);
-        const unsortedBenchPlayers = await getPlayerDetails(teamBenchPlayers, teamResponse);
+        const startingPlayers = await getPlayerDetails(teamStartingPlayers, teamResponse, fixtureData);
+        const unsortedBenchPlayers = await getPlayerDetails(teamBenchPlayers, teamResponse, fixtureData);
         const transferCost = teamResponse.data.entry_history.event_transfers_cost;
 
         // Sort the benchPlayers arrays based on the pick position
@@ -279,7 +280,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
         throw error;
       }
 
-      async function getPlayerDetails(players, teamResponse) {
+      async function getPlayerDetails(players, teamResponse, fixtureData) {
         return await Promise.all(players.map(async (player) => {
           const playerDetailResponse = await getPlayerData(req, player.id);
           const gameWeekLiveData = gwLive.data.elements.find(element => element.id === player.id);
@@ -304,10 +305,16 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
 
           let playedStatus;
+          const fixture = fixtureData.data?.find(fix => fix.id === finalMatch.fixture);
+          let finalMatchFinished = false;
+          if (fixture && fixture.finished_provisional === true) {
+            finalMatchFinished = true;
+          }
+
           // FEATURE: [4] Check fixtures and if player not in squad, then set to unplayed. If final match = today, and team is in this array of fixturesquads.
           if (currentTimeUTC > kickoffTimeUTC) {
-            if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
-              if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
+            if (finalMatchFinished || currentTimeUTC > twoHoursAfterKickoff) {
+              if (minutesPlayed == 0 && ( finalMatchFinished || currentTimeUTC > twoHoursAfterKickoff)) {
                 playedStatus = "unplayed";
               } else {
                 playedStatus = "played";
@@ -362,8 +369,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     };
 
     // Fetch details for both teams
-    const team1Details = await getTeamDetails(team1Id);
-    const team2Details = await getTeamDetails(team2Id);
+    const team1Details = await getTeamDetails(team1Id, fixtureData);
+    const team2Details = await getTeamDetails(team2Id, fixtureData);
 
     return { team1Details, team2Details };
   } catch (error) {
