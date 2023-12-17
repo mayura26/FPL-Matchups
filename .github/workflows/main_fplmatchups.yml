@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - FPLMatchups
 on:
   push:
     branches:
-      - main
+      - prod
   workflow_dispatch:
 
 jobs:
