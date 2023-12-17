@@ -59,4 +59,4 @@ jobs:
           app-name: 'FPLMatchups'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7C973BF32FC0470C921E9454EC848A52 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_030F13E5B414483F9ED6A817B8E25E4E }}
