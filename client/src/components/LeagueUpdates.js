@@ -1,5 +1,5 @@
 // FEATURE: [6] Add livescoreboard
-// FEATURE: [6.5] Add live squad score per players team
+// FEATURE: [6.5] Add live squad score per players team and live league rank
 
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -74,10 +74,10 @@ function LeagueUpdates() {
                     } else {
                         if (data.data.length > 0) {
                             setLeagues(data.data);
-                          } else {
+                        } else {
                             alert("No leagues found");
                             setLeagues([]);
-                          }
+                        }
                         setLoadingInputs(false);
                     }
                 } catch (error) {
