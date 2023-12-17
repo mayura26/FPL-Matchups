@@ -34,6 +34,12 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
     const bpsData = await calculateBPS(req);
     const bootstrapData = await getBootstrapData(req);
+
+    if (!bootstrapData || !bootstrapData.data) {
+      console.error('bootstrapData or bootstrapData.data is undefined');
+      return res.status(500).json({ error: 'Failed to fetch data from the API' });
+    }
+
     const playersInfo = bootstrapData.data.elements;
     const dataMap = await getMaps(bootstrapData);
     const fixtureData = await getFixtureData(req, gameweek);
@@ -45,6 +51,11 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     })
 
     const calculateTotalPoints = async (teamDetails) => {
+      if (!teamDetails || !teamDetails.startingPlayers || !teamDetails.benchPlayers) {
+        console.error('Failed to get teamdetails to calculate points');
+        return 0; // or throw an error, or return a suitable default value
+      }
+      
       let totalPoints = 0;
       teamDetails.startingPlayers.forEach(detail => {
         totalPoints += detail.gameWeekScore;
@@ -82,8 +93,6 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     // For each team in the league, get all the players in the person's starting lineup
     for (let matchUp of leagueData.data.results) {
       if (matchUp.entry_1_entry && matchUp.entry_2_entry) {
-        const bootstrapData = await getBootstrapData(req);
-        const dataMap = await getMaps(bootstrapData);
         const key = `${matchUp.entry_1_entry}-${matchUp.entry_2_entry}-${gameweek}`;
         const cachedData = req.cache.get(key);
         let matchupData = [];
@@ -135,10 +144,10 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   const { team1Id, team2Id, gameweek } = req.params;
   if (isNaN(team1Id)) {
     return res.status(400).json({ error: `Invalid team1Id parameter. It must be a number. Team1Id: ${team1Id}` });
-  }    
+  }
   if (isNaN(team2Id)) {
     return res.status(400).json({ error: `Invalid team2Id parameter. It must be a number. Team2Id: ${team2Id}` });
-  }    
+  }
   if (isNaN(gameweek)) {
     return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
   }
@@ -146,6 +155,12 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   if (team1Id && team2Id) {
     try {
       const bootstrapData = await getBootstrapData(req);
+
+      if (!bootstrapData || !bootstrapData.data) {
+        console.error('bootstrapData or bootstrapData.data is undefined');
+        return res.status(500).json({ error: 'Failed to fetch data from the API' });
+      }
+
       const dataMap = await getMaps(bootstrapData);
 
       const key = `${team1Id}-${team2Id}-${gameweek}`;
@@ -171,10 +186,16 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 
   if (isNaN(playerID)) {
     return res.status(400).json({ error: `Invalid playerID parameter. It must be a number. PlayerID: ${playerID}` });
-  }    
+  }
 
   try {
     const bootstrapData = await getBootstrapData(req);
+
+    if (!bootstrapData || !bootstrapData.data) {
+      console.error('bootstrapData or bootstrapData.data is undefined');
+      return res.status(500).json({ error: 'Failed to fetch data from the API' });
+    }
+
     const dataMap = await getMaps(bootstrapData);
     const playerData = bootstrapData.data.elements.find(player => player.id == playerID);
     const playerInfo = await getPlayerInfo(req, playerData, dataMap);
@@ -190,14 +211,21 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 
 const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
-    if (!bootstrapData) {
-      throw new Error('Bootstrap data is not retrived for MatchupData');
+    if (!bootstrapData || !bootstrapData.data) {
+      console.error('bootstrapData or bootstrapData.data is undefined');
+      return { error: 'Failed to fetch data from the API' };
     }
-    
+
     // Step 1: Fetch general information
     const playersInfo = bootstrapData.data.elements;
     const gwLive = await getGWLiveData(req, gameweek);
     const bpsData = await calculateBPS(req);
+
+    if (!gwLive || !gwLive.data) {
+      console.error('gwLive or gwLive.data is undefined');
+      return { error: 'Failed to fetch data from the API' };
+    }
+
     // Helper function to get team details
     const getTeamDetails = async (teamID) => {
       try {
