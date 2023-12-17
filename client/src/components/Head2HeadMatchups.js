@@ -135,6 +135,15 @@ const Head2HeadMatchups = () => {
     let intervalId;
 
     if (autoRefresh) {
+      // Fetch data immediately when autoRefresh is triggered
+      if (teamID && gameweek) {
+        fetchData(false);
+        if (selectedMatchupId && selectedMatchupTeam1ID && selectedMatchupTeam2ID) {
+          fetchMatchupData(selectedMatchupTeam1ID, selectedMatchupTeam2ID, gameweek);
+        }
+      }
+
+      // Then set the interval for subsequent fetches
       intervalId = setInterval(() => {
         if (teamID && gameweek) {
           fetchData(false);
@@ -183,7 +192,7 @@ const Head2HeadMatchups = () => {
                   <div className="input-container">
                     <label htmlFor="refresh-switch">Refresh</label>
                     <label className="switch" id="refresh-switch">
-                      <input type="checkbox" checked={autoRefresh} onChange={() => setAutoRefresh(!autoRefresh)} disabled={!selectedLeagueId} />
+                      <input type="checkbox" checked={autoRefresh} onChange={() => setAutoRefresh(!autoRefresh)} disabled={!leagueData} />
                       <span className="slider round"></span>
                     </label>
                   </div>
@@ -290,10 +299,10 @@ const Head2HeadMatchups = () => {
               ))}
               {(Number(fetchedGameweek) === Number(maxGameweek)) ? (
                 <>
-                  <div className='bps-data'>
+                  <div className='live-data'>
                     <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
                     {liveScoreboardVisible && (
-                      <table className="bps-table info-table">
+                      <table className="live-table info-table">
                         <thead>
                           <tr>
                             <th>Player Name</th>
@@ -320,10 +329,10 @@ const Head2HeadMatchups = () => {
                     )}
                   </div>
                   {leagueData.bpsData.data.length > 0 ? (
-                    <div className="bps-data">
+                    <div className="live-data">
                       <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
                       {bpsDataVisible && (
-                        <table className="bps-table info-table">
+                        <table className="live-table info-table">
                           <thead>
                             <tr>
                               <th>Player Name</th>

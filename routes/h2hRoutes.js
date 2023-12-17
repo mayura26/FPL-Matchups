@@ -190,6 +190,10 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 
 const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
+    if (!bootstrapData) {
+      throw new Error('Bootstrap data is not retrived for MatchupData');
+    }
+    
     // Step 1: Fetch general information
     const playersInfo = bootstrapData.data.elements;
     const gwLive = await getGWLiveData(req, gameweek);
@@ -282,7 +286,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
               }
             } else if (minutesPlayed > 0) {
               playedStatus = "playing";
-            } else {
+            } else if (currentTimeUTC - kickoffTimeUTC >= 5 * 60 * 1000) {
               playedStatus = "benched";
             }
           }
