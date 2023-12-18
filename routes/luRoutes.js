@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamTransferData, getTeamData, getLeagueClassicStandingsData } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamTransferData, getTeamData, getLeagueClassicStandingsData, validateApiResponse } = require('../lib/fplAPIWrapper');
 
 const router = express.Router();
 
@@ -34,18 +34,32 @@ router.get('/league-teams/:leagueId/:gameWeek', async (req, res) => {
     if (isNaN(gameWeek)) {
       return res.status(400).json({ error: `Invalid gameWeek parameter. It must be a number. Gameweek: ${gameWeek}` });
     }
-    
-    // Fetch league details from FPL API
+
     const leagueDetails = await getLeagueClassicStandingsData(req, leagueId);
+    const bootstrapData = await getBootstrapData(req);
+
+    if (!validateApiResponse(bootstrapData) || !validateApiResponse(leagueDetails)) {
+      console.error("Error getting FPL API data");
+      return res.status(500).json({ data: [], apiLive: false });
+    }
+
+    // Fetch league details from FPL API
+    
     const teams = leagueDetails.data.standings.results.length > 50 ? leagueDetails.data.standings.results.slice(0, 50) : leagueDetails.data.standings.results;
 
     // Fetch additional details for each transfer
-    const bootstrapData = await getBootstrapData(req);
+    
     const dataMap = await getMaps(bootstrapData);
     const playersInfo = bootstrapData.data.elements;
 
     const transfersPromises = teams.map(async team =>
       await getTeamTransferData(req, team.entry).then(response => {
+
+        if (!validateApiResponse(response)) {
+          console.error("Error getting FPL API data");
+          return res.status(500).json({ data: [], apiLive: false });
+        }
+
         const gameweekTransfers = response.data.filter(transfer => transfer.event === parseInt(gameWeek));
         if (gameweekTransfers.length === 0) {
           return null; // Handle case with no transfers

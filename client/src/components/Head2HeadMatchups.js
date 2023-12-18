@@ -25,6 +25,7 @@ const Head2HeadMatchups = () => {
   const [bpsDataVisible, setBpsDataVisible] = useState(false);
   const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
+  const [idleTime, setIdleTime] = useState(0);
 
   const toggleMatchupDetails = async (matchupId, team1Id, team2Id) => {
     if (selectedMatchupId === matchupId) {
@@ -132,6 +133,30 @@ const Head2HeadMatchups = () => {
   }, [teamID]);
 
   useEffect(() => {
+    const idleInterval = setInterval(() => {
+      setIdleTime((prevIdleTime) => prevIdleTime + 1);
+    }, 6000); // Increment idle time every minute
+
+    // Reset idle time on mouse movement or keypress
+    const resetIdleTime = () => setIdleTime(0);
+    window.addEventListener('mousemove', resetIdleTime);
+    window.addEventListener('keypress', resetIdleTime);
+
+    return () => {
+      // Clean up when component unmounts
+      clearInterval(idleInterval);
+      window.removeEventListener('mousemove', resetIdleTime);
+      window.removeEventListener('keypress', resetIdleTime);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (idleTime > 5) { // If user has been idle for more than 5 minutes
+      setAutoRefresh(false); // Turn off auto-refresh
+    }
+  }, [idleTime]);
+
+  useEffect(() => {
     let intervalId;
 
     if (autoRefresh) {
@@ -170,33 +195,37 @@ const Head2HeadMatchups = () => {
           <>
             <div className="input-mainrow">
               {leagues.length > 0 && (
-                <div className="input-row">
-                  <div className="input-container">
-                    <label htmlFor="league">Select League:</label>
-                    <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
-                      <option value="">Select a league</option>
-                      {leagues.map((league) => (
-                        <option key={league.id} value={league.id}>{league.name}</option>
-                      ))}
-                    </select>
+                <>
+                  <div className="input-row">
+                    <div className="input-container">
+                      <label htmlFor="league">Select League:</label>
+                      <select value={selectedLeagueId} onChange={(e) => setSelectedLeagueId(e.target.value)}>
+                        <option value="">Select a league</option>
+                        {leagues.map((league) => (
+                          <option key={league.id} value={league.id}>{league.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="input-container">
+                      <label htmlFor="gameweek">Gameweek:</label>
+                      <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
+                        {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
+                          <option key={week} value={week}>GW{week}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <button className='ripple-btn' onClick={() => fetchData(true)} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                   </div>
-                  <div className="input-container">
-                    <label htmlFor="gameweek">Gameweek:</label>
-                    <select value={gameweek} onChange={(e) => setGameweek(e.target.value)}>
-                      {Array.from({ length: maxGameweek }, (_, i) => i + 1).map(week => (
-                        <option key={week} value={week}>GW{week}</option>
-                      ))}
-                    </select>
+                  <div className="input-row">
+                    <div className="input-container">
+                      <label htmlFor="refresh-switch">Refresh</label>
+                      <label className="switch" id="refresh-switch">
+                        <input type="checkbox" checked={autoRefresh} onChange={() => setAutoRefresh(!autoRefresh)} disabled={!leagueData} />
+                        <span className="slider round"></span>
+                      </label>
+                    </div>
                   </div>
-                  <button className='ripple-btn' onClick={() => fetchData(true)} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
-                  <div className="input-container">
-                    <label htmlFor="refresh-switch">Refresh</label>
-                    <label className="switch" id="refresh-switch">
-                      <input type="checkbox" checked={autoRefresh} onChange={() => setAutoRefresh(!autoRefresh)} disabled={!leagueData} />
-                      <span className="slider round"></span>
-                    </label>
-                  </div>
-                </div>
+                </>
               )}
             </div>
           </>
@@ -253,6 +282,18 @@ const Head2HeadMatchups = () => {
                             )}
                           </td>
                         </tr>
+                        {Number(fetchedGameweek) === Number(maxGameweek) && (
+                          <>
+                            <tr>
+                              <td className='blank-result-row' colSpan={'100%'}></td>
+                            </tr>
+                            <tr className='live-lead-row'>
+                              <td colspan={'100%'} className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
+                                Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
+                              </td>
+                            </tr>
+                          </>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -272,11 +313,6 @@ const Head2HeadMatchups = () => {
                                 {hidePlayedPlayers ? 'Show' : 'Hide'} Played Players
                               </button>
                             </div>
-                            {Number(fetchedGameweek) === Number(maxGameweek) && (
-                              <div className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
-                                Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
-                              </div>
-                            )}
                             <MatchupDetailsGen
                               team1Details={matchupData.team1Details}
                               team2Details={matchupData.team2Details}
