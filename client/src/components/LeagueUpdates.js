@@ -7,6 +7,7 @@ import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 import { PlayerCard } from './PlayerCard';
+import { LoadingBar } from './Shared';
 
 function LeagueUpdates() {
     const { teamID, updateTeamID } = useContext(TeamIDContext);
@@ -189,7 +190,7 @@ function LeagueUpdates() {
                 </div>
             )}
             {loading ? (
-                <div className="loading-bar"></div>
+                <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams/10 : 0} />
             ) : (
                 leagueChanges.length > 0 && (
                     <>

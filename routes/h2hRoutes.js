@@ -12,6 +12,10 @@ router.get('/leagues/:teamId', async (req, res) => {
     }
     const response = await getTeamData(req, teamID);
     const leagues = response.data.leagues ? response.data.leagues.h2h : [];
+    for (let league of leagues) {
+      const leagueData = await getLeaguesH2HStandingsData(req, league.id);
+      league.numberOfTeams = leagueData.data.standings ? leagueData.data.standings.results.length : 0;
+    }
 
     res.json({ data: leagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {

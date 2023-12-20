@@ -4,6 +4,7 @@ import './Head2HeadMatchups.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 import { PlayerCardSlim } from './PlayerCard';
+import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
   const { teamID } = useContext(TeamIDContext);
@@ -235,7 +236,7 @@ const Head2HeadMatchups = () => {
       )}
 
       {loading ? (
-        <div className="loading-bar"></div>
+        <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams/2 : 0} />
       ) : (
         leagueData && (
           <>

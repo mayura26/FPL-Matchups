@@ -3,6 +3,7 @@ import './TeamAnalysis.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 import { PlayerCard } from './PlayerCard';
+import { LoadingBar } from './Shared';
 
 function TeamAnalysis() {
     const { teamID } = useContext(TeamIDContext);
@@ -59,7 +60,7 @@ function TeamAnalysis() {
     return (
         <div className="main-container" data-testid="team-analysis">
             {loading ? (
-                <div className="loading-bar"></div>
+                <LoadingBar animationDuration={6} />
             ) : (
                 teamData && (
                     <div className="team-data">

@@ -15,6 +15,12 @@ router.get('/team-leagues/:teamId', async (req, res) => {
     const response = await getTeamData(req, teamID);
     // Filter out public leagues
     const smallLeagues = response.data.leagues ? response.data.leagues.classic.filter(league => (league.league_type !== "s")) : [];
+
+    for (let league of smallLeagues) {
+      const leagueData = await getLeagueClassicStandingsData(req, league.id);
+      league.numberOfTeams = leagueData.data.standings ? leagueData.data.standings.results.length : 0;
+    }
+
     res.json({ data: smallLeagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
     console.log(`Error getting TeamLeagues-TeamID info. TeamID: ${req.params.teamId}`);
