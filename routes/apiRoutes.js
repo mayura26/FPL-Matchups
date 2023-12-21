@@ -23,4 +23,24 @@ router.get('/game-data', async (req, res) => {
     res.json({ data: gameData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
 });
 
+router.get('/find-player/:playername', async (req, res) => {
+    const playerName = req.params.playername;
+    if (!/^[a-z0-9\s]+$/i.test(playerName)) {
+        return res.status(400).json({ message: `Invalid playername. Must be alphanumeric` });
+    }
+    try {
+        const cachedData = req.cache.get('TeamID-Data');
+        const playerData = cachedData.get(playerName.toLowerCase());
+
+        if (playerData) {
+            res.json({ data: playerData, message: 'success' });
+        } else {
+            res.json({ data: [], message: 'no matches' });
+        }
+    } catch (error) {
+        console.log(`Error searching for playername. playerName: ${playerName}`);
+        console.error(error);
+    }    
+});
+
 module.exports = router;

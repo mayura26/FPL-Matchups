@@ -318,10 +318,12 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
 
           let playedStatus;
-          const fixture = fixtureData.data?.find(fix => fix.id === finalMatch.fixture);
           let finalMatchFinished = false;
-          if (fixture && fixture.finished_provisional === true) {
-            finalMatchFinished = true;
+          if (finalMatch) {
+            const fixture = fixtureData.data?.find(fix => fix.id === finalMatch.fixture);
+            if (fixture && fixture.finished_provisional === true) {
+              finalMatchFinished = true;
+            }
           }
 
           // FEATURE: [4] Check fixtures and if player not in squad, then set to unplayed. If final match = today, and team is in this array of fixturesquads.
