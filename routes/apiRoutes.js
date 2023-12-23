@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+require('dotenv').config();
 const { getBootstrapData, getEventStatus } = require('../lib/fplAPIWrapper');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://user:mEvw6XKnfgFl3YM5@cluster0.mneoc9t.mongodb.net/FPLMatchups?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(`mongodb+srv://user:${process.env.MONGODB}@cluster0.mneoc9t.mongodb.net/FPLMatchups?retryWrites=true&w=majority`);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -40,6 +41,7 @@ router.get('/game-data', async (req, res) => {
     res.json({ data: gameData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
 });
 
+// FEATURE: [20] Add search by team name with and/or selection.
 router.get('/find-player/:playername', async (req, res) => {
     const playerName = req.params.playername;
     if (!/^[a-z0-9\s]+$/i.test(playerName)) {
