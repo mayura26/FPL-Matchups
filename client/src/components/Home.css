@@ -50,4 +50,12 @@
     box-shadow: 0px 0px 0px 2px var(--accent50);
     border-radius: 0.25rem;
     padding: 3px 0px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+.search-results p {
+    color: var(--primary50);
+    font-style: italic;
+    text-align: center;
 }
