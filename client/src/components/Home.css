@@ -39,3 +39,15 @@
 .home-input-second-row {
     margin-top: 10px !important;
 }
+
+.big-input {
+    width: 200px;
+    max-width: 200px;
+}
+
+.search-results {
+    margin: 10px 0px;
+    box-shadow: 0px 0px 0px 2px var(--accent50);
+    border-radius: 0.25rem;
+    padding: 3px 0px;
+}

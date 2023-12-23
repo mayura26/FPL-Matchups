@@ -18,33 +18,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Load teamData into the cache
-// TODO: Change this to use mongoDB
-const loadTeamDataIntoCache = async () => {
-    const fs = require('fs');
-    const teamDataPath = './lib/teamData.json';
-    const stats = fs.statSync(teamDataPath);
-    const fileSizeInBytes = stats.size;
-    const fileSizeInKilobytes = fileSizeInBytes / 1024/1024;
-    console.log(`Loading teamData.json into cache. File size: ${fileSizeInKilobytes.toFixed(2)} MB`);
-    const teamData = require(teamDataPath);
-
-    // Create a map for faster lookups
-    let playerMap = new Map();
-    teamData.forEach(player => {
-        const playerName = player.playerName.toLowerCase();
-        if (!playerMap.has(playerName)) {
-            playerMap.set(playerName, []);
-        }
-        playerMap.get(playerName).push(player);
-    });
-
-    await nodeCache.set('TeamID-Data', playerMap);
-    console.log("Loading teamData.json into cache completed.")
-};
-
-loadTeamDataIntoCache();
-
 // Log memory usage every minute only on dev testing
 if (process.env.NODE_ENV === 'development') {
     setInterval(() => {
@@ -57,11 +30,6 @@ if (process.env.NODE_ENV === 'development') {
 // Add a 200 OK response route to check if the backend is live
 app.get('/status', (req, res) => {
     res.status(200).send('Backend is live');
-});
-
-// Add a route to download the teamData.json file
-app.get('/teamData', (req, res) => {
-    res.download('./lib/teamData.json');
 });
 
 app.use('/api/ta', taRoutes);

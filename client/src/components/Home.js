@@ -42,11 +42,10 @@ const Home = () => {
                         <div className="input-row">
                             <div className="input-container">
                                 <label htmlFor="playerName">Player Name:</label>
-                                <input type="text" id="playerName" name="playerName" />
+                                <input type="text" id="playerName" name="playerName" className='big-input' />
                             </div>
                             <button className='ripple-btn' onClick={() => searchPlayer(document.getElementById('playerName').value)}>Fetch</button>
                         </div>
-
                     </div>
                     <div className='search-results'>
                         {loading ? (<>
@@ -64,7 +63,10 @@ const Home = () => {
                                     </thead>
                                     {playerResultData.map((player) => (
                                         <tbody>
-                                            <tr>
+                                            <tr className='ripple-row' onClick={() => {
+                                                updateTeamID(player.teamID);
+                                                onClose();
+                                            }}>
                                                 <td>{player.playerName}</td>
                                                 <td>{player.teamName}</td>
                                                 <td>{player.rank}</td>
