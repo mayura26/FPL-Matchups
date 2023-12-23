@@ -46,4 +46,9 @@
   --hover: #616161;
   --btn-color: #007bff;
   --btn-hover: #0056b3;
+  --slider-width: 48px;
+  --slider-height: 28px;
+  --slider-inner-size: 20px;
+  --slider-inner-pos: 4px;
+  --slider-translateX: 20px;
 }

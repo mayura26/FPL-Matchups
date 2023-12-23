@@ -9,7 +9,7 @@ const luRoutes = require('./routes/luRoutes');
 
 const app = express();
 const PORT = 3001;
-
+require('dotenv').config();
 // Initialize cache
 const nodeCache = new NodeCache();
 
@@ -18,16 +18,19 @@ app.use((req, res, next) => {
     next();
 });
 
+// Log memory usage every minute only on dev testing
+if (process.env.NODE_ENV === 'development') {
+    setInterval(() => {
+        const memoryUsage = process.memoryUsage();
+        const cacheSize = nodeCache.keys().length;
+        console.log(`Memory usage: RSS = ${(memoryUsage.rss / 1024 / 1024).toFixed(1)} MB, Heap Total = ${(memoryUsage.heapTotal / 1024 / 1024).toFixed(1)} MB, Heap Used = ${(memoryUsage.heapUsed / 1024 / 1024).toFixed(1)} MB, External = ${(memoryUsage.external / 1024 / 1024).toFixed(1)} MB, Cache Size = ${cacheSize}`);
+    }, 60000);
+}
+
 // Add a 200 OK response route to check if the backend is live
 app.get('/status', (req, res) => {
     res.status(200).send('Backend is live');
 });
-
-// Add a route to download the teamData.json file
-app.get('/teamData', (req, res) => {
-    res.download('./lib/teamData.json');
-});
-
 
 app.use('/api/ta', taRoutes);
 app.use('/api/h2h', h2hRoutes);

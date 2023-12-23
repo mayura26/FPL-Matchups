@@ -1,5 +1,5 @@
 // FEATURE: [6] Add livescoreboard
-// FEATURE: [6.5] Add live squad score per players team
+// FEATURE: [6.5] Add live squad score per players team and live league rank
 
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 import { PlayerCard } from './PlayerCard';
+import { LoadingBar } from './Shared';
 
 function LeagueUpdates() {
     const { teamID, updateTeamID } = useContext(TeamIDContext);
@@ -74,10 +75,10 @@ function LeagueUpdates() {
                     } else {
                         if (data.data.length > 0) {
                             setLeagues(data.data);
-                          } else {
+                        } else {
                             alert("No leagues found");
                             setLeagues([]);
-                          }
+                        }
                         setLoadingInputs(false);
                     }
                 } catch (error) {
@@ -189,7 +190,7 @@ function LeagueUpdates() {
                 </div>
             )}
             {loading ? (
-                <div className="loading-bar"></div>
+                <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams/10 : 0} />
             ) : (
                 leagueChanges.length > 0 && (
                     <>

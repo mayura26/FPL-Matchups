@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS, getFixtureData } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamGWData, getTeamData, getGWLiveData, getPlayerData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS, getFixtureData, validateApiResponse } = require('../lib/fplAPIWrapper');
 const router = express.Router();
 const { getPlayerInfo } = require('../lib/playerInfo');
 
@@ -12,6 +12,10 @@ router.get('/leagues/:teamId', async (req, res) => {
     }
     const response = await getTeamData(req, teamID);
     const leagues = response.data.leagues ? response.data.leagues.h2h : [];
+    for (let league of leagues) {
+      const leagueData = await getLeaguesH2HStandingsData(req, league.id);
+      league.numberOfTeams = leagueData.data.standings ? leagueData.data.standings.results.length : 0;
+    }
 
     res.json({ data: leagues, source: response.source, apiLive: response.apiLive });
   } catch (error) {
@@ -32,11 +36,17 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     }
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
     const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
+    const fixtureData = await getFixtureData(req, gameweek);
     const bpsData = await calculateBPS(req);
+
     const bootstrapData = await getBootstrapData(req);
+    if (!validateApiResponse(bootstrapData) || !validateApiResponse(leagueData) || !validateApiResponse(leagueStandings) || !validateApiResponse(fixtureData)) {
+      console.error("Error getting FPL API data");
+      return res.status(500).json({ data: [], apiLive: false });
+    }
+
     const playersInfo = bootstrapData.data.elements;
     const dataMap = await getMaps(bootstrapData);
-    const fixtureData = await getFixtureData(req, gameweek);
 
     bpsData.data.forEach(player => {
       player.name = playersInfo.find(playerI => playerI.id === player.element).web_name;
@@ -45,6 +55,11 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     })
 
     const calculateTotalPoints = async (teamDetails) => {
+      if (!teamDetails || !teamDetails.startingPlayers || !teamDetails.benchPlayers) {
+        console.error('Failed to get teamdetails to calculate points');
+        return 0; // or throw an error, or return a suitable default value
+      }
+
       let totalPoints = 0;
       teamDetails.startingPlayers.forEach(detail => {
         totalPoints += detail.gameWeekScore;
@@ -82,9 +97,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     // For each team in the league, get all the players in the person's starting lineup
     for (let matchUp of leagueData.data.results) {
       if (matchUp.entry_1_entry && matchUp.entry_2_entry) {
-        const bootstrapData = await getBootstrapData(req);
-        const dataMap = await getMaps(bootstrapData);
-        const key = `${matchUp.entry_1_entry}-${matchUp.entry_2_entry}-${gameweek}`;
+        const key = `Matchup-${matchUp.entry_1_entry}-${matchUp.entry_2_entry}-${gameweek}`;
         const cachedData = req.cache.get(key);
         let matchupData = [];
         if (cachedData) {
@@ -94,9 +107,15 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
         }
 
         // Sum the points scored by all the players in the team
-        const team1Points = await calculateTotalPoints(matchupData.team1Details);
-        const team2Points = await calculateTotalPoints(matchupData.team2Details);
+        let team1Points = 0;
+        let team2Points = 0;
+        if (matchupData.team1Details) {
+          team1Points = await calculateTotalPoints(matchupData.team1Details);
+        }
 
+        if (matchupData.team2Details) {
+          team2Points = await calculateTotalPoints(matchupData.team2Details);
+        }
         // Update the team's total points
         matchUp.entry_1_livepoints = team1Points;
         matchUp.entry_2_livepoints = team2Points;
@@ -135,10 +154,10 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   const { team1Id, team2Id, gameweek } = req.params;
   if (isNaN(team1Id)) {
     return res.status(400).json({ error: `Invalid team1Id parameter. It must be a number. Team1Id: ${team1Id}` });
-  }    
+  }
   if (isNaN(team2Id)) {
     return res.status(400).json({ error: `Invalid team2Id parameter. It must be a number. Team2Id: ${team2Id}` });
-  }    
+  }
   if (isNaN(gameweek)) {
     return res.status(400).json({ error: `Invalid gameweek parameter. It must be a number. Gameweek: ${gameweek}` });
   }
@@ -146,6 +165,12 @@ router.get('/team-matchup/:team1Id/:team2Id/:gameweek', async (req, res) => {
   if (team1Id && team2Id) {
     try {
       const bootstrapData = await getBootstrapData(req);
+
+      if (!validateApiResponse(bootstrapData)) {
+        console.error("Error getting FPL API data");
+        return res.status(500).json({ data: [], apiLive: false });
+      }
+
       const dataMap = await getMaps(bootstrapData);
 
       const key = `${team1Id}-${team2Id}-${gameweek}`;
@@ -171,10 +196,16 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 
   if (isNaN(playerID)) {
     return res.status(400).json({ error: `Invalid playerID parameter. It must be a number. PlayerID: ${playerID}` });
-  }    
+  }
 
   try {
     const bootstrapData = await getBootstrapData(req);
+
+    if (!validateApiResponse(bootstrapData)) {
+      console.error("Error getting FPL API data");
+      return res.status(500).json({ data: [], apiLive: false });
+    }
+
     const dataMap = await getMaps(bootstrapData);
     const playerData = bootstrapData.data.elements.find(player => player.id == playerID);
     const playerInfo = await getPlayerInfo(req, playerData, dataMap);
@@ -190,17 +221,26 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 
 const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
-    // Step 1: Fetch general information
-    const playersInfo = bootstrapData.data.elements;
     const gwLive = await getGWLiveData(req, gameweek);
     const bpsData = await calculateBPS(req);
+    const fixtureData = await getFixtureData(req, gameweek);
+
+    if (!validateApiResponse(bootstrapData) || !validateApiResponse(gwLive) || !validateApiResponse(fixtureData)) {
+      console.error("Error getting FPL API data");
+      return [];
+    }
+
+    // Step 1: Fetch general information
+    const playersInfo = bootstrapData.data.elements;
+
     // Helper function to get team details
-    const getTeamDetails = async (teamID) => {
+    const getTeamDetails = async (teamID, fixtureData) => {
       try {
         const teamResponse = await getTeamGWData(req, teamID, gameweek);
 
-        if (!teamResponse || !teamResponse.data || !teamResponse.data.picks) {
-          throw new Error(`Invalid team response for team ID ${teamID}`);
+        if (!validateApiResponse(teamResponse) || !validateApiResponse(fixtureData)) {
+          console.error("Error getting FPL API data");
+          return [];
         }
 
         const playerStartingIDs = teamResponse.data.picks.filter(pick => pick.position <= 11).map(pick => pick.element);
@@ -210,8 +250,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
         const teamBenchPlayers = playersInfo.filter(player => playerBenchIDs.includes(player.id));
 
         // Step 3: Enrich player details
-        const startingPlayers = await getPlayerDetails(teamStartingPlayers, teamResponse);
-        const unsortedBenchPlayers = await getPlayerDetails(teamBenchPlayers, teamResponse);
+        const startingPlayers = await getPlayerDetails(teamStartingPlayers, teamResponse, fixtureData);
+        const unsortedBenchPlayers = await getPlayerDetails(teamBenchPlayers, teamResponse, fixtureData);
         const transferCost = teamResponse.data.entry_history.event_transfers_cost;
 
         // Sort the benchPlayers arrays based on the pick position
@@ -247,9 +287,15 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
         throw error;
       }
 
-      async function getPlayerDetails(players, teamResponse) {
+      async function getPlayerDetails(players, teamResponse, fixtureData) {
         return await Promise.all(players.map(async (player) => {
           const playerDetailResponse = await getPlayerData(req, player.id);
+
+          if (!validateApiResponse(playerDetailResponse)) {
+            console.error("Error getting FPL API data");
+            return [];
+          }
+
           const gameWeekLiveData = gwLive.data.elements.find(element => element.id === player.id);
           const gameWeekData = playerDetailResponse.data.history.filter(history => history.round === gameweek);
           const finalMatch = gameWeekData[gameWeekData.length - 1];
@@ -272,17 +318,25 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
           const twoHoursAfterKickoff = kickoffTimeUTC + (2 * 60 * 60 * 1000); // Adding 2 hours (in milliseconds) to the kickoff time
 
           let playedStatus;
+          let finalMatchFinished = false;
+          if (finalMatch) {
+            const fixture = fixtureData.data?.find(fix => fix.id === finalMatch.fixture);
+            if (fixture && fixture.finished_provisional === true) {
+              finalMatchFinished = true;
+            }
+          }
+
           // FEATURE: [4] Check fixtures and if player not in squad, then set to unplayed. If final match = today, and team is in this array of fixturesquads.
           if (currentTimeUTC > kickoffTimeUTC) {
-            if (minutesPlayed >= 90 || currentTimeUTC > twoHoursAfterKickoff) {
-              if (minutesPlayed == 0 && currentTimeUTC > twoHoursAfterKickoff) {
+            if (finalMatchFinished || currentTimeUTC > twoHoursAfterKickoff) {
+              if (minutesPlayed == 0 && (finalMatchFinished || currentTimeUTC > twoHoursAfterKickoff)) {
                 playedStatus = "unplayed";
               } else {
                 playedStatus = "played";
               }
             } else if (minutesPlayed > 0) {
               playedStatus = "playing";
-            } else {
+            } else if (currentTimeUTC - kickoffTimeUTC >= 5 * 60 * 1000) {
               playedStatus = "benched";
             }
           }
@@ -330,8 +384,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     };
 
     // Fetch details for both teams
-    const team1Details = await getTeamDetails(team1Id);
-    const team2Details = await getTeamDetails(team2Id);
+    const team1Details = await getTeamDetails(team1Id, fixtureData);
+    const team2Details = await getTeamDetails(team2Id, fixtureData);
 
     return { team1Details, team2Details };
   } catch (error) {
