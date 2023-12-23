@@ -1,4 +1,5 @@
 // FEATURE: [1] Show matchups for the coming week
+// FEATURE: [7.5] Add popup for team on click
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
@@ -136,7 +137,7 @@ const Head2HeadMatchups = () => {
   useEffect(() => {
     const idleInterval = setInterval(() => {
       setIdleTime((prevIdleTime) => prevIdleTime + 1);
-    }, 6000); // Increment idle time every minute
+    }, 60000); // Increment idle time every minute
 
     // Reset idle time on mouse movement or keypress
     const resetIdleTime = () => setIdleTime(0);
@@ -152,7 +153,7 @@ const Head2HeadMatchups = () => {
   }, []);
 
   useEffect(() => {
-    if (idleTime > 5) { // If user has been idle for more than 5 minutes
+    if (idleTime > 3) { // If user has been idle for more than 3 minutes
       setAutoRefresh(false); // Turn off auto-refresh
     }
   }, [idleTime]);

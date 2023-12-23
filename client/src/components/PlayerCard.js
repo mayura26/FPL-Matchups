@@ -8,7 +8,7 @@ function scoreClass(score) {
     if (score <= 10) return 'score-green';
     return 'score-blue';
 }
-
+// FEATURE: [7] Create ultra sim cards
 export const PlayerCard = ({ player, showNextFix }) => {
     const [showDetails, setShowDetails] = useState(false);
     return (
