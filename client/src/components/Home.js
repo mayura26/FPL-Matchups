@@ -118,8 +118,8 @@ const Home = () => {
                 <h1>Welcome to FPL Matchups</h1>
                 <p>This tool provides detailed team analysis, league updates and head-to-head matchups for your FPL teams.</p>
                 <p>Each matchup is broken down to a player vs player, and you can click on the row to see the players stats, and on their previous game fixtures, to see more stats.</p>
-                <p>On league updates, you can see what players are being transferred in and out. Click on the player to bring up their stats. Click on the manager to bring up their team.</p>
-                <p>Enter your Team ID below to get started. Click on the home logo to get back.</p>
+                <p>On league updates, you can see what players are being transferred in and out, and live gameweek scorebaord. Click on the player to bring up their stats. Click on the manager to bring up their team.</p>
+                <p>Enter your Team ID below or use the search to get started. Click on the home logo to get back.</p>
             </div>
             <br></br>
             <div className='home-inputs'>

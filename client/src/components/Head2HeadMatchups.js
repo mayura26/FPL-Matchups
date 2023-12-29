@@ -1,5 +1,5 @@
-// FEATURE: [1] Show matchups for the coming week
-// FEATURE: [7.5] Add popup for team on click
+// FEATURE: [3.0] Show matchups for the coming week
+// FEATURE: [2.0] Add popup for team on click
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
@@ -16,16 +16,16 @@ const Head2HeadMatchups = () => {
   const [fetchedGameweek, setFetchedGameweek] = useState('');
   const [leagueData, setLeagueData] = useState(null);
   const [selectedMatchupId, setSelectedMatchupId] = useState(null);
+  const [selectedTeamDetails, setSelectedTeamDetails] = useState(null);
   const [selectedMatchupTeam1ID, setSelectedMatchupTeam1ID] = useState(null);
   const [selectedMatchupTeam2ID, setSelectedMatchupTeam2ID] = useState(null);
   const [matchupData, setMatchupData] = useState(null);
   const [loadingMatchup, setLoadingMatchup] = useState(false);
+  const [loadingTeamDetails, setLoadingTeamDetails] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingInputs, setLoadingInputs] = useState(true);
   const [hideCommonPlayers, setHideCommonPlayers] = useState(false);
   const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
-  const [bpsDataVisible, setBpsDataVisible] = useState(false);
-  const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [idleTime, setIdleTime] = useState(0);
 
@@ -41,6 +41,15 @@ const Head2HeadMatchups = () => {
       setSelectedMatchupTeam1ID(team1Id);
       setSelectedMatchupTeam2ID(team2Id);
       await fetchMatchupData(team1Id, team2Id, gameweek);
+    }
+  };
+
+  const toggleTeamDetails = async (teamDetaiils) => {
+    if (selectedTeamDetails === teamDetaiils) {
+      // If the same matchup is clicked, collapse it
+      setSelectedTeamDetails(null);
+    } else {
+      setSelectedTeamDetails(teamDetaiils);
     }
   };
 
@@ -237,7 +246,7 @@ const Head2HeadMatchups = () => {
       )}
 
       {loading ? (
-        <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams/2 : 0} />
+        <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams / 2 : 0} />
       ) : (
         leagueData && (
           <>
@@ -299,9 +308,8 @@ const Head2HeadMatchups = () => {
                       </tbody>
                     </table>
                   </div>
-
                   {selectedMatchupId === match.id && (
-                    loadingMatchup ? (
+                    loadingTeamDetails ? (
                       <div className="loading-wheel"></div>
                     ) : (
                       matchupData && (
@@ -337,75 +345,12 @@ const Head2HeadMatchups = () => {
               ))}
               {(Number(fetchedGameweek) === Number(maxGameweek)) ? (
                 <>
-                  <div className='live-data'>
-                    <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
-                    {liveScoreboardVisible && (
-                      <table className="live-table info-table">
-                        <thead>
-                          <tr>
-                            <th>Player Name</th>
-                            <th>Team</th>
-                            <th>Score</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {leagueData.results
-                            .flatMap(match => [
-                              ...(typeof match.entry_1_livepoints === 'number' ? [{ name: match.entry_1_name, playername: match.entry_1_player_name, score: match.entry_1_livepoints }] : []),
-                              ...(typeof match.entry_2_livepoints === 'number' ? [{ name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints }] : [])
-                            ])
-                            .sort((a, b) => b.score - a.score)
-                            .map((player, index) => (
-                              <tr key={index}>
-                                <td>{player.playername}</td>
-                                <td>{player.name}</td>
-                                <td>{player.score}</td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    )}
-                  </div>
-                  {leagueData.bpsData.data.length > 0 ? (
-                    <div className="live-data">
-                      <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
-                      {bpsDataVisible && (
-                        <table className="live-table info-table">
-                          <thead>
-                            <tr>
-                              <th>Player Name</th>
-                              <th>Team</th>
-                              <th>BPS</th>
-                              <th>Bonus</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {leagueData.bpsData.data
-                              .reduce((acc, player, index, arr) => {
-                                if (index === 0 || player.fixture !== arr[index - 1].fixture) {
-                                  acc.push(
-                                    <tr className='bps-fixture-row' key={`fixture-${index}`}>
-                                      <td colSpan="4">{player.fixture}</td>
-                                    </tr>
-                                  );
-                                }
-                                acc.push(
-                                  <tr key={index}>
-                                    <td>{player.name}</td>
-                                    <td>{player.team}</td>
-                                    <td>{player.value}</td>
-                                    <td>{player.bonusPoints}</td>
-                                  </tr>
-                                );
-                                return acc;
-                              }, [])}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
+                  <LiveLeagueScoreBoard leagueData={leagueData.results
+                    .flatMap(match => [
+                      ...(typeof match.entry_1_livepoints === 'number' ? [{ id: match.entry_1_entry, name: match.entry_1_name, playername: match.entry_1_player_name, score: match.entry_1_livepoints, teamDetails: match.entry_1_teamDetails }] : []),
+                      ...(typeof match.entry_2_livepoints === 'number' ? [{ id: match.entry_2_entry, name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints, teamDetails: match.entry_2_teamDetails }] : [])
+                    ])} />
+                  <BPSTable BPSData={leagueData.bpsData.data} />
                 </>
               ) : (
                 <></>
@@ -639,6 +584,107 @@ const PlayerRowBench = ({ player1, player2 }) => {
   );
 };
 
+const PlayerSingleRow = ({ player }) => {
+  const [showPlayerCard, setShowPlayerCard] = useState(false);
+  const [playerData, setPlayerData] = useState(null);
+  const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);
+
+  const playerScore = player ? player.gameWeekScore : '';
+  const playerClass = player ? `player ${player.playStatus} ${player.captainStatus}` : 'player';
+  let playerName = player && (player.captainStatus === 'VC' || player.captainStatus === 'C') ? player.name + ` (${player.captainStatus})` : player ? player.name : '';
+
+  // Determine the status of the players based on their scores
+  let playerStatus = player ? '' : null;
+
+  if (player) {
+    if (player.playStatus === 'played' || player.playStatus === 'playing') {
+      playerStatus = getSinglePlayerStatus(playerScore);
+    }
+  }
+
+  if (player && (player.playStatus === 'unplayed' || player.subStatus === "Out")) {
+    playerStatus = '☠️';
+    if (player.subStatus === "Out") {
+      playerName += ' 🔻';
+    }
+  } else if (player && player.subStatus === "In") {
+    playerName += ' 🔼'
+  }
+
+  if (player && player.playStatus === 'notplayed') {
+    playerStatus = '⏳';
+  } else if (player && player.playStatus === 'benched') {
+    playerStatus = '🪑';
+  }
+
+  const handleRowClick = async () => {
+    try {
+      if (showPlayerCard) {
+        setShowPlayerCard(false);
+      } else {
+        if (player) {
+          setLoadingPlayerCard(true);
+          let playerResponseData = [];
+
+          if (player) {
+            const playersResponse = await fetch(`/api/h2h/player-matchup/${player.id}`);
+            playerResponseData = await playersResponse.json();
+          }
+
+          if (playerResponseData.length > 0 && !playerResponseData.apiLive) {
+            alert("The FPL API is not live.");
+          } else {
+            if (playerResponseData.data) {
+              setPlayerData(playerResponseData.data);
+              setShowPlayerCard(true);
+            } else {
+              setPlayerData([]);
+            }
+          }
+        }
+        setLoadingPlayerCard(false);
+      }
+    } catch (error) {
+      alert("Error fetching player matchup", error);
+      console.error("Error fetching player matchup:", error);
+    }
+  };
+
+  const playerCardPopup = showPlayerCard ? (
+    <>
+      {playerData && (
+        showPlayerCard ? (
+          <td className="player-card-popup" colSpan={4}>
+            <PlayerCardSlim player={playerData} />
+          </td>
+        ) : (
+          <td className="player-card-popup" colSpan={4}></td>
+        )
+      )}
+    </>
+  ) : null;
+
+  return (
+    <>
+      <tr className="player-row ripple-row" onClick={handleRowClick}>
+        <td className={playerClass}>{playerName}</td>
+        <td className={playerClass}>{player ? player.position : ''}</td>
+        <td className={playerClass}>{playerScore}</td>
+        <td className={playerClass}>{playerStatus}</td>
+      </tr>
+      <tr>
+        {loadingPlayerCard ? (
+          <td colSpan={8}>
+            <div className="loading-wheel"></div>
+          </td>
+        ) : (
+          playerCardPopup
+        )}
+      </tr>
+    </>
+  );
+};
+
 const getSinglePlayerStatus = (playerScore) => {
   let playerStatus = '';
   if (playerScore >= 8) {
@@ -720,6 +766,59 @@ const MatchupDetailsBench = ({ team1Details, team2Details }) => {
     </div>
   );
 };
+
+const TeamDetailsStarting = ({ teamDetails }) => {
+  return (
+    <div className="matchup-table-container">
+      <table className="matchup-table info-table">
+        <thead>
+          <tr><th className='team-type-heading' colSpan={"100%"}>Starting</th></tr>
+          <tr>
+            <th>Player</th>
+            <th>Pos.</th>
+            <th>P</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teamDetails.map((player, index) => (
+            <PlayerSingleRow
+              key={index}
+              player={player}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const TeamDetailsBench = ({ teamDetails }) => {
+  return (
+    <div className="matchup-table-container">
+      <table className="matchup-table info-table">
+        <thead>
+          <tr><th className='team-type-heading' colSpan={"100%"}>Bench</th></tr>
+          <tr>
+            <th>Player</th>
+            <th>Pos.</th>
+            <th>P</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teamDetails.map((player, index) => (
+            <PlayerSingleRow
+              key={index}
+              player={player}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 
 const MatchupDetailsGen = ({ team1Details, team2Details }) => {
   return (
@@ -840,6 +939,100 @@ const alignPlayers = (team1Details, team2Details) => {
   return alignedPlayers;
 };
 
+const LiveLeagueScoreBoard = (leagueData) => {
+  const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
+  const [teamDetailsVisible, setTeamDetailsVisible] = useState({});
 
+  const toggleTeamDetails = (index) => {
+    setTeamDetailsVisible(prevState => ({ ...prevState, [index]: !prevState[index] }));
+  };
 
+  return (
+    <div className='live-data'>
+      <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
+      {liveScoreboardVisible && (
+        <table className="live-table info-table">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Team</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leagueData.leagueData
+              .sort((a, b) => b.score - a.score)
+              .map((player, index) => (
+                <>
+                  <tr key={index} className='ripple-row' onClick={() => toggleTeamDetails(index)}>
+                    <td>{player.playername}</td>
+                    <td>{player.name}</td>
+                    <td>{player.score}</td>
+                  </tr>
+                  <tr key={`team-${index}`}>
+                    {teamDetailsVisible[index] && (
+                      <td colSpan="3">
+                        <TeamDetailsStarting
+                          teamDetails={player.teamDetails.startingPlayers}
+                        />
+                        <TeamDetailsBench
+                          teamDetails={player.teamDetails.benchPlayers}
+                        />
+                      </td>
+                    )}
+                  </tr>
+                </>
+              ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+};
+
+const BPSTable = (BPSData) => {
+  const [bpsDataVisible, setBpsDataVisible] = useState(false);
+  return (
+    BPSData.length > 0 ? (
+      <div className="live-data">
+        <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
+        {bpsDataVisible && (
+          <table className="live-table info-table">
+            <thead>
+              <tr>
+                <th>Player Name</th>
+                <th>Team</th>
+                <th>BPS</th>
+                <th>Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              {BPSData
+                .reduce((acc, player, index, arr) => {
+                  if (index === 0 || player.fixture !== arr[index - 1].fixture) {
+                    acc.push(
+                      <tr className='bps-fixture-row' key={`fixture-${index}`}>
+                        <td colSpan="4">{player.fixture}</td>
+                      </tr>
+                    );
+                  }
+                  acc.push(
+                    <tr key={index}>
+                      <td>{player.name}</td>
+                      <td>{player.team}</td>
+                      <td>{player.value}</td>
+                      <td>{player.bonusPoints}</td>
+                    </tr>
+                  );
+                  return acc;
+                }, [])}
+            </tbody>
+          </table>
+        )}
+      </div>
+    ) : (
+      <></>
+    )
+  );
+};
 export default Head2HeadMatchups;

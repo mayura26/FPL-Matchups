@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const NodeCache = require( "node-cache" );
+const ua = require('universal-analytics'); // Added this line
 
 const apiRoutes = require('./routes/apiRoutes');  // Import the API routes
 const taRoutes = require('./routes/taRoutes'); 
@@ -15,6 +16,18 @@ const nodeCache = new NodeCache();
 
 app.use((req, res, next) => {
     req.cache = nodeCache;
+    next();
+});
+
+// Added this middleware to track all requests
+app.use((req, res, next) => {
+    const visitor = ua(process.env.GA_KEY); // Replace 'UA-XXXX-Y' with your tracking ID
+    visitor.pageview({
+        dp: req.originalUrl, // Path
+        dt: req.method + ' ' + req.originalUrl, // Title
+        ua: req.headers['user-agent'], // User Agent
+        uip: req.ip, // IP Address
+    }).send();
     next();
 });
 
