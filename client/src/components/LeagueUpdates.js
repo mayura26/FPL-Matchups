@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
-import { PlayerCard } from './PlayerCard';
+import { PlayerCard } from './Components';
 import { LoadingBar } from './Shared';
 
 function LeagueUpdates() {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PlayerCard.css';
+import './Components.css';
 import './Shared.css';
 
 function scoreClass(score) {
@@ -196,3 +196,269 @@ export const PlayerCardSlim = ({ player }) => {
         </div>
     );
 }
+
+export const LiveLeagueScoreBoard = (leagueData) => {
+    const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
+    const [teamDetailsVisible, setTeamDetailsVisible] = useState({});
+  
+    const toggleTeamDetails = (index) => {
+      setTeamDetailsVisible(prevState => ({ ...prevState, [index]: !prevState[index] }));
+    };
+  
+    return (
+      <div className='live-data'>
+        <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
+        {liveScoreboardVisible && (
+          <table className="live-table info-table">
+            <thead>
+              <tr>
+                <th>Player Name</th>
+                <th>Team</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leagueData.leagueData
+                .sort((a, b) => b.score - a.score)
+                .map((player, index) => (
+                  <>
+                    <tr key={index} className='ripple-row' onClick={() => toggleTeamDetails(index)}>
+                      <td>{player.playername}</td>
+                      <td>{player.name}</td>
+                      <td>{player.score}</td>
+                    </tr>
+                    <tr key={`team-${index}`}>
+                      {teamDetailsVisible[index] && (
+                        <td colSpan="3">
+                          <TeamDetailsStarting
+                            teamDetails={player.teamDetails.startingPlayers}
+                          />
+                          <TeamDetailsBench
+                            teamDetails={player.teamDetails.benchPlayers}
+                          />
+                        </td>
+                      )}
+                    </tr>
+                  </>
+                ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    );
+  };
+  
+  export const BPSTable = (BPSData) => {
+    const [bpsDataVisible, setBpsDataVisible] = useState(false);
+    return (
+      BPSData.length > 0 ? (
+        <div className="live-data">
+          <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
+          {bpsDataVisible && (
+            <table className="live-table info-table">
+              <thead>
+                <tr>
+                  <th>Player Name</th>
+                  <th>Team</th>
+                  <th>BPS</th>
+                  <th>Bonus</th>
+                </tr>
+              </thead>
+              <tbody>
+                {BPSData
+                  .reduce((acc, player, index, arr) => {
+                    if (index === 0 || player.fixture !== arr[index - 1].fixture) {
+                      acc.push(
+                        <tr className='bps-fixture-row' key={`fixture-${index}`}>
+                          <td colSpan="4">{player.fixture}</td>
+                        </tr>
+                      );
+                    }
+                    acc.push(
+                      <tr key={index}>
+                        <td>{player.name}</td>
+                        <td>{player.team}</td>
+                        <td>{player.value}</td>
+                        <td>{player.bonusPoints}</td>
+                      </tr>
+                    );
+                    return acc;
+                  }, [])}
+              </tbody>
+            </table>
+          )}
+        </div>
+      ) : (
+        <></>
+      )
+    );
+  };
+  
+  const TeamDetailsStarting = ({ teamDetails }) => {
+    return (
+      <div className="matchup-table-container">
+        <table className="matchup-table info-table">
+          <thead>
+            <tr><th className='team-type-heading' colSpan={"100%"}>Starting</th></tr>
+            <tr>
+              <th>Player</th>
+              <th>Pos.</th>
+              <th>P</th>
+              <th>S</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamDetails.map((player, index) => (
+              <PlayerSingleRow
+                key={index}
+                player={player}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+  
+  const TeamDetailsBench = ({ teamDetails }) => {
+    return (
+      <div className="matchup-table-container">
+        <table className="matchup-table info-table">
+          <thead>
+            <tr><th className='team-type-heading' colSpan={"100%"}>Bench</th></tr>
+            <tr>
+              <th>Player</th>
+              <th>Pos.</th>
+              <th>P</th>
+              <th>S</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamDetails.map((player, index) => (
+              <PlayerSingleRow
+                key={index}
+                player={player}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+  
+  
+const PlayerSingleRow = ({ player }) => {
+    const [showPlayerCard, setShowPlayerCard] = useState(false);
+    const [playerData, setPlayerData] = useState(null);
+    const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);
+  
+    const playerScore = player ? player.gameWeekScore : '';
+    const playerClass = player ? `player ${player.playStatus} ${player.captainStatus}` : 'player';
+    let playerName = player && (player.captainStatus === 'VC' || player.captainStatus === 'C') ? player.name + ` (${player.captainStatus})` : player ? player.name : '';
+  
+    // Determine the status of the players based on their scores
+    let playerStatus = player ? '' : null;
+  
+    if (player) {
+      if (player.playStatus === 'played' || player.playStatus === 'playing') {
+        playerStatus = getSinglePlayerStatus(playerScore);
+      }
+    }
+  
+    if (player && (player.playStatus === 'unplayed' || player.subStatus === "Out")) {
+      playerStatus = '☠️';
+      if (player.subStatus === "Out") {
+        playerName += ' 🔻';
+      }
+    } else if (player && player.subStatus === "In") {
+      playerName += ' 🔼'
+    }
+  
+    if (player && player.playStatus === 'notplayed') {
+      playerStatus = '⏳';
+    } else if (player && player.playStatus === 'benched') {
+      playerStatus = '🪑';
+    }
+  
+    const handleRowClick = async () => {
+      try {
+        if (showPlayerCard) {
+          setShowPlayerCard(false);
+        } else {
+          if (player) {
+            setLoadingPlayerCard(true);
+            let playerResponseData = [];
+  
+            if (player) {
+              const playersResponse = await fetch(`/api/h2h/player-matchup/${player.id}`);
+              playerResponseData = await playersResponse.json();
+            }
+  
+            if (playerResponseData.length > 0 && !playerResponseData.apiLive) {
+              alert("The FPL API is not live.");
+            } else {
+              if (playerResponseData.data) {
+                setPlayerData(playerResponseData.data);
+                setShowPlayerCard(true);
+              } else {
+                setPlayerData([]);
+              }
+            }
+          }
+          setLoadingPlayerCard(false);
+        }
+      } catch (error) {
+        alert("Error fetching player matchup", error);
+        console.error("Error fetching player matchup:", error);
+      }
+    };
+  
+    const playerCardPopup = showPlayerCard ? (
+      <>
+        {playerData && (
+          showPlayerCard ? (
+            <td className="player-card-popup" colSpan={4}>
+              <PlayerCardSlim player={playerData} />
+            </td>
+          ) : (
+            <td className="player-card-popup" colSpan={4}></td>
+          )
+        )}
+      </>
+    ) : null;
+  
+    return (
+      <>
+        <tr className="player-row ripple-row" onClick={handleRowClick}>
+          <td className={playerClass}>{playerName}</td>
+          <td className={playerClass}>{player ? player.position : ''}</td>
+          <td className={playerClass}>{playerScore}</td>
+          <td className={playerClass}>{playerStatus}</td>
+        </tr>
+        <tr>
+          {loadingPlayerCard ? (
+            <td colSpan={8}>
+              <div className="loading-wheel"></div>
+            </td>
+          ) : (
+            playerCardPopup
+          )}
+        </tr>
+      </>
+    );
+  };
+  
+
+  export const getSinglePlayerStatus = (playerScore) => {
+    let playerStatus = '';
+    if (playerScore >= 8) {
+      playerStatus = '🏆';
+    } else if (playerScore >= 4) {
+      playerStatus = '✅';
+    } else if (playerScore > 1) {
+      playerStatus = '🟠';
+    } else {
+      playerStatus = '💥';
+    }
+    return playerStatus;
+  }

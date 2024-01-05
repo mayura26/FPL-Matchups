@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
-import { PlayerCard } from './PlayerCard';
+import { PlayerCard } from './Components';
 import { LoadingBar } from './Shared';
 
 function TeamAnalysis() {
