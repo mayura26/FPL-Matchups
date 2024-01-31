@@ -44,9 +44,9 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
 
     const leagueDetails = await getLeagueClassicStandingsData(req, leagueId);
     const bootstrapData = await getBootstrapData(req);
-    const fixtureData = await getFixtureData(req, gameweek);
-    const bpsData = await calculateBPS(req);
     const gwLive = await getGWLiveData(req, gameweek);
+    const bpsData = await calculateBPS(req);
+    const fixtureData = await getFixtureData(req, gameweek);
 
     if (!validateApiResponse(bootstrapData) || !validateApiResponse(leagueDetails) || !validateApiResponse(gwLive) || !validateApiResponse(fixtureData)) {
       console.error("Error getting FPL API data");
@@ -74,6 +74,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
           teamName: team.entry_name,
           teamID: team.entry,
           position: team.rank,
+          score: team.total,
           rankChange: team.last_rank - team.rank,
           transfers: gameweekTransfers
         };
@@ -106,7 +107,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
           }
         };
       }));
-      const teamDetails = await getTeamDetails(req, team.teamID, gameweek, gwLive, fixtureData, bpsData, bootstrapData, dataMap);
+      const teamDetails = await getTeamDetails(req, team.teamID, parseInt(gameweek), gwLive, fixtureData, bpsData, bootstrapData, dataMap);
       let teamPoints = 0;
       if (teamDetails) {
         teamPoints = await calculateTotalPoints(teamDetails);
@@ -116,6 +117,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
         teamName: team.teamName,
         teamID: team.teamID,
         position: team.position,
+        score: team.score,
         rankChange: team.rankChange,
         transfers: playerTransfers,
         teamDetails: teamDetails,
@@ -123,7 +125,15 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
       };
     }));
 
-    res.json({ data: teamData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
+    res.json({
+      data: teamData.map((team, index) => ({
+        ...team,
+        liveRank: teamData.filter(t => t.score + t.livescore > team.score + team.livescore).length + 1
+      })),
+      bpsData: bpsData,
+      source: bootstrapData.source,
+      apiLive: bootstrapData.apiLive
+    });
   } catch (error) {
     console.log(`Error getting TeamLeagues-LeagueID-GW info. LeagueID: ${req.params.leagueId} Gameweek: ${req.params.gameweek}`);
     console.error(error);

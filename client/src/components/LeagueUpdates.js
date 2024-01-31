@@ -1,12 +1,9 @@
-// FEATURE: [1.0] Add livescoreboard
-// FEATURE: [1.5] Add live squad score per players team and live league rank
-
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
-import { PlayerCard } from './Components';
+import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
 import { LoadingBar } from './Shared';
 
 function LeagueUpdates() {
@@ -15,7 +12,9 @@ function LeagueUpdates() {
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');
     const [maxGameweek, setMaxGameweek] = useState('1');
-    const [leagueChanges, setLeagueChanges] = useState([]);
+    const [fetchedGameweek, setFetchedGameweek] = useState('');
+    const [leagueData, setLeagueData] = useState([]);
+    const [bpsData, setBpsData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loadingInputs, setLoadingInputs] = useState(true);
     const [playerCardOpen, setPlayerCardOpen] = useState(false);
@@ -26,6 +25,7 @@ function LeagueUpdates() {
 
     const fetchData = async () => {
         setLoading(true);
+        setFetchedGameweek(gameweek);
         try {
             const response = await fetch(`/api/lu/league-teams/${selectedLeagueId}/${gameweek}`);
             const data = await response.json();
@@ -33,7 +33,8 @@ function LeagueUpdates() {
             if (!data.apiLive) {
                 alert("The FPL API is not live.");
             } else {
-                setLeagueChanges(data.data);
+                setLeagueData(data.data);
+                setBpsData(data.bpsData);
             }
         } catch (error) {
             alert("Error fetching league standing data", error);
@@ -190,76 +191,95 @@ function LeagueUpdates() {
                 </div>
             )}
             {loading ? (
-                <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams/3 : 0} />
+                <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams / 2 : 0} />
             ) : (
-                leagueChanges.length > 0 && (
+                leagueData.length > 0 && (
                     <>
-                        <table className="league-changes-table info-table">
-                            <thead>
-                                <tr className="league-changes-header">
-                                    <th>Manager Name</th>
-                                    <th>Team Name</th>
-                                    <th>Position</th>
-                                    <th>Transfer In</th>
-                                    <th>Transfer Out</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {leagueChanges.map((change) => (
-                                    change.transfers.map((transfer, index) => {
-                                        return (
-                                            <tr key={`${change.managerName}-${index}`} className="league-change-row">
-                                                {index === 0 && (
-                                                    <>
-                                                        <td style={{ wordWrap: "break-word" }}
-                                                            rowSpan={change.transfers.length}
-                                                            className="manager-name-table ripple-row"
-                                                            title={`Team ID: ${change.teamID}`}
-                                                            onClick={() => handleManagerRowClick(change)}>
-                                                            {change.managerName}
-                                                        </td>
-                                                        <td style={{ wordWrap: "break-word" }} rowSpan={change.transfers.length} className="team-name">{change.teamName}</td>
-                                                        <td rowSpan={change.transfers.length} className="position">{change.position}
-                                                            {change.rankChange !== 0 && <br></br>}
-                                                            {change.rankChange > 0 && (change.rankChange > 4 ? <span className="rank-up">{change.rankChange} 🔼</span> : Array.from({ length: change.rankChange }).map((_, i) => <span key={i} className="rank-up">🔼</span>))}
-                                                            {change.rankChange < 0 && (Math.abs(change.rankChange) > 4 ? <span className="rank-down">{Math.abs(change.rankChange)} 🔻</span> : Array.from({ length: Math.abs(change.rankChange) }).map((_, i) => <span key={i} className="rank-down">🔻</span>))}
-                                                        </td>
-                                                    </>
-                                                )}
-                                                <td
-                                                    className={`player-in ${transfer.playerIn.transferCount > 4 ? 'player-in-gt4' :
-                                                        transfer.playerIn.transferCount > 3 ? 'player-in-gt3' :
-                                                            transfer.playerIn.transferCount > 2 ? 'player-in-gt2' :
-                                                                transfer.playerIn.transferCount > 1 ? 'player-in-gt1' :
-                                                                    ''} ripple-row`}
-                                                    onClick={() => handleRowClick(transfer.playerIn.id)}>
-                                                    In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m
-                                                </td>
-                                                <td
-                                                    className={`player-out ${transfer.playerOut.transferCount > 4 ? 'player-out-gt4' :
-                                                        transfer.playerOut.transferCount > 3 ? 'player-out-gt3' :
-                                                            transfer.playerOut.transferCount > 2 ? 'player-out-gt2' :
-                                                                transfer.playerOut.transferCount > 1 ? 'player-out-gt1' :
-                                                                    ''} ripple-row`}
-                                                    onClick={() => handleRowClick(transfer.playerOut.id)}>
-                                                    Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                ))}
-                            </tbody>
-                        </table>
-                        <PlayerCardPopup
-                            isOpen={playerCardOpen}
-                            onClose={() => setPlayerCardOpen(false)}
-                            selectedPlayerData={selectedPlayerData}
-                        />
-                        <ManagerCardPopup
-                            isOpen={managerCardOpen}
-                            onClose={() => setManagerCardOpen(false)}
-                            selectedManagerData={selectedManagerData}
-                        />
+                        <div className="data-container">
+                            <table className="league-changes-table info-table">
+                                <thead>
+                                    <tr className="league-changes-header">
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Transfer In</th>
+                                        <th>Transfer Out</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {leagueData.map((change) => (
+                                        change.transfers.map((transfer, index) => {
+                                            return (
+                                                <tr key={`${change.managerName}-${index}`} className="league-change-row">
+                                                    {index === 0 && (
+                                                        <>
+                                                            <td style={{ wordWrap: "break-word" }}
+                                                                rowSpan={change.transfers.length}
+                                                                className="manager-name-table ripple-row"
+                                                                title={`Team ID: ${change.teamID}`}
+                                                                onClick={() => handleManagerRowClick(change)}>
+                                                                {change.managerName}<br />{change.teamName}
+                                                            </td>
+                                                            <td rowSpan={change.transfers.length} className="position">{change.position}
+                                                                {change.rankChange !== 0 && <br></br>}
+                                                                {change.rankChange > 0 && (change.rankChange > 4 ? <span className="rank-up">{change.rankChange} 🔼</span> : Array.from({ length: change.rankChange }).map((_, i) => <span key={i} className="rank-up">🔼</span>))}
+                                                                {change.rankChange < 0 && (Math.abs(change.rankChange) > 4 ? <span className="rank-down">{Math.abs(change.rankChange)} 🔻</span> : Array.from({ length: Math.abs(change.rankChange) }).map((_, i) => <span key={i} className="rank-down">🔻</span>))}
+                                                            </td>
+                                                        </>
+                                                    )}
+                                                    <td
+                                                        className={`player-in ${transfer.playerIn.transferCount > 4 ? 'player-in-gt4' :
+                                                            transfer.playerIn.transferCount > 3 ? 'player-in-gt3' :
+                                                                transfer.playerIn.transferCount > 2 ? 'player-in-gt2' :
+                                                                    transfer.playerIn.transferCount > 1 ? 'player-in-gt1' :
+                                                                        ''} ripple-row`}
+                                                        onClick={() => handleRowClick(transfer.playerIn.id)}>
+                                                        In: {transfer.playerIn.name} ({transfer.playerIn.club}) - £{transfer.playerIn.value / 10}m
+                                                    </td>
+                                                    <td
+                                                        className={`player-out ${transfer.playerOut.transferCount > 4 ? 'player-out-gt4' :
+                                                            transfer.playerOut.transferCount > 3 ? 'player-out-gt3' :
+                                                                transfer.playerOut.transferCount > 2 ? 'player-out-gt2' :
+                                                                    transfer.playerOut.transferCount > 1 ? 'player-out-gt1' :
+                                                                        ''} ripple-row`}
+                                                        onClick={() => handleRowClick(transfer.playerOut.id)}>
+                                                        Out: {transfer.playerOut.name} ({transfer.playerOut.club}) - £{transfer.playerOut.value / 10}m
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
+                                    ))}
+                                </tbody>
+                            </table>
+                            {Number(fetchedGameweek) === Number(maxGameweek) ? (
+                                <>
+                                    <LiveLeagueScoreBoard
+                                        leagueData={leagueData.map((data) => ({
+                                            id: data.teamID,
+                                            name: data.teamName,
+                                            playername: data.managerName,
+                                            score: data.livescore,
+                                            liveRank: data.liveRank,
+                                            liveChange: data.liveRank - data.position,
+                                            teamDetails: data.teamDetails
+                                        }))}
+                                        showRank={true}
+                                    />
+                                    <BPSTable BPSData={bpsData.data} />
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                            <PlayerCardPopup
+                                isOpen={playerCardOpen}
+                                onClose={() => setPlayerCardOpen(false)}
+                                selectedPlayerData={selectedPlayerData}
+                            />
+                            <ManagerCardPopup
+                                isOpen={managerCardOpen}
+                                onClose={() => setManagerCardOpen(false)}
+                                selectedManagerData={selectedManagerData}
+                            />
+                        </div>
                     </>
                 )
             )}
