@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'development') {
 let lastLiveTime = Date.now();
 app.get('/status', async (req, res) => {
     const apiData = await getEventStatus(req);
-
+    let message = 'FPL Matchups is live';
     if (!apiData.apiLive) {
         const currentTime = Date.now();
         const timeSinceLastLive = currentTime - lastLiveTime;
@@ -56,11 +56,12 @@ app.get('/status', async (req, res) => {
         if (timeSinceLastLive >= maxFPLDownTime) {
             return res.status(500).send('FPL API is down');
         }
+        message += ' but FPL API is down';
     } else {
         lastLiveTime = Date.now();
     }
 
-    res.status(200).send('Backend is live');
+    res.status(200).send(message);
 });
 
 app.use('/api/ta', taRoutes);
