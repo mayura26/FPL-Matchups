@@ -8,6 +8,10 @@
     width: 90%;
 }
 
+.data-container {
+    margin: 10px auto;
+}
+
 .loading-bar {
     margin: 25px 5px;
     position: relative;
@@ -159,10 +163,14 @@ button {
 .info-table {
     width: 95%;
     min-width: 150px;
-    max-width: 100%;
+    max-width: 600px;
     border-collapse: collapse;
     border: 1px solid var(--primary);
     overflow-x: auto;
+}
+
+.slim-table {
+    max-width: 400px;
 }
 
 br {

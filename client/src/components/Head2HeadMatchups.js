@@ -1,10 +1,10 @@
-// FEATURE: [1] Show matchups for the coming week
-// FEATURE: [7.5] Add popup for team on click
+// FEATURE: [3.0] Show matchups for the coming week
+// FEATURE: [v2 4.0] Add popup for team on click
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
-import { PlayerCardSlim } from './PlayerCard';
+import { PlayerCardSlim, LiveLeagueScoreBoard, BPSTable, getSinglePlayerStatus } from './Components';
 import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
@@ -24,8 +24,6 @@ const Head2HeadMatchups = () => {
   const [loadingInputs, setLoadingInputs] = useState(true);
   const [hideCommonPlayers, setHideCommonPlayers] = useState(false);
   const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
-  const [bpsDataVisible, setBpsDataVisible] = useState(false);
-  const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [idleTime, setIdleTime] = useState(0);
 
@@ -237,11 +235,11 @@ const Head2HeadMatchups = () => {
       )}
 
       {loading ? (
-        <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams/2 : 0} />
+        <LoadingBar animationDuration={leagues.find(league => Number(league.id) === Number(selectedLeagueId)) ? leagues.find(league => Number(league.id) === Number(selectedLeagueId)).numberOfTeams / 2 : 0} />
       ) : (
         leagueData && (
           <>
-            <div className="matchups-container">
+            <div className="data-container">
               {leagueData.results.map((match, index) => (
                 <div key={match.id} className="matchup-container">
                   <div className="matchup-summary" onClick={match.entry_1_entry && match.entry_2_entry ? () => toggleMatchupDetails(match.id, match.entry_1_entry, match.entry_2_entry) : undefined} style={{ pointerEvents: match.entry_1_entry && match.entry_2_entry ? 'auto' : 'none' }}>
@@ -286,8 +284,8 @@ const Head2HeadMatchups = () => {
                         </tr>
                         {Number(fetchedGameweek) === Number(maxGameweek) && (
                           <>
-                            <tr>
-                              <td className='blank-result-row' colSpan={'100%'}></td>
+                            <tr className='blank-result-row'>
+                              <td colSpan={'100%'}><pre className='blank-result-row-data'>{selectedMatchupId === match.id ? '▲     ▲     ▲' : '▼     ▼     ▼'}</pre></td>
                             </tr>
                             <tr className='live-lead-row'>
                               <td colspan={'100%'} className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
@@ -299,7 +297,6 @@ const Head2HeadMatchups = () => {
                       </tbody>
                     </table>
                   </div>
-
                   {selectedMatchupId === match.id && (
                     loadingMatchup ? (
                       <div className="loading-wheel"></div>
@@ -337,75 +334,14 @@ const Head2HeadMatchups = () => {
               ))}
               {(Number(fetchedGameweek) === Number(maxGameweek)) ? (
                 <>
-                  <div className='live-data'>
-                    <h2 className='ripple-row' onClick={() => setLiveScoreboardVisible(!liveScoreboardVisible)}>Live Scoreboard</h2>
-                    {liveScoreboardVisible && (
-                      <table className="live-table info-table">
-                        <thead>
-                          <tr>
-                            <th>Player Name</th>
-                            <th>Team</th>
-                            <th>Score</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {leagueData.results
-                            .flatMap(match => [
-                              ...(typeof match.entry_1_livepoints === 'number' ? [{ name: match.entry_1_name, playername: match.entry_1_player_name, score: match.entry_1_livepoints }] : []),
-                              ...(typeof match.entry_2_livepoints === 'number' ? [{ name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints }] : [])
-                            ])
-                            .sort((a, b) => b.score - a.score)
-                            .map((player, index) => (
-                              <tr key={index}>
-                                <td>{player.playername}</td>
-                                <td>{player.name}</td>
-                                <td>{player.score}</td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    )}
-                  </div>
-                  {leagueData.bpsData.data.length > 0 ? (
-                    <div className="live-data">
-                      <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>BPS Data (Live)</h2>
-                      {bpsDataVisible && (
-                        <table className="live-table info-table">
-                          <thead>
-                            <tr>
-                              <th>Player Name</th>
-                              <th>Team</th>
-                              <th>BPS</th>
-                              <th>Bonus</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {leagueData.bpsData.data
-                              .reduce((acc, player, index, arr) => {
-                                if (index === 0 || player.fixture !== arr[index - 1].fixture) {
-                                  acc.push(
-                                    <tr className='bps-fixture-row' key={`fixture-${index}`}>
-                                      <td colSpan="4">{player.fixture}</td>
-                                    </tr>
-                                  );
-                                }
-                                acc.push(
-                                  <tr key={index}>
-                                    <td>{player.name}</td>
-                                    <td>{player.team}</td>
-                                    <td>{player.value}</td>
-                                    <td>{player.bonusPoints}</td>
-                                  </tr>
-                                );
-                                return acc;
-                              }, [])}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  ) : (
-                    <></>
-                  )}
+                  <LiveLeagueScoreBoard
+                    leagueData={leagueData.results
+                      .flatMap(match => [
+                        ...(typeof match.entry_1_livepoints === 'number' ? [{ id: match.entry_1_entry, name: match.entry_1_name, playername: match.entry_1_player_name, score: match.entry_1_livepoints, teamDetails: match.entry_1_teamDetails }] : []),
+                        ...(typeof match.entry_2_livepoints === 'number' ? [{ id: match.entry_2_entry, name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints, teamDetails: match.entry_2_teamDetails }] : [])
+                      ])}
+                  />
+                  <BPSTable BPSData={leagueData.bpsData.data} />
                 </>
               ) : (
                 <></>
@@ -639,20 +575,6 @@ const PlayerRowBench = ({ player1, player2 }) => {
   );
 };
 
-const getSinglePlayerStatus = (playerScore) => {
-  let playerStatus = '';
-  if (playerScore >= 8) {
-    playerStatus = '🏆';
-  } else if (playerScore >= 4) {
-    playerStatus = '✅';
-  } else if (playerScore > 1) {
-    playerStatus = '🟠';
-  } else {
-    playerStatus = '💥';
-  }
-  return playerStatus;
-}
-
 const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers }) => {
   const alignedPlayers = alignPlayers(team1Details, team2Details);
   return (
@@ -839,7 +761,5 @@ const alignPlayers = (team1Details, team2Details) => {
 
   return alignedPlayers;
 };
-
-
 
 export default Head2HeadMatchups;

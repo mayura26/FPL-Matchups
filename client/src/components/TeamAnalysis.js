@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
 import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
-import { PlayerCard } from './PlayerCard';
+import { PlayerCard } from './Components';
 import { LoadingBar } from './Shared';
 
 function TeamAnalysis() {
@@ -66,7 +66,7 @@ function TeamAnalysis() {
                     <div className="team-data">
                         <div className="player-data">
                             <div className='manager-name'>
-                                {/* FEATURE: [2] Add compare to another team with popup being H2H popup */}
+                                {/* FEATURE: [v2 3.0] Add compare to another team with popup being H2H popup */}
                                 <h2>{teamData.managerName}</h2>
                             </div>
                             <div className='player-info'>

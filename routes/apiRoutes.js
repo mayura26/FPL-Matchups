@@ -41,7 +41,7 @@ router.get('/game-data', async (req, res) => {
     res.json({ data: gameData, source: bootstrapData.source, apiLive: bootstrapData.apiLive });
 });
 
-// FEATURE: [20] Add search by team name with and/or selection.
+// FEATURE: [v2 2.0] Add search by team name with and/or selection.
 router.get('/find-player/:playername', async (req, res) => {
     const playerName = req.params.playername;
     if (!/^[a-z0-9\s]+$/i.test(playerName)) {
