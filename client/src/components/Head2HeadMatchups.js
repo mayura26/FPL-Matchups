@@ -28,6 +28,10 @@ const Head2HeadMatchups = () => {
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [idleTime, setIdleTime] = useState(0);
 
+  useEffect(() => {
+    document.title = 'FPL Matchup | Head2Head Matchups';
+  }, []);
+
   const toggleMatchupDetails = async (matchupId, team1Id, team2Id) => {
     if (selectedMatchupId === matchupId) {
       // If the same matchup is clicked, collapse it

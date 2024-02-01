@@ -13,6 +13,10 @@ const Home = () => {
     const [searchPopOpen, setSearchPopOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        document.title = 'FPL Matchup | Home';
+      }, []);
+
     const searchPlayer = async (playerName) => {
         setLoading(true);
         if (playerName && playerName.length > 0) {

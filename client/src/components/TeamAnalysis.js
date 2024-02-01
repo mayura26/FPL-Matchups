@@ -11,6 +11,10 @@ function TeamAnalysis() {
     const [teamData, setTeamData] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        document.title = 'FPL Matchup | Team Analysis';
+      }, []);
+
     // Fetch the current gameweek when the component mounts
     useEffect(() => {
         const fetchCurrentGameweek = async () => {

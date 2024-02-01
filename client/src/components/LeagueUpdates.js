@@ -23,6 +23,10 @@ function LeagueUpdates() {
     const [selectedManagerData, setSelectedManagerData] = useState([]);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = 'FPL Matchup | League Updates';
+      }, []);
+
     const fetchData = async () => {
         setLoading(true);
         setFetchedGameweek(gameweek);
