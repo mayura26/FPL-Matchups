@@ -4,12 +4,12 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
-import { TeamIDContext } from './TeamIDContext';
+import { TeamContext } from './Context';
 import { PlayerCardSlim, LiveLeagueScoreBoard, BPSTable, getSinglePlayerStatus } from './Components';
 import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
-  const { teamID } = useContext(TeamIDContext);
+  const { teamID } = useContext(TeamContext);
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState('1');

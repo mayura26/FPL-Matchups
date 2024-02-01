@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
-import { TeamIDContext } from './TeamIDContext';
+import { TeamContext } from './Context';
 import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
 import { LoadingBar } from './Shared';
 // FEATURE: [4.1] Create favourite league and default to GW current
 function LeagueUpdates() {
-    const { teamID, updateTeamID } = useContext(TeamIDContext);
+    const { teamID, updateTeamID } = useContext(TeamContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');

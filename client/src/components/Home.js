@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import './Shared.css';
 import logo from '../NavBarLogo.png'; // Assuming the logo is stored in the assets folder
-import { TeamIDContext } from './TeamIDContext';
+import { TeamContext } from './Context';
 
 const Home = () => {
-    const { teamID, updateTeamID } = useContext(TeamIDContext);
+    const { teamID, updateTeamID } = useContext(TeamContext);
     const [gameData, setGameData] = useState([]);
     const [playerResultData, seplayerResultData] = useState([]);
     const [searchPopOpen, setSearchPopOpen] = useState(false);
