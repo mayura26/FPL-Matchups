@@ -1,6 +1,6 @@
 const express = require('express');
 const { getBootstrapData, getMaps, getTeamTransferData, getTeamData, getLeagueClassicStandingsData, getFixtureData, getGWLiveData, calculateBPS, validateApiResponse } = require('../lib/fplAPIWrapper');
-const { calculateTotalPoints, getTeamDetails } = require('../lib/teamPlayerData');
+const { calculateTotalPoints, getTeamDetails, detailBPSData } = require('../lib/teamPlayerData');
 
 const router = express.Router();
 
@@ -45,7 +45,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     const leagueDetails = await getLeagueClassicStandingsData(req, leagueId);
     const bootstrapData = await getBootstrapData(req);
     const gwLive = await getGWLiveData(req, gameweek);
-    const bpsData = await calculateBPS(req);
+    const rawBPSData = await calculateBPS(req);
     const fixtureData = await getFixtureData(req, gameweek);
 
     if (!validateApiResponse(bootstrapData) || !validateApiResponse(leagueDetails) || !validateApiResponse(gwLive) || !validateApiResponse(fixtureData)) {
@@ -59,6 +59,10 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     // Fetch additional details for each transfer
     const dataMap = await getMaps(bootstrapData);
     const playersInfo = bootstrapData.data.elements;
+    const bpsData = {
+      data: detailBPSData(rawBPSData, playersInfo, dataMap, fixtureData),
+      source: rawBPSData.source
+    }
 
     const transferPromises = teams.map(async team =>
       await getTeamTransferData(req, team.entry).then(response => {

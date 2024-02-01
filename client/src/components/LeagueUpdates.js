@@ -5,7 +5,7 @@ import './Shared.css';
 import { TeamIDContext } from './TeamIDContext';
 import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
 import { LoadingBar } from './Shared';
-
+// FEATURE: [4.1] Create favourite league and default to GW current
 function LeagueUpdates() {
     const { teamID, updateTeamID } = useContext(TeamIDContext);
     const [leagues, setLeagues] = useState([]);
@@ -259,7 +259,7 @@ function LeagueUpdates() {
                                             playername: data.managerName,
                                             score: data.livescore,
                                             liveRank: data.liveRank,
-                                            liveChange: data.liveRank - data.position,
+                                            liveChange: data.position - data.liveRank,
                                             teamDetails: data.teamDetails
                                         }))}
                                         showRank={true}

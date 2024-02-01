@@ -1,5 +1,6 @@
 // FEATURE: [3.0] Show matchups for the coming week
 // FEATURE: [v2 4.0] Add popup for team on click
+// FEATURE: [4.0] Create favourite league and default to GW current
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
@@ -660,11 +661,11 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
         <tbody>
           <tr>
             <td>{team1Details.transferCost * -1}</td>
-            <td>{team1Details.startingPlayers.filter(player => player.playStatus === 'playing').length + team1Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'playing').length}</td>
-            <td>{team1Details.startingPlayers.filter(player => player.playStatus === 'notplayed').length + team1Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'notplayed').length}</td>
+            <td>{team1Details.activePlayers}</td>
+            <td>{team1Details.remainPlayer}</td>
             <td>{team2Details.transferCost * -1}</td>
-            <td>{team2Details.startingPlayers.filter(player => player.playStatus === 'playing').length + team2Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'playing').length}</td>
-            <td>{team2Details.startingPlayers.filter(player => player.playStatus === 'notplayed').length + team2Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'notplayed').length}</td>
+            <td>{team2Details.activePlayers}</td>
+            <td>{team2Details.remainPlayer}</td>
           </tr>
         </tbody>
       </table>
