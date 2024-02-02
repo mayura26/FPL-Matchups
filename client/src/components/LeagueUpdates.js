@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
-import { TeamIDContext } from './TeamIDContext';
+import { TeamContext } from './Context';
 import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
 import { LoadingBar } from './Shared';
-
+// FEATURE: [4.1] Create favourite league and default to GW current
 function LeagueUpdates() {
-    const { teamID, updateTeamID } = useContext(TeamIDContext);
+    const { teamID, updateTeamID } = useContext(TeamContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');
@@ -22,6 +22,10 @@ function LeagueUpdates() {
     const [selectedPlayerData, setSelectedPlayerData] = useState([]);
     const [selectedManagerData, setSelectedManagerData] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'FPL Matchup | League Updates';
+      }, []);
 
     const fetchData = async () => {
         setLoading(true);
@@ -259,7 +263,7 @@ function LeagueUpdates() {
                                             playername: data.managerName,
                                             score: data.livescore,
                                             liveRank: data.liveRank,
-                                            liveChange: data.liveRank - data.position,
+                                            liveChange: data.position - data.liveRank,
                                             teamDetails: data.teamDetails
                                         }))}
                                         showRank={true}

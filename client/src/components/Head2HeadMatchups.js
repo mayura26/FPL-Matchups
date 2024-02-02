@@ -1,14 +1,15 @@
 // FEATURE: [3.0] Show matchups for the coming week
 // FEATURE: [v2 4.0] Add popup for team on click
+// FEATURE: [4.0] Create favourite league and default to GW current
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
-import { TeamIDContext } from './TeamIDContext';
+import { TeamContext } from './Context';
 import { PlayerCardSlim, LiveLeagueScoreBoard, BPSTable, getSinglePlayerStatus } from './Components';
 import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
-  const { teamID } = useContext(TeamIDContext);
+  const { teamID } = useContext(TeamContext);
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState('1');
@@ -26,6 +27,10 @@ const Head2HeadMatchups = () => {
   const [hidePlayedPlayers, setHidePlayedPlayers] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [idleTime, setIdleTime] = useState(0);
+
+  useEffect(() => {
+    document.title = 'FPL Matchup | Head2Head Matchups';
+  }, []);
 
   const toggleMatchupDetails = async (matchupId, team1Id, team2Id) => {
     if (selectedMatchupId === matchupId) {
@@ -660,11 +665,11 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
         <tbody>
           <tr>
             <td>{team1Details.transferCost * -1}</td>
-            <td>{team1Details.startingPlayers.filter(player => player.playStatus === 'playing').length + team1Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'playing').length}</td>
-            <td>{team1Details.startingPlayers.filter(player => player.playStatus === 'notplayed').length + team1Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'notplayed').length}</td>
+            <td>{team1Details.activePlayers}</td>
+            <td>{team1Details.remainPlayer}</td>
             <td>{team2Details.transferCost * -1}</td>
-            <td>{team2Details.startingPlayers.filter(player => player.playStatus === 'playing').length + team2Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'playing').length}</td>
-            <td>{team2Details.startingPlayers.filter(player => player.playStatus === 'notplayed').length + team2Details.benchPlayers.filter(player => player.subStatus === 'In' && player.playStatus === 'notplayed').length}</td>
+            <td>{team2Details.activePlayers}</td>
+            <td>{team2Details.remainPlayer}</td>
           </tr>
         </tbody>
       </table>

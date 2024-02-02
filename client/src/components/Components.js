@@ -197,7 +197,7 @@ export const PlayerCardSlim = ({ player }) => {
   );
 }
 
-export const LiveLeagueScoreBoard = ({leagueData, showRank = false}) => {
+export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
   const [teamDetailsVisible, setTeamDetailsVisible] = useState({});
 
@@ -216,6 +216,8 @@ export const LiveLeagueScoreBoard = ({leagueData, showRank = false}) => {
             <tr>
               <th>Player Name</th>
               <th>Score</th>
+              <th>Active</th>
+              <th>Rem</th>
               {showRank &&
                 <>
                   <th>Rank</th>
@@ -232,6 +234,8 @@ export const LiveLeagueScoreBoard = ({leagueData, showRank = false}) => {
                   <tr key={index} className='ripple-row' onClick={() => toggleTeamDetails(index)}>
                     <td>{player.playername} ({player.name})</td>
                     <td>{player.score}</td>
+                    <td>{player.teamDetails.activePlayers}</td>
+                    <td>{player.teamDetails.remainPlayer}</td>
                     {showRank &&
                       <>
                         <td>{player.liveRank}</td>
@@ -241,7 +245,23 @@ export const LiveLeagueScoreBoard = ({leagueData, showRank = false}) => {
                   </tr>
                   <tr key={`team-${index}`}>
                     {teamDetailsVisible[index] && (
-                      <td colSpan="3">
+                      <td colSpan="100%">
+                          <table className="matchup-table info-table">
+                            <thead>
+                              <tr>
+                                <th>Transfer</th>
+                                <th>In Play</th>
+                                <th>Remain</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>{player.teamDetails.transferCost * -1}</td>
+                                <td>{player.teamDetails.activePlayers}</td>
+                                <td>{player.teamDetails.remainPlayer}</td>
+                              </tr>
+                            </tbody>
+                          </table>
                         <TeamDetailsStarting
                           teamDetails={player.teamDetails.startingPlayers}
                         />
@@ -260,7 +280,8 @@ export const LiveLeagueScoreBoard = ({leagueData, showRank = false}) => {
   );
 };
 
-export const BPSTable = (BPSData) => {
+// FEATURE: [5.0] Show goals and assists as a popup for each fixture
+export const BPSTable = ({ BPSData }) => {
   const [bpsDataVisible, setBpsDataVisible] = useState(false);
   return (
     BPSData.length > 0 ? (
@@ -288,14 +309,17 @@ export const BPSTable = (BPSData) => {
                       </tr>
                     );
                   }
-                  acc.push(
-                    <tr key={index}>
-                      <td>{player.name}</td>
-                      <td>{player.team}</td>
-                      <td>{player.value}</td>
-                      <td>{player.bonusPoints}</td>
-                    </tr>
-                  );
+                  if (player.element > 0) {
+                    acc.push(
+                      <tr key={index}>
+                        <td>{player.name}</td>
+                        <td>{player.team}</td>
+                        <td>{player.value}</td>
+                        <td>{player.bonusPoints}</td>
+                      </tr>
+                    );
+                  };
+
                   return acc;
                 }, [])}
             </tbody>

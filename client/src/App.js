@@ -6,24 +6,19 @@ import Home from './components/Home';
 import TeamAnalysis from './components/TeamAnalysis';
 import Head2HeadMatchups from './components/Head2HeadMatchups';
 import LeagueUpdates from './components/LeagueUpdates';
-import { TeamIDProvider } from './components/TeamIDContext';
-import ReactGA from 'react-ga';
-
-ReactGA.initialize('G-NP8DZJQYTH'); // Initialize outside of a component
-
-function reportPageView() {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-}
+import { TeamContextProvider } from './components/Context';
 
 function App() {
     const location = useLocation();
 
     useEffect(() => {
-        reportPageView();
-    }, [location]);
+        window.gtag('config', 'G-NP8DZJQYTH', {
+          page_path: location.pathname, // Specify the current path
+        });
+      }, [location]);
 
     return (
-        <TeamIDProvider>
+        <TeamContextProvider>
             <div className="app-container">
                 {location.pathname === "/" ? null : <Navbar />}
                 <div className="main-content">
@@ -35,7 +30,7 @@ function App() {
                     </Routes>
                 </div>
             </div>
-        </TeamIDProvider>
+        </TeamContextProvider>
     );
 }
 

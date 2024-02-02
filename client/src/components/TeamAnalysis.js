@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './TeamAnalysis.css';
 import './Shared.css';
-import { TeamIDContext } from './TeamIDContext';
+import { TeamContext } from './Context';
 import { PlayerCard } from './Components';
 import { LoadingBar } from './Shared';
 
 function TeamAnalysis() {
-    const { teamID } = useContext(TeamIDContext);
+    const { teamID } = useContext(TeamContext);
     const [gamedata, setGamedata] = useState(null);  // Initialize as null
     const [teamData, setTeamData] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        document.title = 'FPL Matchup | Team Analysis';
+      }, []);
 
     // Fetch the current gameweek when the component mounts
     useEffect(() => {
