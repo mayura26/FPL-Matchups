@@ -1,0 +1,31 @@
+.install-banner {
+  margin: 2px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pwa-popup {
+  background-color: var(--primary50);
+  border: 1px solid var(--secondary50);
+  display: flex; /* Update to flex */
+  justify-content: center; /* Add this line */
+  align-items: center; /* Add this line */
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.app-icon {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
+
+.install-button {
+  background-color: #4CAF50;
+  /* Green */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}

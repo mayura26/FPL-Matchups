@@ -9,7 +9,7 @@ function scoreClass(score) {
   return 'score-blue';
 }
 // FEATURE: [v2 4.1] Create ultra slim cards
-export const PlayerCard = ({ player, showNextFix }) => {
+export const PlayerCard = ({ player, showNextFix=true }) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
     <div key={player.name} className="player-frame">
@@ -51,10 +51,12 @@ export const PlayerCard = ({ player, showNextFix }) => {
         </div>
       </div>
       {showNextFix && (
+        // TODO: Add extra row wrapper
+        // TODO: Fade colours for upcoming/xp
         <div className="player-card-row">
           <div className="player-upcoming-fixture">Upcoming: {player.upcomingGame.team}</div>
-          <div className="player-upcoming-xP">FDR: {player.upcomingGame.fdr}</div>
-          <div className="player-upcoming-xP">xP: {player.upcomingGame.xP}</div>
+          <div className={`player-upcoming-xP fdr-${player.upcomingGame.fdr}`}>FDR: {player.upcomingGame.fdr}</div>
+          <div className={`player-upcoming-xP ${scoreClass(parseInt(player.upcomingGame.xP))}`}>xP: {player.upcomingGame.xP}</div>
         </div>
       )}
       <div className="player-card-row-divider"></div>
@@ -280,7 +282,8 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   );
 };
 
-// FEATURE: [5.0] Show goals and assists as a popup for each fixture
+// FEATURE: [5.0] Show goals and assists as a row for each fixture
+// TODO: Add kickoff time to each game
 export const BPSTable = ({ BPSData }) => {
   const [bpsDataVisible, setBpsDataVisible] = useState(false);
   return (
@@ -386,6 +389,7 @@ const TeamDetailsBench = ({ teamDetails }) => {
 
 
 const PlayerSingleRow = ({ player }) => {
+  // BUG: Show captain points as double
   const [showPlayerCard, setShowPlayerCard] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);

@@ -1,3 +1,5 @@
+// TODO: Update popup to include if app is installed and if it already is in from playstore
+// TODO: Add install for google playstore
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';  // Importing the global styles
@@ -7,20 +9,43 @@ import TeamAnalysis from './components/TeamAnalysis';
 import Head2HeadMatchups from './components/Head2HeadMatchups';
 import LeagueUpdates from './components/LeagueUpdates';
 import { TeamContextProvider } from './components/Context';
+import InstallPwaPopup from './components/InstallPwaPopup';
 
 function App() {
     const location = useLocation();
 
+    const sendAdBlockDetectionToGA4 = (adBlockDetected) => {
+        if (window.gtag) {
+            window.gtag('event', 'ad_block_detected', {
+                'event_category': 'Ad Block',
+                'event_label': 'AdBlock Detected',
+                'value': adBlockDetected ? 1 : 0,
+            });
+        }
+    };
+
     useEffect(() => {
         window.gtag('config', 'G-NP8DZJQYTH', {
-          page_path: location.pathname, // Specify the current path
+            page_path: location.pathname, // Specify the current path
         });
-      }, [location]);
+    }, [location]);
+
+    useEffect(() => {
+        // Set a slight delay to ensure all scripts have had a chance to load
+        setTimeout(() => {
+            const adBlockDetected = !document.getElementById('adblock-detector');
+            if (adBlockDetected) {
+                // Send event to GA4
+                sendAdBlockDetectionToGA4(adBlockDetected);
+            }
+        }, 5000); // Adjust the timeout as needed
+    }, []);
 
     return (
         <TeamContextProvider>
             <div className="app-container">
                 {location.pathname === "/" ? null : <Navbar />}
+                <InstallPwaPopup />
                 <div className="main-content">
                     <Routes>
                         <Route path="/" element={<Home />} />
