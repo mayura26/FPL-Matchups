@@ -49,6 +49,28 @@
     /* Red for difficult fixtures */
 }
 
+.fdr-faded-1 {
+    background-color: rgba(2, 95, 5, 0.519);
+    /* Green for easy fixtures */
+}
+
+.fdr-faded-2 {
+    background-color: #8bc34a77;
+}
+
+.fdr-faded-3 {
+    background-color: #ffeb3b77;
+}
+
+.fdr-faded-4 {
+    background-color: #ff980077;
+}
+
+.fdr-faded-5 {
+    background-color: #f4433677;
+    /* Red for difficult fixtures */
+}
+
 .fdr-1,
 .fdr-2,
 .fdr-3,
@@ -57,7 +79,8 @@
     color: var(--text-inverse);
 }
 
-.player-frame, .player-frame-slim {
+.player-frame,
+.player-frame-slim {
     border: 1px solid var(--borders);
     margin: 10px;
     border-radius: 5px;
@@ -127,12 +150,14 @@
 .player-price {
     flex: 1.2;
 }
+
 .player-stats {
     flex: 1.5;
 }
 
 .player-upcoming-fixture {
     flex: 3;
+    background-color: var(--primary50alt);
 }
 
 .player-current-fixture {
@@ -274,13 +299,22 @@
     border-bottom: none;
 }
 
-.player-live-fixture-opp, .player-points {
+.player-live-fixture-opp,
+.player-points {
     font-weight: bold;
     font-size: 1.1em;
 }
 
 .player-row-topborder {
     border-top: var(--borders) 1px solid;
+}
+
+.player-row-double-topborder {
+    border-top: var(--borders) 2px solid;
+}
+
+.player-row-double-botborder {
+    border-bottom: var(--borders) 2px solid;
 }
 
 .player-row-no-botborder {

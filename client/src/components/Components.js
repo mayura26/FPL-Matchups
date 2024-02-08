@@ -51,11 +51,9 @@ export const PlayerCard = ({ player, showNextFix=true }) => {
         </div>
       </div>
       {showNextFix && (
-        // TODO: Add extra row wrapper
-        // TODO: Fade colours for upcoming/xp
-        <div className="player-card-row">
+        <div className="player-card-row player-row-double-topborder player-row-double-botborder">
           <div className="player-upcoming-fixture">Upcoming: {player.upcomingGame.team}</div>
-          <div className={`player-upcoming-xP fdr-${player.upcomingGame.fdr}`}>FDR: {player.upcomingGame.fdr}</div>
+          <div className={`player-upcoming-xP fdr-faded-${player.upcomingGame.fdr}`}>FDR: {player.upcomingGame.fdr}</div>
           <div className={`player-upcoming-xP ${scoreClass(parseInt(player.upcomingGame.xP))}`}>xP: {player.upcomingGame.xP}</div>
         </div>
       )}
@@ -389,12 +387,12 @@ const TeamDetailsBench = ({ teamDetails }) => {
 
 
 const PlayerSingleRow = ({ player }) => {
-  // BUG: Show captain points as double
   const [showPlayerCard, setShowPlayerCard] = useState(false);
   const [playerData, setPlayerData] = useState(null);
   const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);
 
-  const playerScore = player ? player.gameWeekScore : '';
+  const playerScore = player ? player.finalGameWeekPoints : '';
+
   const playerClass = player ? `player ${player.playStatus} ${player.captainStatus}` : 'player';
   let playerName = player && (player.captainStatus === 'VC' || player.captainStatus === 'C') ? player.name + ` (${player.captainStatus})` : player ? player.name : '';
 

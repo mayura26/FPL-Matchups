@@ -13,7 +13,7 @@ function InstallPwaPopup() {
       setDeferredPrompt(e);
       const relatedApps = await navigator.getInstalledRelatedApps();
 
-      // Search for a specific installed platform-specific app
+      // TODO: Update with correct name
       const psApp = relatedApps.find((app) => app.id === "com.example.fplmatchups");
 
       if (psApp) {

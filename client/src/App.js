@@ -1,8 +1,7 @@
-// TODO: Update popup to include if app is installed and if it already is in from playstore
 // TODO: Add install for google playstore
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import './App.css';  // Importing the global styles
+import './App.css';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import TeamAnalysis from './components/TeamAnalysis';
