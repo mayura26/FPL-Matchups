@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamContext } from './Context';
 import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
 import { LoadingBar } from './Shared';
-// FEATURE: [4.1] Create favourite league and default to GW current
+
 function LeagueUpdates() {
-    const { teamID, updateTeamID } = useContext(TeamContext);
+    const { teamID, updateTeamID, classicLeagueID, updateClassicLeagueID } = useContext(TeamContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');
@@ -25,9 +25,9 @@ function LeagueUpdates() {
 
     useEffect(() => {
         document.title = 'FPL Matchup | League Updates';
-      }, []);
+    }, []);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         setFetchedGameweek(gameweek);
         try {
@@ -37,6 +37,7 @@ function LeagueUpdates() {
             if (!data.apiLive) {
                 alert("The FPL API is not live.");
             } else {
+                updateClassicLeagueID(selectedLeagueId);
                 setLeagueData(data.data);
                 setBpsData(data.bpsData);
             }
@@ -45,7 +46,7 @@ function LeagueUpdates() {
             console.error("Error fetching league standing data", error);
         }
         setLoading(false);
-    };
+    }, [gameweek, selectedLeagueId, updateClassicLeagueID]);
 
     useEffect(() => {
         const fetchCurrentGameweek = async () => {
@@ -80,6 +81,9 @@ function LeagueUpdates() {
                     } else {
                         if (data.data.length > 0) {
                             setLeagues(data.data);
+                            if (classicLeagueID) {
+                                setSelectedLeagueId(classicLeagueID);
+                            }
                         } else {
                             alert("No leagues found");
                             setLeagues([]);
@@ -93,7 +97,13 @@ function LeagueUpdates() {
             }
         };
         fetchLeagues();
-    }, [teamID]);
+    }, [classicLeagueID, teamID]);
+
+    useEffect(() => {
+        if (selectedLeagueId && selectedLeagueId !== '' && gameweek && !loadingInputs) {
+            fetchData();
+        }
+    }, [fetchData, gameweek, loadingInputs, selectedLeagueId]);
 
     const PlayerCardPopup = ({ isOpen, onClose, selectedPlayerData }) => {
         if (!isOpen) return null;

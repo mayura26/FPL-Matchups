@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-
 export const TeamContext = createContext();
 
 export const TeamContextProvider = ({ children }) => {
     const [teamID, setTeamID] = useState("948006");
     const [h2HLeagueID, setH2HLeagueID] = useState(null);
+    const [classicLeagueID, setClassicLeagueID] = useState(null);
 
     useEffect(() => {
         // Check if a teamID is stored in cookies
@@ -18,10 +18,18 @@ export const TeamContextProvider = ({ children }) => {
         if (storedH2HLeagueID) {
             setH2HLeagueID(storedH2HLeagueID);
         }
+
+        const storedClassicLeagueID = Cookies.get('ClassicLeagueID');
+        if (storedClassicLeagueID) {
+            setClassicLeagueID(storedClassicLeagueID);
+        }
+
     }, []);
 
     const updateTeamID = (newTeamID) => {
         setTeamID(newTeamID);
+        updateH2HLeagueID(null); // Reset H2HLeagueID
+        updateClassicLeagueID(null); // Reset ClassicLeagueID
         Cookies.set('teamID', newTeamID, { expires: 7 }); // Save to cookies
     };
 
@@ -30,8 +38,13 @@ export const TeamContextProvider = ({ children }) => {
         Cookies.set('H2HLeagueID', newH2HLeagueID, { expires: 7 }); // Save to cookies
     };
 
+    const updateClassicLeagueID = (newClassicLeagueID) => {
+        setClassicLeagueID(newClassicLeagueID);
+        Cookies.set('ClassicLeagueID', newClassicLeagueID, { expires: 7 }); // Save to cookies
+    };
+
     return (
-        <TeamContext.Provider value={{ teamID, updateTeamID, h2HLeagueID, updateH2HLeagueID }}>
+        <TeamContext.Provider value={{ teamID, updateTeamID, h2HLeagueID, updateH2HLeagueID, classicLeagueID, updateClassicLeagueID }}>
             {children}
         </TeamContext.Provider>
     );

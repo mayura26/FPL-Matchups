@@ -1,6 +1,5 @@
 // FEATURE: [3.0] Show matchups for the coming week
 // FEATURE: [v2 4.0] Add popup for team on click
-// FEATURE: [4.0] Create favourite league and default to GW current
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
@@ -9,7 +8,7 @@ import { PlayerCardSlim, LiveLeagueScoreBoard, BPSTable, getSinglePlayerStatus }
 import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
-  const { teamID } = useContext(TeamContext);
+  const { teamID, h2HLeagueID, updateH2HLeagueID } = useContext(TeamContext);
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState('1');
@@ -58,6 +57,7 @@ const Head2HeadMatchups = () => {
       if (!data.apiLive) {
         alert("The FPL API is not live.");
       } else {
+        updateH2HLeagueID(selectedLeagueId);
         setLeagueData(data.data);
       }
     } catch (error) {
@@ -65,7 +65,7 @@ const Head2HeadMatchups = () => {
       console.error("Error fetching league data:", error);
     }
     setLoading(false);
-  }, [selectedLeagueId, gameweek]);
+  }, [gameweek, selectedLeagueId, updateH2HLeagueID]);
 
   // Fetch matchup data
   const fetchMatchupData = useCallback(async (team1Id, team2Id, gameweek) => {
@@ -121,6 +121,9 @@ const Head2HeadMatchups = () => {
           } else {
             if (data.data.length > 0) {
               setLeagues(data.data);
+              if (h2HLeagueID) {
+                setSelectedLeagueId(h2HLeagueID);
+              }
             } else {
               alert("No leagues found");
               setLeagues([]);
@@ -135,7 +138,7 @@ const Head2HeadMatchups = () => {
     };
 
     fetchLeagueData();
-  }, [teamID]);
+  }, [h2HLeagueID, teamID]);
 
   useEffect(() => {
     const idleInterval = setInterval(() => {
@@ -191,6 +194,12 @@ const Head2HeadMatchups = () => {
     };
   }, [autoRefresh, gameweek, selectedMatchupId, selectedMatchupTeam1ID, selectedMatchupTeam2ID, teamID, fetchData, fetchMatchupData]);
 
+  useEffect(() => {
+    if (selectedLeagueId && selectedLeagueId !== '' && gameweek && !loadingInputs) {
+      fetchData(true);
+    }
+  }, [selectedLeagueId, fetchData, gameweek, loadingInputs]);
+
   return (
     <div className='main-container'>
       {loadingInputs ? (
@@ -219,7 +228,6 @@ const Head2HeadMatchups = () => {
                         ))}
                       </select>
                     </div>
-                    <button className='ripple-btn' onClick={() => fetchData(true)} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                   </div>
                   <div className="input-row">
                     <div className="input-container">
