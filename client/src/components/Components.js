@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Components.css';
 import './Shared.css';
+// TODO: Livescore board rank is wrong but also can be combined with change 
 
 function scoreClass(score) {
   if (score <= 2) return 'score-red';
