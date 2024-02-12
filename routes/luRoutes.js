@@ -59,6 +59,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     // Fetch additional details for each transfer
     const dataMap = await getMaps(bootstrapData);
     const playersInfo = bootstrapData.data.elements;
+    // TODO: Refactor this to use the new data structure
     const bpsData = {
       data: detailBPSData(rawBPSData, playersInfo, dataMap, fixtureData),
       source: rawBPSData.source

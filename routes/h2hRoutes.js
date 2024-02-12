@@ -48,6 +48,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const playersInfo = bootstrapData.data.elements;
     const dataMap = await getMaps(bootstrapData);
 
+    // TODO: Refactor this to use the new data structure
     const bpsData = {
       data: detailBPSData(rawBPSData, playersInfo, dataMap, fixtureData),
       source: rawBPSData.source
@@ -183,6 +184,7 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
     const gwLive = await getGWLiveData(req, gameweek);
+    // TODO: Refactor this to use the new data structure
     const bpsData = await calculateBPS(req);
     const fixtureData = await getFixtureData(req, gameweek);
 
