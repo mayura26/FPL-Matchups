@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import './InstallPwaPopup.css';
 import logo from '../NavBarLogo.png';
-// TODO: Hide after time
-// TODO: Use cookie to only show once a day
 
 function InstallPwaPopup() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -10,7 +8,15 @@ function InstallPwaPopup() {
 
   useEffect(() => {
     const showTimeout = setTimeout(() => {
-      setShowPopup(true);
+      const lastShownTime = localStorage.getItem('lastShownTime');
+      const currentTime = new Date().getTime();
+      const twoHours = 2 * 60 * 60 * 1000; // Two hours in milliseconds
+      if (!lastShownTime || currentTime - lastShownTime >= twoHours) {
+        setShowPopup(true);
+        localStorage.setItem('lastShownTime', currentTime);
+      } else {
+        setShowPopup(false);
+      }
     }, 200);
 
     const hideTimeout = setTimeout(() => {
@@ -68,8 +74,6 @@ function InstallPwaPopup() {
     </div>
   );
 }
-
-
 
 function supressPopup() {
   const popup = document.querySelector('.pwa-popup');

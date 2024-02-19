@@ -30,17 +30,17 @@ export const TeamContextProvider = ({ children }) => {
         setTeamID(newTeamID);
         updateH2HLeagueID(null); // Reset H2HLeagueID
         updateClassicLeagueID(null); // Reset ClassicLeagueID
-        Cookies.set('teamID', newTeamID, { expires: 7 }); // Save to cookies
+        Cookies.set('TeamID', newTeamID); // Save to cookies
     };
 
     const updateH2HLeagueID = (newH2HLeagueID) => {
         setH2HLeagueID(newH2HLeagueID);
-        Cookies.set('H2HLeagueID', newH2HLeagueID, { expires: 7 }); // Save to cookies
+        Cookies.set('H2HLeagueID', newH2HLeagueID); // Save to cookies
     };
 
     const updateClassicLeagueID = (newClassicLeagueID) => {
         setClassicLeagueID(newClassicLeagueID);
-        Cookies.set('ClassicLeagueID', newClassicLeagueID, { expires: 7 }); // Save to cookies
+        Cookies.set('ClassicLeagueID', newClassicLeagueID); // Save to cookies
     };
 
     return (

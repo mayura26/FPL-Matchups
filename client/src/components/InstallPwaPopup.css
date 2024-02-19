@@ -5,6 +5,7 @@
   position: absolute;
   top: -100%;
   width: 100%;
+  max-width: 1000px;
   z-index: 9999;
   animation: slideIn 5s ease-in-out forwards; /* Apply slide-in animation */
 }
@@ -17,7 +18,6 @@
     top: 0; /* Move to the top of the screen */
   }
 }
-
 
 .pwa-popup {
   background-color: var(--primary50);
