@@ -2,9 +2,26 @@ import { useEffect, useState } from 'react';
 import './InstallPwaPopup.css';
 import logo from '../NavBarLogo.png';
 // TODO: Hide after time
+// TODO: Use cookie to only show once a day
 
 function InstallPwaPopup() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const showTimeout = setTimeout(() => {
+      setShowPopup(true);
+    }, 200);
+
+    const hideTimeout = setTimeout(() => {
+      setShowPopup(false);
+    }, 15000);
+
+    return () => {
+      clearTimeout(showTimeout);
+      clearTimeout(hideTimeout);
+    };
+  }, []);
 
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', async (e) => {
@@ -45,12 +62,14 @@ function InstallPwaPopup() {
 
   return (
     <div className='install-banner'>
-      {deferredPrompt && (
+      {showPopup && deferredPrompt && (
         <Popup handleClick={handleClick} />
       )}
     </div>
   );
 }
+
+
 
 function supressPopup() {
   const popup = document.querySelector('.pwa-popup');
@@ -66,12 +85,14 @@ function Popup({ handleClick }) {
   return (
     <div className="pwa-popup">
       <img src={logo} alt="App icon" className="app-icon" />
-      <button className="install-button" onClick={handleClick}>
-        Install App
-      </button>
-      <button onClick={handleClose}>
-        Close
-      </button>
+      <div className='install-buttons'>
+        <button className="install-button" onClick={handleClick}>
+          Install App
+        </button>
+        <button onClick={handleClose}>
+          Close
+        </button>
+      </div>
     </div>
   );
 }

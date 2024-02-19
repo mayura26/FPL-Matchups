@@ -1,18 +1,39 @@
 .install-banner {
-  margin: 2px 20px;
+  margin: 5px 0px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  position: absolute;
+  top: -100%;
+  width: 100%;
+  z-index: 9999;
+  animation: slideIn 5s ease-in-out forwards; /* Apply slide-in animation */
 }
+
+@keyframes slideIn {
+  from {
+    top: -100%; /* Start off the screen */
+  }
+  to {
+    top: 0; /* Move to the top of the screen */
+  }
+}
+
 
 .pwa-popup {
   background-color: var(--primary50);
   border: 1px solid var(--secondary50);
   display: flex; /* Update to flex */
-  justify-content: center; /* Add this line */
+  justify-content: space-between; /* Add this line */
   align-items: center; /* Add this line */
-  gap: 10px;
   padding: 10px;
   border-radius: 5px;
+  width: 80%;
+}
+
+.install-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .app-icon {

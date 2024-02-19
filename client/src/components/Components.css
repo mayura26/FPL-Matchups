@@ -344,3 +344,35 @@
 .high-high-substat {
     background-color: rgba(9, 79, 150, 0.726);
 }
+
+.bps-fixture-row {
+    font-size: 0.9em;
+    font-weight: 600;
+    background-color: rgba(87, 73, 44, 0.502);
+}
+
+.bps-fixture-live {
+    background-color: rgba(44, 87, 63, 0.502);
+}
+
+.bps-fixture-finished {
+    background-color: rgba(44, 77, 87, 0.502);
+}
+
+.stat-heading {
+    background-color: var(--primary50);
+    text-align: center;
+    font-weight: 500;
+    width:100%;
+    font-size: 0.85em;
+}
+
+.stat-sub-heading {
+    font-size: 0.8em;
+    text-align: center;
+    background-color: var(--table-header);
+}
+
+.stat-row {
+    font-size: 0.8em;
+}

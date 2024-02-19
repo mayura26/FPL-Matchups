@@ -281,8 +281,7 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   );
 };
 
-// FEATURE: [5.0] Show goals and assists as a row for each fixture
-// TODO: Add kickoff time to each game
+// IN-PROGRESS: [5.0] Show goals and assists as a row for each fixture
 export const FixDataTable = ({ FixData }) => {
   const [fixDataVisible, setFixDataVisible] = useState(false);
   return (
@@ -307,39 +306,43 @@ export const FixDataTable = ({ FixData }) => {
   );
 };
 
-// TODO: Change shading when game is playing/finished
-// TODO: Put arrowup and arrowdown on the right side of the table on click
 const FixtureRow = ({ fixture, key }) => {
   const [showFixtureDetails, setShowFixtureDetails] = useState(false);
+  const fixtureClass = fixture.fixInfo.started && !fixture.fixInfo.finished ? 'bps-fixture-live' : fixture.fixInfo.finished ? 'bps-fixture-finished' : '';
+  const fixtureTitle = `${fixture.fixInfo.teamHome} ${fixture.fixInfo.teamHomeScore}-${fixture.fixInfo.teamAwayScore} ${fixture.fixInfo.teamAway}`;
   return (
     <>
-      <tr className='bps-fixture-row ripple-row' key={`fixture-${key}`} onClick={() => setShowFixtureDetails(!showFixtureDetails)}>
-        <td colSpan={5}>{fixture.fixInfo.teamHome} {fixture.fixInfo.teamHomeScore}-{fixture.fixInfo.teamAwayScore} {fixture.fixInfo.teamAway}</td>
-        {fixture.fixInfo.started && !fixture.fixInfo.finished ? (
+    {/* TODO: Enable click only when data exists */}
+      <tr className={`bps-fixture-row ripple-row ${fixtureClass}`} key={`fixture-${key}`} onClick={() => setShowFixtureDetails(!showFixtureDetails)}>
+        <td colSpan={fixture.fixInfo.started && !fixture.fixInfo.finished ? 5 : 6}>{showFixtureDetails ? `${fixtureTitle} ▴` : `${fixtureTitle} ▾`}</td>
+        {fixture.fixInfo.started && !fixture.fixInfo.finished && (
           <td>{fixture.fixInfo.minutes}'</td>
-        ) : (
-          <></>
         )}
-        <td>{fixture.fixInfo.kickOff}</td>
+        <td>{fixture.fixInfo.kickOff}</td> {/* TODO: Change kickoff time to local time */}
       </tr>
       {showFixtureDetails && (
         <>
-          <FixtureStatsRow statsData={fixture.BPSData} type='BPS' />
-          <FixtureStatsRow statsData={fixture.gameStats.goals} type='Goals' />
-          <FixtureStatsRow statsData={fixture.gameStats.assists} type='Assists' />
+          <FixtureStatsRow statsData={fixture.BPSData} type='BPS' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.goals} type='Goals' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.assists} type='Assists' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.ownGoals} type='Own Goals' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.penSaved} type='Pen Saved' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.penMissed} type='Pen Missed' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
         </>
       )}
     </>
   )
 }
 
-const FixtureStatsRow = ({ statsData, type }) => {
+const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
+  const colSpan = minutesShown ? 5 : 4;
   return (
     <>
       {statsData.length > 0 && (
         <>
-          <tr className='table-heading'>
-            <td>Player</td>
+          <tr className='stat-heading'><td colSpan={100}>{type}</td></tr>  
+          <tr className='stat-sub-heading'>
+            <td colSpan={colSpan} width={'50%'}>Player</td>
             <td>Team</td>
             {type === 'BPS' ? (
               <>
@@ -347,14 +350,14 @@ const FixtureStatsRow = ({ statsData, type }) => {
                 <td>Points</td>
               </>
             ) : (
-              <td>{type}</td>
+              <td colSpan={2}>{type}</td>
             )}
           </tr>
           {statsData.map((player, index) => (
-            <tr key={`player-${index}`}>
-              <td>{player.name}</td>
+            <tr className='stat-row' key={`player-${index}`}>
+              <td colSpan={colSpan}>{player.name}</td>
               <td>{player.team}</td>
-              <td>{player.value}</td>
+              <td colSpan={type === 'BPS' ? 1 : 2}>{player.value}</td>
               {type === 'BPS' && (
                 <td>{player.bonusPoints}</td>
               )}

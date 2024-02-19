@@ -177,7 +177,6 @@ router.get('/player-matchup/:playerID', async (req, res) => {
 const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapData, dataMap) => {
   try {
     const gwLive = await getGWLiveData(req, gameweek);
-    // TODO: Refactor this to use the new data structure
     const fixData = await generateFixData(req);
     const fixtureData = await getFixtureData(req, gameweek);
 
