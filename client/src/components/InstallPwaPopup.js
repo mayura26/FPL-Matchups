@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './InstallPwaPopup.css';
 import logo from '../NavBarLogo.png';
+// TODO: Hide after time
 
 function InstallPwaPopup() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);

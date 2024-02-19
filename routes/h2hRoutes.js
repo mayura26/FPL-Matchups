@@ -1,7 +1,7 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamData, getGWLiveData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, calculateBPS, getFixtureData, validateApiResponse } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getTeamData, getGWLiveData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, generateFixData, getFixtureData, validateApiResponse } = require('../lib/fplAPIWrapper');
 const router = express.Router();
-const { getPlayerInfo, calculateTotalPoints, getTeamDetails, detailBPSData } = require('../lib/teamPlayerData');
+const { getPlayerInfo, calculateTotalPoints, getTeamDetails } = require('../lib/teamPlayerData');
 
 router.get('/leagues/:teamId', async (req, res) => {
   try {
@@ -37,7 +37,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
     const leagueData = await getLeaguesH2HGWData(req, leagueID, gameweek);
     const leagueStandings = await getLeaguesH2HStandingsData(req, leagueID);
     const fixtureData = await getFixtureData(req, gameweek);
-    const rawBPSData = await calculateBPS(req);
+    const fixData = await generateFixData(req);
 
     const bootstrapData = await getBootstrapData(req);
     if (!validateApiResponse(bootstrapData) || !validateApiResponse(leagueData) || !validateApiResponse(leagueStandings) || !validateApiResponse(fixtureData)) {
@@ -45,14 +45,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
       return res.status(500).json({ data: [], apiLive: false });
     }
 
-    const playersInfo = bootstrapData.data.elements;
     const dataMap = await getMaps(bootstrapData);
-
-    // TODO: Refactor this to use the new data structure
-    const bpsData = {
-      data: detailBPSData(rawBPSData, playersInfo, dataMap, fixtureData),
-      source: rawBPSData.source
-    }
     
     // For each team in the league, get all the players in the person's starting lineup
     for (let matchUp of leagueData.data.results) {
@@ -100,7 +93,7 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
       data: {
         results: leagueData.data.results,
         managerData: managerData,
-        bpsData: bpsData
+        fixData: fixData
       },
       source: leagueData.source,
       apiLive: leagueData.apiLive
@@ -185,7 +178,7 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
   try {
     const gwLive = await getGWLiveData(req, gameweek);
     // TODO: Refactor this to use the new data structure
-    const bpsData = await calculateBPS(req);
+    const fixData = await generateFixData(req);
     const fixtureData = await getFixtureData(req, gameweek);
 
     if (!validateApiResponse(bootstrapData) || !validateApiResponse(gwLive) || !validateApiResponse(fixtureData)) {
@@ -194,8 +187,8 @@ const fetchTeamMatchupData = async (req, team1Id, team2Id, gameweek, bootstrapDa
     }
 
     // Fetch details for both teams
-    const team1Details = await getTeamDetails(req, team1Id, gameweek, gwLive, fixtureData, bpsData, bootstrapData, dataMap);
-    const team2Details = await getTeamDetails(req, team2Id, gameweek, gwLive, fixtureData, bpsData, bootstrapData, dataMap);
+    const team1Details = await getTeamDetails(req, team1Id, gameweek, gwLive, fixtureData, fixData, bootstrapData, dataMap);
+    const team2Details = await getTeamDetails(req, team2Id, gameweek, gwLive, fixtureData, fixData, bootstrapData, dataMap);
 
     return { team1Details, team2Details };
   } catch (error) {

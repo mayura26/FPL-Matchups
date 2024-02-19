@@ -10,7 +10,7 @@ function scoreClass(score) {
   return 'score-blue';
 }
 // FEATURE: [v2 4.1] Create ultra slim cards
-export const PlayerCard = ({ player, showNextFix=true }) => {
+export const PlayerCard = ({ player, showNextFix = true }) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
     <div key={player.name} className="player-frame">
@@ -247,22 +247,22 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
                   <tr key={`team-${index}`}>
                     {teamDetailsVisible[index] && (
                       <td colSpan="100%">
-                          <table className="matchup-table info-table">
-                            <thead>
-                              <tr>
-                                <th>Transfer</th>
-                                <th>In Play</th>
-                                <th>Remain</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>{player.teamDetails.transferCost * -1}</td>
-                                <td>{player.teamDetails.activePlayers}</td>
-                                <td>{player.teamDetails.remainPlayer}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                        <table className="matchup-table info-table">
+                          <thead>
+                            <tr>
+                              <th>Transfer</th>
+                              <th>In Play</th>
+                              <th>Remain</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>{player.teamDetails.transferCost * -1}</td>
+                              <td>{player.teamDetails.activePlayers}</td>
+                              <td>{player.teamDetails.remainPlayer}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                         <TeamDetailsStarting
                           teamDetails={player.teamDetails.startingPlayers}
                         />
@@ -283,47 +283,20 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
 
 // FEATURE: [5.0] Show goals and assists as a row for each fixture
 // TODO: Add kickoff time to each game
-export const BPSTable = ({ BPSData }) => {
-  const [bpsDataVisible, setBpsDataVisible] = useState(false);
+export const FixDataTable = ({ FixData }) => {
+  const [fixDataVisible, setFixDataVisible] = useState(false);
   return (
-    BPSData.length > 0 ? (
+    FixData && FixData.length > 0 ? (
       <div className="live-data">
-        <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>
-          {bpsDataVisible ? 'BPS Data (Live) ▴' : 'BPS Data (Live) ▾'}
+        <h2 className='ripple-row' onClick={() => setFixDataVisible(!fixDataVisible)}>
+          {fixDataVisible ? 'Fixture Data (Live) ▴' : 'Fixture Data (Live) ▾'}
         </h2>
-        {bpsDataVisible && (
+        {fixDataVisible && (
           <table className="live-table info-table">
-            <thead>
-              <tr>
-                <th>Player Name</th>
-                <th>Team</th>
-                <th>BPS</th>
-                <th>Bonus</th>
-              </tr>
-            </thead>
             <tbody>
-              {BPSData
-                .reduce((acc, player, index, arr) => {
-                  if (index === 0 || player.fixture !== arr[index - 1].fixture) {
-                    acc.push(
-                      <tr className='bps-fixture-row' key={`fixture-${index}`}>
-                        <td colSpan="4">{player.fixture}</td>
-                      </tr>
-                    );
-                  }
-                  if (player.element > 0) {
-                    acc.push(
-                      <tr key={index}>
-                        <td>{player.name}</td>
-                        <td>{player.team}</td>
-                        <td>{player.value}</td>
-                        <td>{player.bonusPoints}</td>
-                      </tr>
-                    );
-                  };
-
-                  return acc;
-                }, [])}
+              {FixData.map((fixture, index) => (
+                <FixtureRow fixture={fixture} key={index} />
+              ))}
             </tbody>
           </table>
         )}
@@ -333,6 +306,65 @@ export const BPSTable = ({ BPSData }) => {
     )
   );
 };
+
+// TODO: Change shading when game is playing/finished
+// TODO: Put arrowup and arrowdown on the right side of the table on click
+const FixtureRow = ({ fixture, key }) => {
+  const [showFixtureDetails, setShowFixtureDetails] = useState(false);
+  return (
+    <>
+      <tr className='bps-fixture-row ripple-row' key={`fixture-${key}`} onClick={() => setShowFixtureDetails(!showFixtureDetails)}>
+        <td colSpan={5}>{fixture.fixInfo.teamHome} {fixture.fixInfo.teamHomeScore}-{fixture.fixInfo.teamAwayScore} {fixture.fixInfo.teamAway}</td>
+        {fixture.fixInfo.started && !fixture.fixInfo.finished ? (
+          <td>{fixture.fixInfo.minutes}'</td>
+        ) : (
+          <></>
+        )}
+        <td>{fixture.fixInfo.kickOff}</td>
+      </tr>
+      {showFixtureDetails && (
+        <>
+          <FixtureStatsRow statsData={fixture.BPSData} type='BPS' />
+          <FixtureStatsRow statsData={fixture.gameStats.goals} type='Goals' />
+          <FixtureStatsRow statsData={fixture.gameStats.assists} type='Assists' />
+        </>
+      )}
+    </>
+  )
+}
+
+const FixtureStatsRow = ({ statsData, type }) => {
+  return (
+    <>
+      {statsData.length > 0 && (
+        <>
+          <tr className='table-heading'>
+            <td>Player</td>
+            <td>Team</td>
+            {type === 'BPS' ? (
+              <>
+                <td>BPS</td>
+                <td>Points</td>
+              </>
+            ) : (
+              <td>{type}</td>
+            )}
+          </tr>
+          {statsData.map((player, index) => (
+            <tr key={`player-${index}`}>
+              <td>{player.name}</td>
+              <td>{player.team}</td>
+              <td>{player.value}</td>
+              {type === 'BPS' && (
+                <td>{player.bonusPoints}</td>
+              )}
+            </tr>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
 
 const TeamDetailsStarting = ({ teamDetails }) => {
   return (

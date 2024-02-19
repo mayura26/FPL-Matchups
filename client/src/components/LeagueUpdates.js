@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamContext } from './Context';
-import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
+import { PlayerCard, LiveLeagueScoreBoard, FixDataTable } from './Components';
 import { LoadingBar } from './Shared';
+
+// FEATURE: [v2.0 5.0] Create table showing current form (last 5 GWs)
 
 function LeagueUpdates() {
     const { teamID, updateTeamID, classicLeagueID, updateClassicLeagueID } = useContext(TeamContext);
@@ -14,7 +16,7 @@ function LeagueUpdates() {
     const [maxGameweek, setMaxGameweek] = useState('1');
     const [fetchedGameweek, setFetchedGameweek] = useState('');
     const [leagueData, setLeagueData] = useState([]);
-    const [bpsData, setBpsData] = useState([]);
+    const [fixData, setFixData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loadingInputs, setLoadingInputs] = useState(true);
     const [playerCardOpen, setPlayerCardOpen] = useState(false);
@@ -39,7 +41,7 @@ function LeagueUpdates() {
             } else {
                 updateClassicLeagueID(selectedLeagueId);
                 setLeagueData(data.data);
-                setBpsData(data.bpsData);
+                setFixData(data.fixData);
             }
         } catch (error) {
             alert("Error fetching league standing data", error);
@@ -277,7 +279,7 @@ function LeagueUpdates() {
                                         }))}
                                         showRank={true}
                                     />
-                                    <BPSTable BPSData={bpsData.data} />
+                                    <FixDataTable FixData={fixData.data} />
                                 </>
                             ) : (
                                 <></>

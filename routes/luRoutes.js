@@ -1,6 +1,6 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamTransferData, getTeamData, getLeagueClassicStandingsData, getFixtureData, getGWLiveData, calculateBPS, validateApiResponse } = require('../lib/fplAPIWrapper');
-const { calculateTotalPoints, getTeamDetails, detailBPSData } = require('../lib/teamPlayerData');
+const { getBootstrapData, getMaps, getTeamTransferData, getTeamData, getLeagueClassicStandingsData, getFixtureData, getGWLiveData, generateFixData, validateApiResponse } = require('../lib/fplAPIWrapper');
+const { calculateTotalPoints, getTeamDetails } = require('../lib/teamPlayerData');
 
 const router = express.Router();
 
@@ -45,7 +45,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     const leagueDetails = await getLeagueClassicStandingsData(req, leagueId);
     const bootstrapData = await getBootstrapData(req);
     const gwLive = await getGWLiveData(req, gameweek);
-    const rawBPSData = await calculateBPS(req);
+    const fixData = await generateFixData(req);
     const fixtureData = await getFixtureData(req, gameweek);
 
     if (!validateApiResponse(bootstrapData) || !validateApiResponse(leagueDetails) || !validateApiResponse(gwLive) || !validateApiResponse(fixtureData)) {
@@ -59,11 +59,6 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     // Fetch additional details for each transfer
     const dataMap = await getMaps(bootstrapData);
     const playersInfo = bootstrapData.data.elements;
-    // TODO: Refactor this to use the new data structure
-    const bpsData = {
-      data: detailBPSData(rawBPSData, playersInfo, dataMap, fixtureData),
-      source: rawBPSData.source
-    }
 
     const transferPromises = teams.map(async team =>
       await getTeamTransferData(req, team.entry).then(response => {
@@ -112,7 +107,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
           }
         };
       }));
-      const teamDetails = await getTeamDetails(req, team.teamID, parseInt(gameweek), gwLive, fixtureData, bpsData, bootstrapData, dataMap);
+      const teamDetails = await getTeamDetails(req, team.teamID, parseInt(gameweek), gwLive, fixtureData, fixData, bootstrapData, dataMap);
       let teamPoints = 0;
       if (teamDetails) {
         teamPoints = await calculateTotalPoints(teamDetails);
@@ -131,11 +126,11 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     }));
 
     res.json({
-      data: teamData.map((team, index) => ({
+      data: teamData.map((team) => ({
         ...team,
         liveRank: teamData.filter(t => t.score + t.livescore > team.score + team.livescore).length + 1
       })),
-      bpsData: bpsData,
+      fixData: fixData,
       source: bootstrapData.source,
       apiLive: bootstrapData.apiLive
     });

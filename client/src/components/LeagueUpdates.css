@@ -20,6 +20,7 @@
     background-color: var(--table-header);
 }
 
+/* TODO: Rework colours to be matching the rest of the app */
 .player-in-gt1 {
     background-color: #ccffccb4;
     color: black;

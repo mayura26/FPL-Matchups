@@ -313,7 +313,7 @@ br {
     border-collapse: collapse;
 }
 
-.live-table th {
+.live-table th, .live-table .table-heading {
     border: 2px solid var(--borders);
     padding: 2px;
     text-align: center;

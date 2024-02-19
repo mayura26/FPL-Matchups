@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
 import { TeamContext } from './Context';
-import { PlayerCardSlim, LiveLeagueScoreBoard, BPSTable, getSinglePlayerStatus } from './Components';
+import { PlayerCardSlim, LiveLeagueScoreBoard, FixDataTable, getSinglePlayerStatus } from './Components';
 import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
@@ -355,7 +355,7 @@ const Head2HeadMatchups = () => {
                         ...(typeof match.entry_2_livepoints === 'number' ? [{ id: match.entry_2_entry, name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints, teamDetails: match.entry_2_teamDetails }] : [])
                       ])}
                   />
-                  <BPSTable BPSData={leagueData.bpsData.data} />
+                  <FixDataTable FixData={leagueData.fixData.data} />
                 </>
               ) : (
                 <></>
