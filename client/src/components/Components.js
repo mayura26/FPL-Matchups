@@ -198,7 +198,6 @@ export const PlayerCardSlim = ({ player }) => {
   );
 }
 
-// TODO: Show chip usage as brackets
 export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
   const [teamDetailsVisible, setTeamDetailsVisible] = useState({});
@@ -234,7 +233,7 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
               .map((player, index) => (
                 <>
                   <tr key={index} className='ripple-row' onClick={() => toggleTeamDetails(index)}>
-                    <td>{player.playername} ({player.name}){player.teamDetails.chipActive !== 'None' ? ` [${player.teamDetails.chipActive}]` : ''}</td>
+                    <td>{player.playername} ({player.name}) {player.teamDetails.chipActive !== 'None' ? <span className={`chip-${player.teamDetails.chipActive}`}>{`${player.teamDetails.chipActive}`}</span> : ''}</td>
                     <td>{player.score}</td>
                     <td>{player.teamDetails.activePlayers}</td>
                     <td>{player.teamDetails.remainPlayer}</td>
@@ -288,7 +287,6 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   );
 };
 
-// IN-PROGRESS: [5.0] Show goals and assists as a row for each fixture
 export const FixDataTable = ({ FixData }) => {
   const [fixDataVisible, setFixDataVisible] = useState(false);
   return (

@@ -659,7 +659,6 @@ const MatchupDetailsBench = ({ team1DetailsFull, team2DetailsFull }) => {
   );
 };
 
-// TODO: Show chip usages
 const MatchupDetailsGen = ({ team1Details, team2Details }) => {
   return (
     <div className="matchup-table-container">
