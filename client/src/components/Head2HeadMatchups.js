@@ -331,14 +331,14 @@ const Head2HeadMatchups = () => {
                               team2Details={matchupData.team2Details}
                             />
                             <MatchupDetailsStarting
-                              team1Details={matchupData.team1Details.startingPlayers}
-                              team2Details={matchupData.team2Details.startingPlayers}
+                              team1DetailsFull={matchupData.team1Details}
+                              team2DetailsFull={matchupData.team2Details}
                               hideCommonPlayers={hideCommonPlayers}
                               hidePlayedPlayers={hidePlayedPlayers}
                             />
                             <MatchupDetailsBench
-                              team1Details={matchupData.team1Details.benchPlayers}
-                              team2Details={matchupData.team2Details.benchPlayers}
+                              team1DetailsFull={matchupData.team1Details}
+                              team2DetailsFull={matchupData.team2Details}
                             />
                           </div>
                         </>
@@ -589,8 +589,8 @@ const PlayerRowBench = ({ player1, player2 }) => {
   );
 };
 
-const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers }) => {
-  const alignedPlayers = alignPlayers(team1Details, team2Details);
+const MatchupDetailsStarting = ({ team1DetailsFull, team2DetailsFull, hideCommonPlayers, hidePlayedPlayers }) => {
+  const alignedPlayers = alignPlayers(team1DetailsFull, team2DetailsFull);
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
@@ -623,7 +623,9 @@ const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers,
   );
 };
 
-const MatchupDetailsBench = ({ team1Details, team2Details }) => {
+const MatchupDetailsBench = ({ team1DetailsFull, team2DetailsFull }) => {
+  const team1Details = team1DetailsFull.benchPlayers;
+  const team2Details = team2DetailsFull.benchPlayers;
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
@@ -657,15 +659,22 @@ const MatchupDetailsBench = ({ team1Details, team2Details }) => {
   );
 };
 
+// TODO: Show chip usages
 const MatchupDetailsGen = ({ team1Details, team2Details }) => {
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
         <thead>
           <tr>
+            {team1Details.chipActive !== 'None' && (
+              <th>Chip</th>
+            )}
             <th>Transfer</th>
             <th>In Play</th>
             <th>Remain</th>
+            {team2Details.chipActive !== 'None' && (
+              <th>Chip</th>
+            )}
             <th>Transfer</th>
             <th>In Play</th>
             <th>Remain</th>
@@ -673,9 +682,15 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
         </thead>
         <tbody>
           <tr>
+          {team1Details.chipActive !== 'None' && (
+              <td>{team1Details.chipActive}</td>
+            )}
             <td>{team1Details.transferCost * -1}</td>
             <td>{team1Details.activePlayers}</td>
             <td>{team1Details.remainPlayer}</td>
+            {team2Details.chipActive !== 'None' && (
+              <td>{team2Details.chipActive}</td>
+            )}
             <td>{team2Details.transferCost * -1}</td>
             <td>{team2Details.activePlayers}</td>
             <td>{team2Details.remainPlayer}</td>
@@ -686,7 +701,10 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
   );
 };
 
-const alignPlayers = (team1Details, team2Details) => {
+const alignPlayers = (team1DetailsFull, team2DetailsFull) => {
+  const team1Details = team1DetailsFull.startingPlayers;
+  const team2Details = team2DetailsFull.startingPlayers;
+
   const positions = ['GKP', 'DEF', 'MID', 'FWD'];
   let alignedPlayers = [];
   const captains = { team1: null, team2: null };
@@ -773,6 +791,14 @@ const alignPlayers = (team1Details, team2Details) => {
 
   alignedPlayers.push({ player1: team1Player, player2: team2Player });
 
+  if (team1DetailsFull.chipActive === 'TC' && team2DetailsFull.chipActive === 'TC') {
+    alignedPlayers.push({ player1: team1Player, player2: team2Player });
+  } else if (team1DetailsFull.chipActive === 'TC') {
+    alignedPlayers.push({ player1: team1Player, player2: null });
+  } else if (team2DetailsFull.chipActive === 'TC') {
+    alignedPlayers.push({ player1: null, player2: team2Player });
+  }
+  
   return alignedPlayers;
 };
 

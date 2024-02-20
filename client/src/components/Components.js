@@ -198,6 +198,7 @@ export const PlayerCardSlim = ({ player }) => {
   );
 }
 
+// TODO: Show chip usage as brackets
 export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   const [liveScoreboardVisible, setLiveScoreboardVisible] = useState(false);
   const [teamDetailsVisible, setTeamDetailsVisible] = useState({});
@@ -233,7 +234,7 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
               .map((player, index) => (
                 <>
                   <tr key={index} className='ripple-row' onClick={() => toggleTeamDetails(index)}>
-                    <td>{player.playername} ({player.name})</td>
+                    <td>{player.playername} ({player.name}){player.teamDetails.chipActive !== 'None' ? ` [${player.teamDetails.chipActive}]` : ''}</td>
                     <td>{player.score}</td>
                     <td>{player.teamDetails.activePlayers}</td>
                     <td>{player.teamDetails.remainPlayer}</td>
@@ -250,6 +251,9 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
                         <table className="matchup-table info-table">
                           <thead>
                             <tr>
+                              {player.teamDetails.chipActive !== 'None' && (
+                                <th>Chip</th>
+                              )}
                               <th>Transfer</th>
                               <th>In Play</th>
                               <th>Remain</th>
@@ -257,6 +261,9 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
                           </thead>
                           <tbody>
                             <tr>
+                            {player.teamDetails.chipActive !== 'None' && (
+                                <td>{player.teamDetails.chipActive}</td>
+                              )}
                               <td>{player.teamDetails.transferCost * -1}</td>
                               <td>{player.teamDetails.activePlayers}</td>
                               <td>{player.teamDetails.remainPlayer}</td>
