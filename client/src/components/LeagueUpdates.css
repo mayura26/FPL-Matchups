@@ -20,44 +20,43 @@
     background-color: var(--table-header);
 }
 
-/* TODO: Rework colours to be matching the rest of the app */
 .player-in-gt1 {
-    background-color: #ccffccb4;
-    color: black;
+    background-color: #188f182a;
+    color: white;
 }
 
 .player-in-gt2 {
-    background-color: #99ff99b4;
-    color: black;
+    background-color: #188f1854;
+    color: white;
 }
 
 .player-in-gt3 {
-    background-color: #66ff66b4;
-    color: black;
+    background-color: #188f187e;
+    color: white;
 }
 
 .player-in-gt4 {
-    background-color: #33ff33b4;
-    color: black;
+    background-color: #188f18a8;
+    color: white;
 }
 
 .player-out-gt1 {
-    background-color: #f5bcbcb4;
-    color: black;
+    background-color: #8f181827;
+    color: white;
 }
 
 .player-out-gt2 {
-    background-color: #ff9999b4;
-    color: black;
+    background-color: #8f181854;
+    color: white;
 }
 
 .player-out-gt3 {
-    background-color: #ff6666b4;
-    color: black;
+    background-color: #8f18187e;
+    color: white;
 }
 
 .player-out-gt4 {
-    background-color: #ff3333b4;
+    background-color: #8f1818a8;
     color: white;
 }
 

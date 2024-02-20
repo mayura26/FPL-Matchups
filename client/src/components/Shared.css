@@ -326,3 +326,15 @@ br {
     padding: 5px;
     text-align: center;
 }
+
+.green-arrow {
+    background-color: #267a429d;
+    padding: 1px;
+    border-radius: 5px;
+}
+
+.red-arrow {
+    background-color: #7a26269d;
+    padding: 1px;
+    border-radius: 5px;
+}
