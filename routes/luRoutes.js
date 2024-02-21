@@ -112,6 +112,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
       if (teamDetails) {
         teamPoints = await calculateTotalPoints(teamDetails);
       }
+
       return {
         managerName: team.managerName,
         teamName: team.teamName,
@@ -126,10 +127,7 @@ router.get('/league-teams/:leagueId/:gameweek', async (req, res) => {
     }));
 
     res.json({
-      data: teamData.map((team) => ({
-        ...team,
-        liveRank: teamData.filter(t => t.score + t.livescore > team.score + team.livescore).length + 1
-      })),
+      data: teamData,
       fixData: fixData,
       source: bootstrapData.source,
       apiLive: bootstrapData.apiLive

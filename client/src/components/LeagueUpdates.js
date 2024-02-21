@@ -6,7 +6,7 @@ import { TeamContext } from './Context';
 import { PlayerCard, LiveLeagueScoreBoard, FixDataTable } from './Components';
 import { LoadingBar } from './Shared';
 
-// FEATURE: [v2.0 5.0] Create table showing current form (last 5 GWs)
+// FEATURE: [v2 5.0] Create table showing current form (last 5 GWs)
 
 function LeagueUpdates() {
     const { teamID, updateTeamID, classicLeagueID, updateClassicLeagueID } = useContext(TeamContext);
@@ -273,8 +273,8 @@ function LeagueUpdates() {
                                             name: data.teamName,
                                             playername: data.managerName,
                                             score: data.livescore,
-                                            liveRank: data.liveRank,
-                                            liveChange: data.position - data.liveRank,
+                                            rank: data.position,
+                                            rankChange: data.rankChange,
                                             teamDetails: data.teamDetails
                                         }))}
                                         showRank={true}

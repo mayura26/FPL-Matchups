@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Components.css';
 import './Shared.css';
-// TODO: Livescore board rank is wrong but also can be combined with change 
 
 function scoreClass(score) {
   if (score <= 2) return 'score-red';
@@ -238,7 +237,7 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
                     <td>{player.teamDetails.remainPlayer}</td>
                     {showRank &&
                       <>
-                        <td>{player.liveRank}({player.liveChange > 0 ? <span className='green-arrow'>{`${player.liveChange}⮝`}</span> : player.liveChange < 0 ? <span className='red-arrow'>{`${player.liveChange * -1}⮟`}</span> : '➖'})</td>
+                        <td>{player.rank}({player.rankChange > 0 ? <span className='green-arrow'>{`${player.rankChange}⮝`}</span> : player.rankChange < 0 ? <span className='red-arrow'>{`${player.rankChange * -1}⮟`}</span> : '➖'})</td>
                       </>
                     }
                   </tr>
@@ -311,17 +310,20 @@ export const FixDataTable = ({ FixData }) => {
 
 const FixtureRow = ({ fixture, key }) => {
   const [showFixtureDetails, setShowFixtureDetails] = useState(false);
-  const fixtureClass = fixture.fixInfo.started && !fixture.fixInfo.finished ? 'bps-fixture-live' : fixture.fixInfo.finished ? 'bps-fixture-finished' : '';
+  let fixtureClass = fixture.fixInfo.started && !fixture.fixInfo.finished ? 'bps-fixture-live' : fixture.fixInfo.finished ? 'bps-fixture-finished' : '';
   const fixtureTitle = `${fixture.fixInfo.teamHome} ${fixture.fixInfo.teamHomeScore}-${fixture.fixInfo.teamAwayScore} ${fixture.fixInfo.teamAway}`;
+  const kickoffTime = new Date(fixture.fixInfo.kickOff);
+  const localKickoffTime = kickoffTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const fixDataExists = fixture.BPSData.length > 0 || fixture.gameStats.goals.length > 0 || fixture.gameStats.assists.length > 0 || fixture.gameStats.ownGoals.length > 0 || fixture.gameStats.penSaved.length > 0 || fixture.gameStats.penMissed.length > 0;
+  fixDataExists ? fixtureClass += ' ripple-row' : fixtureClass += '';
   return (
     <>
-    {/* TODO: Enable click only when data exists */}
-      <tr className={`bps-fixture-row ripple-row ${fixtureClass}`} key={`fixture-${key}`} onClick={() => setShowFixtureDetails(!showFixtureDetails)}>
+      <tr className={`bps-fixture-row ${fixtureClass}`} key={`fixture-${key}`} onClick={() => fixDataExists && setShowFixtureDetails(!showFixtureDetails)}>
         <td colSpan={fixture.fixInfo.started && !fixture.fixInfo.finished ? 5 : 6}>{showFixtureDetails ? `${fixtureTitle} ▴` : `${fixtureTitle} ▾`}</td>
         {fixture.fixInfo.started && !fixture.fixInfo.finished && (
           <td>{fixture.fixInfo.minutes}'</td>
         )}
-        <td>{fixture.fixInfo.kickOff}</td> {/* TODO: Change kickoff time to local time */}
+        <td>{localKickoffTime}</td>
       </tr>
       {showFixtureDetails && (
         <>

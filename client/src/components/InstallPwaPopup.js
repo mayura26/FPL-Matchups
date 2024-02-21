@@ -37,8 +37,7 @@ function InstallPwaPopup() {
       setDeferredPrompt(e);
       const relatedApps = await navigator.getInstalledRelatedApps();
 
-      // TODO: Update with correct name
-      const psApp = relatedApps.find((app) => app.id === "com.example.fplmatchups");
+      const psApp = relatedApps.find((app) => app.id === "com.fplmatchups.twa");
 
       if (psApp) {
         supressPopup();
