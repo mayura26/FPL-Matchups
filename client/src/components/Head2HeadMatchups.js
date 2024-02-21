@@ -1,15 +1,15 @@
 // FEATURE: [3.0] Show matchups for the coming week
 // FEATURE: [v2 4.0] Add popup for team on click
-// FEATURE: [4.0] Create favourite league and default to GW current
+// FEATURE: [1.0] Add team difference percent
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
 import { TeamContext } from './Context';
-import { PlayerCardSlim, LiveLeagueScoreBoard, BPSTable, getSinglePlayerStatus } from './Components';
+import { PlayerCardSlim, LiveLeagueScoreBoard, FixDataTable, getSinglePlayerStatus } from './Components';
 import { LoadingBar } from './Shared';
 
 const Head2HeadMatchups = () => {
-  const { teamID } = useContext(TeamContext);
+  const { teamID, h2HLeagueID, updateH2HLeagueID } = useContext(TeamContext);
   const [leagues, setLeagues] = useState([]);
   const [selectedLeagueId, setSelectedLeagueId] = useState('');
   const [gameweek, setGameweek] = useState('1');
@@ -58,6 +58,7 @@ const Head2HeadMatchups = () => {
       if (!data.apiLive) {
         alert("The FPL API is not live.");
       } else {
+        updateH2HLeagueID(selectedLeagueId);
         setLeagueData(data.data);
       }
     } catch (error) {
@@ -65,7 +66,7 @@ const Head2HeadMatchups = () => {
       console.error("Error fetching league data:", error);
     }
     setLoading(false);
-  }, [selectedLeagueId, gameweek]);
+  }, [gameweek, selectedLeagueId, updateH2HLeagueID]);
 
   // Fetch matchup data
   const fetchMatchupData = useCallback(async (team1Id, team2Id, gameweek) => {
@@ -121,6 +122,9 @@ const Head2HeadMatchups = () => {
           } else {
             if (data.data.length > 0) {
               setLeagues(data.data);
+              if (h2HLeagueID) {
+                setSelectedLeagueId(h2HLeagueID);
+              }
             } else {
               alert("No leagues found");
               setLeagues([]);
@@ -135,7 +139,7 @@ const Head2HeadMatchups = () => {
     };
 
     fetchLeagueData();
-  }, [teamID]);
+  }, [h2HLeagueID, teamID]);
 
   useEffect(() => {
     const idleInterval = setInterval(() => {
@@ -191,6 +195,12 @@ const Head2HeadMatchups = () => {
     };
   }, [autoRefresh, gameweek, selectedMatchupId, selectedMatchupTeam1ID, selectedMatchupTeam2ID, teamID, fetchData, fetchMatchupData]);
 
+  useEffect(() => {
+    if (selectedLeagueId && selectedLeagueId !== '' && gameweek && !loadingInputs) {
+      fetchData(true);
+    }
+  }, [selectedLeagueId, fetchData, gameweek, loadingInputs]);
+
   return (
     <div className='main-container'>
       {loadingInputs ? (
@@ -219,7 +229,6 @@ const Head2HeadMatchups = () => {
                         ))}
                       </select>
                     </div>
-                    <button className='ripple-btn' onClick={() => fetchData(true)} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                   </div>
                   <div className="input-row">
                     <div className="input-container">
@@ -322,14 +331,14 @@ const Head2HeadMatchups = () => {
                               team2Details={matchupData.team2Details}
                             />
                             <MatchupDetailsStarting
-                              team1Details={matchupData.team1Details.startingPlayers}
-                              team2Details={matchupData.team2Details.startingPlayers}
+                              team1DetailsFull={matchupData.team1Details}
+                              team2DetailsFull={matchupData.team2Details}
                               hideCommonPlayers={hideCommonPlayers}
                               hidePlayedPlayers={hidePlayedPlayers}
                             />
                             <MatchupDetailsBench
-                              team1Details={matchupData.team1Details.benchPlayers}
-                              team2Details={matchupData.team2Details.benchPlayers}
+                              team1DetailsFull={matchupData.team1Details}
+                              team2DetailsFull={matchupData.team2Details}
                             />
                           </div>
                         </>
@@ -346,7 +355,7 @@ const Head2HeadMatchups = () => {
                         ...(typeof match.entry_2_livepoints === 'number' ? [{ id: match.entry_2_entry, name: match.entry_2_name, playername: match.entry_2_player_name, score: match.entry_2_livepoints, teamDetails: match.entry_2_teamDetails }] : [])
                       ])}
                   />
-                  <BPSTable BPSData={leagueData.bpsData.data} />
+                  <FixDataTable FixData={leagueData.fixData.data} />
                 </>
               ) : (
                 <></>
@@ -580,8 +589,8 @@ const PlayerRowBench = ({ player1, player2 }) => {
   );
 };
 
-const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers, hidePlayedPlayers }) => {
-  const alignedPlayers = alignPlayers(team1Details, team2Details);
+const MatchupDetailsStarting = ({ team1DetailsFull, team2DetailsFull, hideCommonPlayers, hidePlayedPlayers }) => {
+  const alignedPlayers = alignPlayers(team1DetailsFull, team2DetailsFull);
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
@@ -614,7 +623,9 @@ const MatchupDetailsStarting = ({ team1Details, team2Details, hideCommonPlayers,
   );
 };
 
-const MatchupDetailsBench = ({ team1Details, team2Details }) => {
+const MatchupDetailsBench = ({ team1DetailsFull, team2DetailsFull }) => {
+  const team1Details = team1DetailsFull.benchPlayers;
+  const team2Details = team2DetailsFull.benchPlayers;
   return (
     <div className="matchup-table-container">
       <table className="matchup-table info-table">
@@ -654,9 +665,15 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
       <table className="matchup-table info-table">
         <thead>
           <tr>
+            {team1Details.chipActive !== 'None' && (
+              <th>Chip</th>
+            )}
             <th>Transfer</th>
             <th>In Play</th>
             <th>Remain</th>
+            {team2Details.chipActive !== 'None' && (
+              <th>Chip</th>
+            )}
             <th>Transfer</th>
             <th>In Play</th>
             <th>Remain</th>
@@ -664,9 +681,15 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
         </thead>
         <tbody>
           <tr>
+          {team1Details.chipActive !== 'None' && (
+              <td>{team1Details.chipActive}</td>
+            )}
             <td>{team1Details.transferCost * -1}</td>
             <td>{team1Details.activePlayers}</td>
             <td>{team1Details.remainPlayer}</td>
+            {team2Details.chipActive !== 'None' && (
+              <td>{team2Details.chipActive}</td>
+            )}
             <td>{team2Details.transferCost * -1}</td>
             <td>{team2Details.activePlayers}</td>
             <td>{team2Details.remainPlayer}</td>
@@ -677,7 +700,10 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
   );
 };
 
-const alignPlayers = (team1Details, team2Details) => {
+const alignPlayers = (team1DetailsFull, team2DetailsFull) => {
+  const team1Details = team1DetailsFull.startingPlayers;
+  const team2Details = team2DetailsFull.startingPlayers;
+
   const positions = ['GKP', 'DEF', 'MID', 'FWD'];
   let alignedPlayers = [];
   const captains = { team1: null, team2: null };
@@ -764,6 +790,14 @@ const alignPlayers = (team1Details, team2Details) => {
 
   alignedPlayers.push({ player1: team1Player, player2: team2Player });
 
+  if (team1DetailsFull.chipActive === 'TC' && team2DetailsFull.chipActive === 'TC') {
+    alignedPlayers.push({ player1: team1Player, player2: team2Player });
+  } else if (team1DetailsFull.chipActive === 'TC') {
+    alignedPlayers.push({ player1: team1Player, player2: null });
+  } else if (team2DetailsFull.chipActive === 'TC') {
+    alignedPlayers.push({ player1: null, player2: team2Player });
+  }
+  
   return alignedPlayers;
 };
 

@@ -22,7 +22,7 @@ const Player = mongoose.model('Player', playerSchema);
 
 const getGameData = (data) => {
     const currentGameweek = data.events.find(event => event.is_current).id;
-    const isFinished = data.events.find(event => event.is_current).finished;
+    const isFinished = Boolean(data.events.find(event => event.is_current).finished);
     return { currentGameweek, isFinished };
 }
 

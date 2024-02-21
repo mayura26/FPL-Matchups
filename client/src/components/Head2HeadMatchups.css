@@ -186,9 +186,3 @@
 .player-card-popup {
     padding: 1px !important;
 }
-
-.bps-fixture-row {
-    font-size: 0.9em;
-    font-weight: 600;
-    background-color: var(--primary50alt);
-}

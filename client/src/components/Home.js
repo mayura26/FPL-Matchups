@@ -46,7 +46,16 @@ const Home = () => {
                         <div className="input-row">
                             <div className="input-container">
                                 <label htmlFor="playerName">Player Name:</label>
-                                <input type="text" id="playerName" name="playerName" className='big-input' />
+                                <input type="text" 
+                                id="playerName" 
+                                name="playerName" 
+                                className='big-input' 
+                                onKeyPress={(event) => {
+                                    if (event.key === 'Enter') {
+                                        event.preventDefault();
+                                        searchPlayer(document.getElementById('playerName').value);
+                                    }
+                                }} />
                             </div>
                             <button className='ripple-btn' onClick={() => searchPlayer(document.getElementById('playerName').value)}>Fetch</button>
                         </div>

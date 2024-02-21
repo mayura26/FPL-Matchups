@@ -13,7 +13,7 @@ function TeamAnalysis() {
 
     useEffect(() => {
         document.title = 'FPL Matchup | Team Analysis';
-      }, []);
+    }, []);
 
     // Fetch the current gameweek when the component mounts
     useEffect(() => {
@@ -90,6 +90,7 @@ function TeamAnalysis() {
 }
 
 const PlayerData = ({ players, benchPlayers, gamedata }) => {
+    const showNextFix = gamedata.isFinished ? true : false;
     // Group players by their positions
     const playersGroupedByPosition = players.reduce((groups, player) => {
         const position = player.position;
@@ -106,18 +107,17 @@ const PlayerData = ({ players, benchPlayers, gamedata }) => {
             {benchPlayers ? (
                 <div className="players-data-set">
                     {players.map(player => (
-                        <PlayerCard key={player.id} player={player} showNextFix={gamedata.isFinshed} />
+                        <PlayerCard key={player.id} player={player} showNextFix={showNextFix} />
                     ))}
                 </div>
             ) : (
                 <div className="players-data-set">
                     {Object.entries(playersGroupedByPosition).map(([position, players]) => (
                         <>
-                            
                             <div className='positions-set' key={position}>
-                            <h4 className='position-header'>{position}</h4>
+                                <h4 className='position-header'>{position}</h4>
                                 {players.map(player => (
-                                    <PlayerCard key={player.id} player={player} showNextFix={gamedata.isFinshed} />
+                                    <PlayerCard key={player.id} player={player} showNextFix={showNextFix} />
                                 ))}
                             </div>
                         </>

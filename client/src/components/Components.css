@@ -1,22 +1,18 @@
 /* Score coloring */
 .score-red {
-    background-color: #ff63478c;
-    /* Tomato red with opacity for dark theme */
+    background-color: #860000b6;
 }
 
 .score-orange {
-    background-color: #ffa5008c;
-    /* Orange with opacity for dark theme */
+    background-color: #866200b6;
 }
 
 .score-green {
-    background-color: #0080008c;
-    /* Green with opacity for dark theme */
+    background-color: #008607b6;
 }
 
 .score-blue {
-    background-color: #0000ff8c;
-    /* Blue with opacity for dark theme */
+    background-color: #002486b6;
 }
 
 .score-red,
@@ -28,24 +24,46 @@
 
 /* FDR coloring adjustments for dark theme */
 .fdr-1 {
-    background-color: rgb(2, 95, 5);
+    background-color: #00454ea9;
     /* Green for easy fixtures */
 }
 
 .fdr-2 {
-    background-color: #8bc34a;
+    background-color: #094e00a9;
 }
 
 .fdr-3 {
-    background-color: #ffeb3b;
+    background-color: #4e4900a9;
 }
 
 .fdr-4 {
-    background-color: #ff9800;
+    background-color: #7c5501a9;
 }
 
 .fdr-5 {
-    background-color: #f44336;
+    background-color: #4e0000a9;
+    /* Red for difficult fixtures */
+}
+
+.fdr-faded-1 {
+    background-color: #00454e77;
+    /* Green for easy fixtures */
+}
+
+.fdr-faded-2 {
+    background-color: #094e0077;
+}
+
+.fdr-faded-3 {
+    background-color: #4e490077;
+}
+
+.fdr-faded-4 {
+    background-color: #7c550177;
+}
+
+.fdr-faded-5 {
+    background-color: #4e000077;
     /* Red for difficult fixtures */
 }
 
@@ -54,10 +72,11 @@
 .fdr-3,
 .fdr-4,
 .fdr-5 {
-    color: var(--text-inverse);
+    color: var(--text);
 }
 
-.player-frame, .player-frame-slim {
+.player-frame,
+.player-frame-slim {
     border: 1px solid var(--borders);
     margin: 10px;
     border-radius: 5px;
@@ -127,12 +146,14 @@
 .player-price {
     flex: 1.2;
 }
+
 .player-stats {
     flex: 1.5;
 }
 
 .player-upcoming-fixture {
     flex: 3;
+    background-color: var(--primary50alt);
 }
 
 .player-current-fixture {
@@ -274,13 +295,22 @@
     border-bottom: none;
 }
 
-.player-live-fixture-opp, .player-points {
+.player-live-fixture-opp,
+.player-points {
     font-weight: bold;
     font-size: 1.1em;
 }
 
 .player-row-topborder {
     border-top: var(--borders) 1px solid;
+}
+
+.player-row-double-topborder {
+    border-top: var(--borders) 2px solid;
+}
+
+.player-row-double-botborder {
+    border-bottom: var(--borders) 2px solid;
 }
 
 .player-row-no-botborder {
@@ -296,17 +326,73 @@
 }
 
 .low-substat {
-    background-color: #ffcccc33;
+    background-color: #ffcccc00;
 }
 
 .medium-substat {
-    background-color: #ffcc664b;
+    background-color: #a0960657;
 }
 
 .high-substat {
-    background-color: rgba(75, 136, 13, 0.562);
+    background-color: #13a0067e;
 }
 
 .high-high-substat {
-    background-color: rgba(9, 79, 150, 0.726);
+    background-color: #064ea07e;
+}
+
+.bps-fixture-row {
+    font-size: 0.9em;
+    font-weight: 600;
+    background-color: rgba(87, 73, 44, 0.502);
+}
+
+.bps-fixture-live {
+    background-color: rgba(44, 87, 63, 0.502);
+}
+
+.bps-fixture-finished {
+    background-color: rgba(44, 77, 87, 0.502);
+}
+
+.stat-heading {
+    background-color: var(--primary50);
+    text-align: center;
+    font-weight: 500;
+    width:100%;
+    font-size: 0.85em;
+}
+
+.stat-sub-heading {
+    font-size: 0.8em;
+    text-align: center;
+    background-color: var(--table-header);
+}
+
+.stat-row {
+    font-size: 0.8em;
+}
+
+.chip-BB,
+.chip-TC,
+.chip-FH,
+.chip-WC {
+    padding: 1px 3px;
+    border-radius: 4px;
+}
+
+.chip-BB {
+    background-color: #32a5589d;
+}
+
+.chip-TC {
+    background-color: #a59d329d;
+}
+
+.chip-FH {
+    background-color: #329da59d;
+}
+
+.chip-WC {
+    background-color: #a532329d;
 }

@@ -9,7 +9,7 @@ function scoreClass(score) {
   return 'score-blue';
 }
 // FEATURE: [v2 4.1] Create ultra slim cards
-export const PlayerCard = ({ player, showNextFix }) => {
+export const PlayerCard = ({ player, showNextFix = true }) => {
   const [showDetails, setShowDetails] = useState(false);
   return (
     <div key={player.name} className="player-frame">
@@ -38,27 +38,27 @@ export const PlayerCard = ({ player, showNextFix }) => {
       <div className="player-card-row">
         <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
         <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
-          <div className='player-substat player-points'>{player.currentGame.score}</div>
+          <div className='player-substat player-points'>{player.currentGame.score} | {player.currentGame.minutes}'</div>
           <div className='player-substat'>xP: {player.currentGame.xP}</div>
         </div>
         <div className="player-stats">
-          <div className="player-substat">xG: {player.currentGame.xG}</div>
-          <div className="player-substat">xA: {player.currentGame.xA}</div>
+          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG}</div>
+          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA}</div>
         </div>
         <div className="player-stats">
-          <div className="player-substat">xGC: {player.currentGame.xGC}</div>
-          <div className="player-substat">ICT: {player.currentGame.ICT}</div>
+          <div className={`player-substat ${player.currentGame.xGC < 0.2 && player.currentGame.minutes > 0 ? 'high-high-substat' : player.currentGame.xGC < 0.5 && player.currentGame.minutes > 0 ? 'high-substat' : player.currentGame.xGC < 1.0 && player.currentGame.minutes > 0 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC}</div>
+          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT}</div>
         </div>
       </div>
       {showNextFix && (
-        <div className="player-card-row">
+        <div className="player-card-row player-row-double-topborder player-row-double-botborder">
           <div className="player-upcoming-fixture">Upcoming: {player.upcomingGame.team}</div>
-          <div className="player-upcoming-xP">FDR: {player.upcomingGame.fdr}</div>
-          <div className="player-upcoming-xP">xP: {player.upcomingGame.xP}</div>
+          <div className={`player-upcoming-xP fdr-faded-${player.upcomingGame.fdr}`}>FDR: {player.upcomingGame.fdr}</div>
+          <div className={`player-upcoming-xP ${scoreClass(parseInt(player.upcomingGame.xP))}`}>xP: {player.upcomingGame.xP}</div>
         </div>
       )}
       <div className="player-card-row-divider"></div>
-      <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
+      <div className="player-card-row ripple-row player-row-double-topborder player-row-double-botborder" onClick={() => setShowDetails(!showDetails)}>
         {player.last5Scores.map((fixture, index) => (
           <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score))}`}>
             {fixture.score} ({fixture.opposition}) GW{fixture.event}
@@ -68,12 +68,12 @@ export const PlayerCard = ({ player, showNextFix }) => {
       {showDetails && (
         <div className="player-card-row">
           {player.last5Scores.map((fixture, index) => (
-            <div key={index} className={`player-fixture-details ${showDetails ? 'visible' : ''}`}>
+            <div key={index} className={`player-fixture-details player-row-double-botborder ${showDetails ? 'visible' : ''}`}>
               {fixture.minutes > 0 ? (
                 <>
                   {['GKP', 'DEF'].includes(player.position) ? (
                     <>
-                      <div className={`player-substat ${fixture.xGC < 0.2 ? 'high-high-substat' : fixture.xGC < 0.5 ? 'high-substat' : fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                      <div className={`player-substat ${fixture.xGC < 0.2 && fixture.minutes > 0 ? 'high-high-substat' : fixture.xGC < 0.5 && fixture.minutes > 0  ? 'high-substat' : fixture.xGC < 1.0 && fixture.minutes > 0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
                       <div className={`player-substat ${fixture.xGI < 0.2 ? 'low-substat' : fixture.xGI < 0.4 ? 'medium-substat' : fixture.xGI < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
                     </>
                   ) : (
@@ -216,12 +216,11 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
             <tr>
               <th>Player Name</th>
               <th>Score</th>
-              <th>Active</th>
+              <th>Live</th>
               <th>Rem</th>
               {showRank &&
                 <>
                   <th>Rank</th>
-                  <th>Chg</th>
                 </>
               }
             </tr>
@@ -232,36 +231,41 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
               .map((player, index) => (
                 <>
                   <tr key={index} className='ripple-row' onClick={() => toggleTeamDetails(index)}>
-                    <td>{player.playername} ({player.name})</td>
+                    <td>{player.playername} ({player.name}) {player.teamDetails.chipActive !== 'None' ? <span className={`chip-${player.teamDetails.chipActive}`}>{`${player.teamDetails.chipActive}`}</span> : ''}</td>
                     <td>{player.score}</td>
                     <td>{player.teamDetails.activePlayers}</td>
                     <td>{player.teamDetails.remainPlayer}</td>
                     {showRank &&
                       <>
-                        <td>{player.liveRank}</td>
-                        <td>{player.liveChange > 0 ? `${player.liveChange}🔼` : player.liveChange < 0 ? `${player.liveChange * -1}🔻` : '➖'}</td>
+                        <td>{player.rank}({player.rankChange > 0 ? <span className='green-arrow'>{`${player.rankChange}⮝`}</span> : player.rankChange < 0 ? <span className='red-arrow'>{`${player.rankChange * -1}⮟`}</span> : '➖'})</td>
                       </>
                     }
                   </tr>
                   <tr key={`team-${index}`}>
                     {teamDetailsVisible[index] && (
                       <td colSpan="100%">
-                          <table className="matchup-table info-table">
-                            <thead>
-                              <tr>
-                                <th>Transfer</th>
-                                <th>In Play</th>
-                                <th>Remain</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>{player.teamDetails.transferCost * -1}</td>
-                                <td>{player.teamDetails.activePlayers}</td>
-                                <td>{player.teamDetails.remainPlayer}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                        <table className="matchup-table info-table">
+                          <thead>
+                            <tr>
+                              {player.teamDetails.chipActive !== 'None' && (
+                                <th>Chip</th>
+                              )}
+                              <th>Transfer</th>
+                              <th>In Play</th>
+                              <th>Remain</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                            {player.teamDetails.chipActive !== 'None' && (
+                                <td>{player.teamDetails.chipActive}</td>
+                              )}
+                              <td>{player.teamDetails.transferCost * -1}</td>
+                              <td>{player.teamDetails.activePlayers}</td>
+                              <td>{player.teamDetails.remainPlayer}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                         <TeamDetailsStarting
                           teamDetails={player.teamDetails.startingPlayers}
                         />
@@ -280,48 +284,20 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
   );
 };
 
-// FEATURE: [5.0] Show goals and assists as a popup for each fixture
-export const BPSTable = ({ BPSData }) => {
-  const [bpsDataVisible, setBpsDataVisible] = useState(false);
+export const FixDataTable = ({ FixData }) => {
+  const [fixDataVisible, setFixDataVisible] = useState(false);
   return (
-    BPSData.length > 0 ? (
+    FixData && FixData.length > 0 ? (
       <div className="live-data">
-        <h2 className='ripple-row' onClick={() => setBpsDataVisible(!bpsDataVisible)}>
-          {bpsDataVisible ? 'BPS Data (Live) ▴' : 'BPS Data (Live) ▾'}
+        <h2 className='ripple-row' onClick={() => setFixDataVisible(!fixDataVisible)}>
+          {fixDataVisible ? 'Fixture Data (Live) ▴' : 'Fixture Data (Live) ▾'}
         </h2>
-        {bpsDataVisible && (
+        {fixDataVisible && (
           <table className="live-table info-table">
-            <thead>
-              <tr>
-                <th>Player Name</th>
-                <th>Team</th>
-                <th>BPS</th>
-                <th>Bonus</th>
-              </tr>
-            </thead>
             <tbody>
-              {BPSData
-                .reduce((acc, player, index, arr) => {
-                  if (index === 0 || player.fixture !== arr[index - 1].fixture) {
-                    acc.push(
-                      <tr className='bps-fixture-row' key={`fixture-${index}`}>
-                        <td colSpan="4">{player.fixture}</td>
-                      </tr>
-                    );
-                  }
-                  if (player.element > 0) {
-                    acc.push(
-                      <tr key={index}>
-                        <td>{player.name}</td>
-                        <td>{player.team}</td>
-                        <td>{player.value}</td>
-                        <td>{player.bonusPoints}</td>
-                      </tr>
-                    );
-                  };
-
-                  return acc;
-                }, [])}
+              {FixData.map((fixture, index) => (
+                <FixtureRow fixture={fixture} key={index} />
+              ))}
             </tbody>
           </table>
         )}
@@ -331,6 +307,72 @@ export const BPSTable = ({ BPSData }) => {
     )
   );
 };
+
+const FixtureRow = ({ fixture, key }) => {
+  const [showFixtureDetails, setShowFixtureDetails] = useState(false);
+  let fixtureClass = fixture.fixInfo.started && !fixture.fixInfo.finished ? 'bps-fixture-live' : fixture.fixInfo.finished ? 'bps-fixture-finished' : '';
+  const fixtureTitle = `${fixture.fixInfo.teamHome} ${fixture.fixInfo.teamHomeScore}-${fixture.fixInfo.teamAwayScore} ${fixture.fixInfo.teamAway}`;
+  const kickoffTime = new Date(fixture.fixInfo.kickOff);
+  const localKickoffTime = kickoffTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const fixDataExists = fixture.BPSData.length > 0 || fixture.gameStats.goals.length > 0 || fixture.gameStats.assists.length > 0 || fixture.gameStats.ownGoals.length > 0 || fixture.gameStats.penSaved.length > 0 || fixture.gameStats.penMissed.length > 0;
+  fixDataExists ? fixtureClass += ' ripple-row' : fixtureClass += '';
+  return (
+    <>
+      <tr className={`bps-fixture-row ${fixtureClass}`} key={`fixture-${key}`} onClick={() => fixDataExists && setShowFixtureDetails(!showFixtureDetails)}>
+        <td colSpan={fixture.fixInfo.started && !fixture.fixInfo.finished ? 5 : 6}>{showFixtureDetails ? `${fixtureTitle} ▴` : `${fixtureTitle} ▾`}</td>
+        {fixture.fixInfo.started && !fixture.fixInfo.finished && (
+          <td>{fixture.fixInfo.minutes}'</td>
+        )}
+        <td>{localKickoffTime}</td>
+      </tr>
+      {showFixtureDetails && (
+        <>
+          <FixtureStatsRow statsData={fixture.BPSData} type='BPS' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.goals} type='Goals' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.assists} type='Assists' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.ownGoals} type='Own Goals' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.penSaved} type='Pen Saved' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.penMissed} type='Pen Missed' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+        </>
+      )}
+    </>
+  )
+}
+
+const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
+  const colSpan = minutesShown ? 5 : 4;
+  return (
+    <>
+      {statsData.length > 0 && (
+        <>
+          <tr className='stat-heading'><td colSpan={100}>{type}</td></tr>  
+          <tr className='stat-sub-heading'>
+            <td colSpan={colSpan} width={'50%'}>Player</td>
+            <td>Team</td>
+            {type === 'BPS' ? (
+              <>
+                <td>BPS</td>
+                <td>Points</td>
+              </>
+            ) : (
+              <td colSpan={2}>{type}</td>
+            )}
+          </tr>
+          {statsData.map((player, index) => (
+            <tr className='stat-row' key={`player-${index}`}>
+              <td colSpan={colSpan}>{player.name}</td>
+              <td>{player.team}</td>
+              <td colSpan={type === 'BPS' ? 1 : 2}>{player.value}</td>
+              {type === 'BPS' && (
+                <td>{player.bonusPoints}</td>
+              )}
+            </tr>
+          ))}
+        </>
+      )}
+    </>
+  );
+}
 
 const TeamDetailsStarting = ({ teamDetails }) => {
   return (
@@ -390,7 +432,8 @@ const PlayerSingleRow = ({ player }) => {
   const [playerData, setPlayerData] = useState(null);
   const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);
 
-  const playerScore = player ? player.gameWeekScore : '';
+  const playerScore = player ? player.finalGameWeekPoints : '';
+
   const playerClass = player ? `player ${player.playStatus} ${player.captainStatus}` : 'player';
   let playerName = player && (player.captainStatus === 'VC' || player.captainStatus === 'C') ? player.name + ` (${player.captainStatus})` : player ? player.name : '';
 

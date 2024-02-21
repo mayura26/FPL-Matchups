@@ -299,6 +299,7 @@ br {
 .live-data {
     border: 1px solid var(--primary);
     margin-top: 10px;
+    padding-bottom: 10px;
 }
 
 .live-data h2 {
@@ -324,4 +325,16 @@ br {
     border: 1px solid var(--borders);
     padding: 5px;
     text-align: center;
+}
+
+.green-arrow {
+    background-color: #267a429d;
+    padding: 1px;
+    border-radius: 5px;
+}
+
+.red-arrow {
+    background-color: #7a26269d;
+    padding: 1px;
+    border-radius: 5px;
 }

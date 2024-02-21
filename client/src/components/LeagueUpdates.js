@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LeagueUpdates.css';
 import './Shared.css';
 import { TeamContext } from './Context';
-import { PlayerCard, LiveLeagueScoreBoard, BPSTable } from './Components';
+import { PlayerCard, LiveLeagueScoreBoard, FixDataTable } from './Components';
 import { LoadingBar } from './Shared';
-// FEATURE: [4.1] Create favourite league and default to GW current
+
+// FEATURE: [v2 5.0] Create table showing current form (last 5 GWs)
+
 function LeagueUpdates() {
-    const { teamID, updateTeamID } = useContext(TeamContext);
+    const { teamID, updateTeamID, classicLeagueID, updateClassicLeagueID } = useContext(TeamContext);
     const [leagues, setLeagues] = useState([]);
     const [selectedLeagueId, setSelectedLeagueId] = useState('');
     const [gameweek, setGameweek] = useState('1');
     const [maxGameweek, setMaxGameweek] = useState('1');
     const [fetchedGameweek, setFetchedGameweek] = useState('');
     const [leagueData, setLeagueData] = useState([]);
-    const [bpsData, setBpsData] = useState([]);
+    const [fixData, setFixData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loadingInputs, setLoadingInputs] = useState(true);
     const [playerCardOpen, setPlayerCardOpen] = useState(false);
@@ -25,9 +27,9 @@ function LeagueUpdates() {
 
     useEffect(() => {
         document.title = 'FPL Matchup | League Updates';
-      }, []);
+    }, []);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         setFetchedGameweek(gameweek);
         try {
@@ -37,15 +39,16 @@ function LeagueUpdates() {
             if (!data.apiLive) {
                 alert("The FPL API is not live.");
             } else {
+                updateClassicLeagueID(selectedLeagueId);
                 setLeagueData(data.data);
-                setBpsData(data.bpsData);
+                setFixData(data.fixData);
             }
         } catch (error) {
             alert("Error fetching league standing data", error);
             console.error("Error fetching league standing data", error);
         }
         setLoading(false);
-    };
+    }, [gameweek, selectedLeagueId, updateClassicLeagueID]);
 
     useEffect(() => {
         const fetchCurrentGameweek = async () => {
@@ -80,6 +83,9 @@ function LeagueUpdates() {
                     } else {
                         if (data.data.length > 0) {
                             setLeagues(data.data);
+                            if (classicLeagueID) {
+                                setSelectedLeagueId(classicLeagueID);
+                            }
                         } else {
                             alert("No leagues found");
                             setLeagues([]);
@@ -93,7 +99,13 @@ function LeagueUpdates() {
             }
         };
         fetchLeagues();
-    }, [teamID]);
+    }, [classicLeagueID, teamID]);
+
+    useEffect(() => {
+        if (selectedLeagueId && selectedLeagueId !== '' && gameweek && !loadingInputs) {
+            fetchData();
+        }
+    }, [fetchData, gameweek, loadingInputs, selectedLeagueId]);
 
     const PlayerCardPopup = ({ isOpen, onClose, selectedPlayerData }) => {
         if (!isOpen) return null;
@@ -189,7 +201,6 @@ function LeagueUpdates() {
                                     ))}
                                 </select>
                             </div>
-                            <button className='ripple-btn' onClick={fetchData} disabled={!selectedLeagueId} style={{ opacity: selectedLeagueId ? 1 : 0.5 }}>Fetch</button>
                         </div>
                     )}
                 </div>
@@ -225,8 +236,8 @@ function LeagueUpdates() {
                                                             </td>
                                                             <td rowSpan={change.transfers.length} className="position">{change.position}
                                                                 {change.rankChange !== 0 && <br></br>}
-                                                                {change.rankChange > 0 && (change.rankChange > 4 ? <span className="rank-up">{change.rankChange} 🔼</span> : Array.from({ length: change.rankChange }).map((_, i) => <span key={i} className="rank-up">🔼</span>))}
-                                                                {change.rankChange < 0 && (Math.abs(change.rankChange) > 4 ? <span className="rank-down">{Math.abs(change.rankChange)} 🔻</span> : Array.from({ length: Math.abs(change.rankChange) }).map((_, i) => <span key={i} className="rank-down">🔻</span>))}
+                                                                {change.rankChange > 0 && (<span className="green-arrow">{change.rankChange} ⮝</span>)}
+                                                                {change.rankChange < 0 && (<span className="red-arrow">{Math.abs(change.rankChange)} ⮟</span>)}
                                                             </td>
                                                         </>
                                                     )}
@@ -262,13 +273,13 @@ function LeagueUpdates() {
                                             name: data.teamName,
                                             playername: data.managerName,
                                             score: data.livescore,
-                                            liveRank: data.liveRank,
-                                            liveChange: data.position - data.liveRank,
+                                            rank: data.position,
+                                            rankChange: data.rankChange,
                                             teamDetails: data.teamDetails
                                         }))}
                                         showRank={true}
                                     />
-                                    <BPSTable BPSData={bpsData.data} />
+                                    <FixDataTable FixData={fixData.data} />
                                 </>
                             ) : (
                                 <></>
