@@ -9,6 +9,8 @@ import LeagueUpdates from './components/LeagueUpdates';
 import { TeamContextProvider } from './components/Context';
 import InstallPwaPopup from './components/InstallPwaPopup';
 
+// FEATURE: [v2 6.0] Push alerts when player in your team does something
+
 function App() {
     const location = useLocation();
 

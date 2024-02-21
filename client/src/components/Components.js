@@ -38,16 +38,16 @@ export const PlayerCard = ({ player, showNextFix = true }) => {
       <div className="player-card-row">
         <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
         <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
-          <div className='player-substat player-points'>{player.currentGame.score}</div>
+          <div className='player-substat player-points'>{player.currentGame.score} | {player.currentGame.minutes}'</div>
           <div className='player-substat'>xP: {player.currentGame.xP}</div>
         </div>
         <div className="player-stats">
-          <div className="player-substat">xG: {player.currentGame.xG}</div>
-          <div className="player-substat">xA: {player.currentGame.xA}</div>
+          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG}</div>
+          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA}</div>
         </div>
         <div className="player-stats">
-          <div className="player-substat">xGC: {player.currentGame.xGC}</div>
-          <div className="player-substat">ICT: {player.currentGame.ICT}</div>
+          <div className={`player-substat ${player.currentGame.xGC < 0.2 && player.currentGame.minutes > 0 ? 'high-high-substat' : player.currentGame.xGC < 0.5 && player.currentGame.minutes > 0 ? 'high-substat' : player.currentGame.xGC < 1.0 && player.currentGame.minutes > 0 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC}</div>
+          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT}</div>
         </div>
       </div>
       {showNextFix && (
@@ -58,7 +58,7 @@ export const PlayerCard = ({ player, showNextFix = true }) => {
         </div>
       )}
       <div className="player-card-row-divider"></div>
-      <div className="player-card-row ripple-row" onClick={() => setShowDetails(!showDetails)}>
+      <div className="player-card-row ripple-row player-row-double-topborder player-row-double-botborder" onClick={() => setShowDetails(!showDetails)}>
         {player.last5Scores.map((fixture, index) => (
           <div key={index} className={`player-fixture ${scoreClass(parseInt(fixture.score))}`}>
             {fixture.score} ({fixture.opposition}) GW{fixture.event}
@@ -68,12 +68,12 @@ export const PlayerCard = ({ player, showNextFix = true }) => {
       {showDetails && (
         <div className="player-card-row">
           {player.last5Scores.map((fixture, index) => (
-            <div key={index} className={`player-fixture-details ${showDetails ? 'visible' : ''}`}>
+            <div key={index} className={`player-fixture-details player-row-double-botborder ${showDetails ? 'visible' : ''}`}>
               {fixture.minutes > 0 ? (
                 <>
                   {['GKP', 'DEF'].includes(player.position) ? (
                     <>
-                      <div className={`player-substat ${fixture.xGC < 0.2 ? 'high-high-substat' : fixture.xGC < 0.5 ? 'high-substat' : fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                      <div className={`player-substat ${fixture.xGC < 0.2 && fixture.minutes > 0 ? 'high-high-substat' : fixture.xGC < 0.5 && fixture.minutes > 0  ? 'high-substat' : fixture.xGC < 1.0 && fixture.minutes > 0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
                       <div className={`player-substat ${fixture.xGI < 0.2 ? 'low-substat' : fixture.xGI < 0.4 ? 'medium-substat' : fixture.xGI < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
                     </>
                   ) : (
