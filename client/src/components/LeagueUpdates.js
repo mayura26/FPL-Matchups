@@ -236,8 +236,8 @@ function LeagueUpdates() {
                                                             </td>
                                                             <td rowSpan={change.transfers.length} className="position">{change.position}
                                                                 {change.rankChange !== 0 && <br></br>}
-                                                                {change.rankChange > 0 && (<span className="green-arrow">{change.rankChange} ⮝</span>)}
-                                                                {change.rankChange < 0 && (<span className="red-arrow">{Math.abs(change.rankChange)} ⮟</span>)}
+                                                                {change.rankChange > 0 && (<span className="green-arrow">{change.rankChange} ▲</span>)}
+                                                                {change.rankChange < 0 && (<span className="red-arrow">{Math.abs(change.rankChange)} ▼</span>)}
                                                             </td>
                                                         </>
                                                     )}

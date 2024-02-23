@@ -237,7 +237,7 @@ export const LiveLeagueScoreBoard = ({ leagueData, showRank = false }) => {
                     <td>{player.teamDetails.remainPlayer}</td>
                     {showRank &&
                       <>
-                        <td>{player.rank}({player.rankChange > 0 ? <span className='green-arrow'>{`${player.rankChange}⮝`}</span> : player.rankChange < 0 ? <span className='red-arrow'>{`${player.rankChange * -1}⮟`}</span> : '➖'})</td>
+                        <td>{player.rank}({player.rankChange > 0 ? <span className='green-arrow'>{`${player.rankChange}▲`}</span> : player.rankChange < 0 ? <span className='red-arrow'>{`${player.rankChange * -1}▼`}</span> : '➖'})</td>
                       </>
                     }
                   </tr>
