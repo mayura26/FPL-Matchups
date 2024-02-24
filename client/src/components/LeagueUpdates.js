@@ -5,7 +5,6 @@ import './Shared.css';
 import { TeamContext } from './Context';
 import { PlayerCard, LiveLeagueScoreBoard, FixDataTable } from './Components';
 import { LoadingBar } from './Shared';
-// BUG: Arrow for rank change doesn't show on Android
 // FEATURE: [v2 5.0] Create table showing current form (last 5 GWs)
 
 function LeagueUpdates() {

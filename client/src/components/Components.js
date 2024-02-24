@@ -73,7 +73,7 @@ export const PlayerCard = ({ player, showNextFix = true }) => {
                 <>
                   {['GKP', 'DEF'].includes(player.position) ? (
                     <>
-                      <div className={`player-substat ${fixture.xGC < 0.2 && fixture.minutes > 0 ? 'high-high-substat' : fixture.xGC < 0.5 && fixture.minutes > 0  ? 'high-substat' : fixture.xGC < 1.0 && fixture.minutes > 0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                      <div className={`player-substat ${fixture.xGC < 0.2 && fixture.minutes >= 60 ? 'high-high-substat' : fixture.xGC < 0.5 && fixture.minutes >= 60  ? 'high-substat' : fixture.xGC < 1.0 && fixture.minutes >= 60 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
                       <div className={`player-substat ${fixture.xGI < 0.2 ? 'low-substat' : fixture.xGI < 0.4 ? 'medium-substat' : fixture.xGI < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
                     </>
                   ) : (
@@ -108,6 +108,7 @@ export const PlayerCard = ({ player, showNextFix = true }) => {
   );
 }
 
+// BUG: Fix double borders on fixtures
 // FEATURE: [2.0] Click on playername to bring up popup to compare with second player of choice. 
 export const PlayerCardSlim = ({ player }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -144,12 +145,12 @@ export const PlayerCardSlim = ({ player }) => {
       </div>
       <div className="player-card-row">
         <div className="player-stats">
-          <div className="player-substat">xG: {player.currentGame.xG}</div>
-          <div className="player-substat">xA: {player.currentGame.xA}</div>
+          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG}</div>
+          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA}</div>
         </div>
         <div className="player-stats">
-          <div className="player-substat">xGC: {player.currentGame.xGC}</div>
-          <div className="player-substat">ICT: {player.currentGame.ICT}</div>
+          <div className={`player-substat ${player.currentGame.minutes >= 60 && player.currentGame.xGC < 0.2 ? 'high-high-substat' : player.currentGame.minutes >= 60 && player.currentGame.xGC < 0.5 ? 'high-substat' : player.currentGame.minutes >= 60 &&  player.currentGame.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC}</div>
+          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT}</div>
         </div>
       </div>
       <div className="player-card-row-divider"></div>
@@ -171,7 +172,7 @@ export const PlayerCardSlim = ({ player }) => {
                 <>
                   {['GKP', 'DEF'].includes(player.position) ? (
                     <>
-                      <div className={`player-substat ${fixture.xGC < 0.2 ? 'high-high-substat' : fixture.xGC < 0.5 ? 'high-substat' : fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
+                      <div className={`player-substat ${fixture.minutes >= 60 && fixture.xGC < 0.2 ? 'high-high-substat' : fixture.minutes >= 60 && fixture.xGC < 0.5 ? 'high-substat' : fixture.minutes >= 60 &&  fixture.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {fixture.xGC}</div>
                       <div className={`player-substat ${fixture.xGI < 0.2 ? 'low-substat' : fixture.xGI < 0.4 ? 'medium-substat' : fixture.xGI < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xGI: {fixture.xGI}</div>
                     </>
                   ) : (
@@ -310,6 +311,7 @@ export const FixDataTable = ({ FixData }) => {
 
 const FixtureRow = ({ fixture, key }) => {
   const [showFixtureDetails, setShowFixtureDetails] = useState(false);
+  const colSpan = fixture.fixInfo.started && !fixture.fixInfo.finished ? 4 : 5;
   let fixtureClass = fixture.fixInfo.started && !fixture.fixInfo.finished ? 'bps-fixture-live' : fixture.fixInfo.finished ? 'bps-fixture-finished' : '';
   const fixtureTitle = `${fixture.fixInfo.teamHome} ${fixture.fixInfo.teamHomeScore}-${fixture.fixInfo.teamAwayScore} ${fixture.fixInfo.teamAway}`;
   const kickoffTime = new Date(fixture.fixInfo.kickOff);
@@ -319,7 +321,7 @@ const FixtureRow = ({ fixture, key }) => {
   return (
     <>
       <tr className={`bps-fixture-row ${fixtureClass}`} key={`fixture-${key}`} onClick={() => fixDataExists && setShowFixtureDetails(!showFixtureDetails)}>
-        <td colSpan={fixture.fixInfo.started && !fixture.fixInfo.finished ? 5 : 6}>{showFixtureDetails ? `${fixtureTitle} ▴` : `${fixtureTitle} ▾`}</td>
+        <td colSpan={colSpan}>{showFixtureDetails ? `${fixtureTitle} ▴` : `${fixtureTitle} ▾`}</td>
         {fixture.fixInfo.started && !fixture.fixInfo.finished && (
           <td>{fixture.fixInfo.minutes}'</td>
         )}
@@ -340,14 +342,14 @@ const FixtureRow = ({ fixture, key }) => {
 }
 
 const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
-  const colSpan = minutesShown ? 5 : 4;
+  const colSpan = minutesShown ? 4 : 3;
   return (
     <>
       {statsData.length > 0 && (
         <>
           <tr className='stat-heading'><td colSpan={100}>{type}</td></tr>  
           <tr className='stat-sub-heading'>
-            <td colSpan={colSpan} width={'50%'}>Player</td>
+            <td colSpan={colSpan} width={'60%'}>Player</td>
             <td>Team</td>
             {type === 'BPS' ? (
               <>
