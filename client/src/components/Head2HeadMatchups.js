@@ -1,6 +1,7 @@
 // FEATURE: [3.0] Show matchups for the coming week
 // FEATURE: [v2 4.0] Add popup for team on click
 // FEATURE: [1.0] Add team difference percent
+// FEATURE: [1.1] Add in play and remain differntials
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
