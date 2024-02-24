@@ -343,6 +343,7 @@ const FixtureRow = ({ fixture, key }) => {
 }
 
 // TODO: Add player card popup on click
+// TODO: Change the table to be inside for the click
 const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
   const colSpan = minutesShown ? 4 : 3;
   return (
