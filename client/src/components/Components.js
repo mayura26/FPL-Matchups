@@ -325,7 +325,7 @@ const FixtureRow = ({ fixture, key }) => {
         {fixture.fixInfo.started && !fixture.fixInfo.finished && (
           <td>{fixture.fixInfo.minutes}'</td>
         )}
-        <td>{localKickoffTime}</td>
+        <td colSpan={2}>{localKickoffTime}</td>
       </tr>
       {showFixtureDetails && (
         <>
@@ -335,6 +335,7 @@ const FixtureRow = ({ fixture, key }) => {
           <FixtureStatsRow statsData={fixture.gameStats.ownGoals} type='Own Goals' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
           <FixtureStatsRow statsData={fixture.gameStats.penSaved} type='Pen Saved' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
           <FixtureStatsRow statsData={fixture.gameStats.penMissed} type='Pen Missed' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
+          <FixtureStatsRow statsData={fixture.gameStats.redCards} type='Red Card' minutesShown={fixture.fixInfo.started && !fixture.fixInfo.finished}/>
         </>
       )}
     </>
