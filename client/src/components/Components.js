@@ -342,6 +342,7 @@ const FixtureRow = ({ fixture, key }) => {
   )
 }
 
+// TODO: Add player card popup on click
 const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
   const colSpan = minutesShown ? 4 : 3;
   return (
@@ -361,16 +362,18 @@ const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
               <td colSpan={2}>{type}</td>
             )}
           </tr>
-          {statsData.map((player, index) => (
-            <tr className='stat-row' key={`player-${index}`}>
-              <td colSpan={colSpan}>{player.name}</td>
-              <td>{player.team}</td>
-              <td colSpan={type === 'BPS' ? 1 : 2}>{player.value}</td>
-              {type === 'BPS' && (
-                <td>{player.bonusPoints}</td>
-              )}
-            </tr>
-          ))}
+          {statsData
+            .sort((a, b) => b.value - a.value)
+            .map((player, index) => (
+              <tr className='stat-row' key={`player-${index}`}>
+                <td colSpan={colSpan}>{player.name}</td>
+                <td>{player.team}</td>
+                <td colSpan={type === 'BPS' ? 1 : 2}>{player.value}</td>
+                {type === 'BPS' && (
+                  <td>{player.bonusPoints}</td>
+                )}
+              </tr>
+            ))}
         </>
       )}
     </>
