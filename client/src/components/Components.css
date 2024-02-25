@@ -85,7 +85,7 @@
     flex-direction: column;
 }
 
-.player-frame {
+.player-frame-fixed {
     width: 300px;
 }
 
@@ -223,6 +223,8 @@
 .player-stats {
     border-right: none;
     border-bottom: none;
+    align-items: center;
+    display: grid;
 }
 
 .player-price,

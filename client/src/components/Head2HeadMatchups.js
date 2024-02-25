@@ -542,8 +542,13 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   );
 };
 
-// TODO: Add player card for bench player
 const PlayerRowBench = ({ player1, player2 }) => {
+  const [showPlayer1Card, setShowPlayer1Card] = useState(false);
+  const [showPlayer2Card, setShowPlayer2Card] = useState(false);
+  const [player1Data, setPlayer1Data] = useState(null);
+  const [player2Data, setPlayer2Data] = useState(null);
+  const [loadingPlayerCard, setLoadingPlayerCard] = useState(false);
+
   const player1Score = player1 ? player1.gameWeekScore : '';
   const player2Score = player2 ? player2.gameWeekScore : '';
   const player1Class = player1 ? `player ${player1.playStatus} ${player1.captainStatus}` : 'player';
@@ -577,17 +582,98 @@ const PlayerRowBench = ({ player1, player2 }) => {
       player2Status = '🪑';
     }
   }
+
+  const handleRowClick = async () => {
+    try {
+      if (showPlayer1Card || showPlayer2Card) {
+        setShowPlayer1Card(false);
+        setShowPlayer2Card(false);
+      } else {
+        if (player1 || player2) {
+          setLoadingPlayerCard(true);
+          let player1ResponseData = [];
+          let player2ResponseData = [];
+
+          if (player1) {
+            const players1Response = await fetch(`/api/h2h/player-matchup/${player1.id}`);
+            player1ResponseData = await players1Response.json();
+          }
+
+          if (player2) {
+            const players2Response = await fetch(`/api/h2h/player-matchup/${player2.id}`);
+            player2ResponseData = await players2Response.json();
+          }
+
+          if ((player1ResponseData.length > 0 && !player1ResponseData.apiLive) || (player2ResponseData.length > 0 && !player2ResponseData.apiLive)) {
+            alert("The FPL API is not live.");
+          } else {
+            if (player1ResponseData.data) {
+              setPlayer1Data(player1ResponseData.data);
+              setShowPlayer1Card(true);
+            } else {
+              setPlayer1Data([]);
+            }
+            if (player2ResponseData.data) {
+              setPlayer2Data(player2ResponseData.data);
+              setShowPlayer2Card(true);
+            } else {
+              setPlayer2Data([]);
+            }
+          }
+        }
+        setLoadingPlayerCard(false);
+      }
+    } catch (error) {
+      alert("Error fetching player matchup", error);
+      console.error("Error fetching player matchup:", error);
+    }
+  };
+
+  const playerCardPopup = (showPlayer1Card || showPlayer2Card) ? (
+    <>
+      {player1Data && (
+        showPlayer1Card ? (
+          <td className="player-card-popup" colSpan={4}>
+            <PlayerCardSlim player={player1Data} />
+          </td>
+        ) : (
+          <td className="player-card-popup" colSpan={4}></td>
+        )
+      )}
+      {player2Data && (
+        showPlayer2Card ? (
+          <td className="player-card-popup" colSpan={4}>
+            <PlayerCardSlim player={player2Data} showNextFix={false} />
+          </td>
+        ) : (
+          <td className="player-card-popup" colSpan={4}></td>
+        )
+      )}
+    </>
+  ) : null;
+
   return (
-    <tr className="player-row">
-      <td className={player1Class}>{player1Name}</td>
-      <td className={player1Class}>{player1 ? player1.position : ''}</td>
-      <td className={player1Class}>{player1Score}</td>
-      <td className={player1Class}>{player1Status}</td>
-      <td className={player2Class}>{player2Name}</td>
-      <td className={player2Class}>{player2 ? player2.position : ''}</td>
-      <td className={player2Class}>{player2Score}</td>
-      <td className={player2Class}>{player2Status}</td>
-    </tr>
+    <>
+      <tr className="player-row" onClick={handleRowClick}>
+        <td className={player1Class}>{player1Name}</td>
+        <td className={player1Class}>{player1 ? player1.position : ''}</td>
+        <td className={player1Class}>{player1Score}</td>
+        <td className={player1Class}>{player1Status}</td>
+        <td className={player2Class}>{player2Name}</td>
+        <td className={player2Class}>{player2 ? player2.position : ''}</td>
+        <td className={player2Class}>{player2Score}</td>
+        <td className={player2Class}>{player2Status}</td>
+      </tr>
+      <tr>
+        {loadingPlayerCard ? (
+          <td colSpan={8}>
+            <div className="loading-wheel"></div>
+          </td>
+        ) : (
+          playerCardPopup
+        )}
+      </tr>
+    </>
   );
 };
 
@@ -683,7 +769,7 @@ const MatchupDetailsGen = ({ team1Details, team2Details }) => {
         </thead>
         <tbody>
           <tr>
-          {team1Details.chipActive !== 'None' && (
+            {team1Details.chipActive !== 'None' && (
               <td>{team1Details.chipActive}</td>
             )}
             <td>{team1Details.transferCost * -1}</td>
@@ -799,7 +885,7 @@ const alignPlayers = (team1DetailsFull, team2DetailsFull) => {
   } else if (team2DetailsFull.chipActive === 'TC') {
     alignedPlayers.push({ player1: null, player2: team2Player });
   }
-  
+
   return alignedPlayers;
 };
 
