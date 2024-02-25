@@ -139,7 +139,7 @@ export const PlayerCardSlim = ({ player }) => {
       <div className="player-card-row">
         <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
         <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
-          <div className='player-substat player-points'>{player.currentGame.score}</div>
+          <div className='player-substat player-points'>{player.currentGame.score} | {player.currentGame.minutes}'</div>
           <div className='player-substat'>xP: {player.currentGame.xP}</div>
         </div>
       </div>
@@ -309,6 +309,7 @@ export const FixDataTable = ({ FixData }) => {
   );
 };
 
+// TODO: Change the table to be inside for the click
 const FixtureRow = ({ fixture, key }) => {
   const [showFixtureDetails, setShowFixtureDetails] = useState(false);
   const colSpan = fixture.fixInfo.started && !fixture.fixInfo.finished ? 4 : 5;
@@ -343,7 +344,6 @@ const FixtureRow = ({ fixture, key }) => {
 }
 
 // TODO: Add player card popup on click
-// TODO: Change the table to be inside for the click
 const FixtureStatsRow = ({ statsData, type, minutesShown }) => {
   const colSpan = minutesShown ? 4 : 3;
   return (

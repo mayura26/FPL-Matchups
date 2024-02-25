@@ -407,9 +407,9 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
         player1Status = '🔵'; // Draw
         player2Status = '🔵'; // Draw
       }
-    } else if ((player1.playStatus === 'played' || player1.playStatus === 'playing') && (player2.playStatus === 'unplayed' || player2.playStatus === 'notplayed')) {
+    } else if ((player1.playStatus === 'played' || player1.playStatus === 'playing') && (player2.playStatus === 'unplayed' || player2.playStatus === 'notplayed' || player2.playStatus === 'benched')) {
       player1Status = getSinglePlayerStatus(player1Score);
-    } else if ((player2.playStatus === 'played' || player2.playStatus === 'playing') && (player1.playStatus === 'unplayed' || player1.playStatus === 'notplayed')) {
+    } else if ((player2.playStatus === 'played' || player2.playStatus === 'playing') && (player1.playStatus === 'unplayed' || player1.playStatus === 'notplayed' || player1.playStatus === 'benched')) {
       player2Status = getSinglePlayerStatus(player2Score);
     }
   } else if (player1 && !player2) {
@@ -542,6 +542,7 @@ const PlayerRow = ({ player1, player2, hideCommon, hidePlayed }) => {
   );
 };
 
+// TODO: Add player card for bench player
 const PlayerRowBench = ({ player1, player2 }) => {
   const player1Score = player1 ? player1.gameWeekScore : '';
   const player2Score = player2 ? player2.gameWeekScore : '';
