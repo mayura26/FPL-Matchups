@@ -74,6 +74,14 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
         matchUp.entry_2_livepoints = team2Points;
         matchUp.entry_1_teamDetails = matchupData.team1Details;
         matchUp.entry_2_teamDetails = matchupData.team2Details;
+
+        // Calculate the difference percent between the two teams
+        const team1StartingLineup = matchupData.team1Details.startingPlayers.map(player => player.id);
+        const team2StartingLineup = matchupData.team2Details.startingPlayers.map(player => player.id);
+        const totalPlayers = team1StartingLineup.length + team2StartingLineup.length;
+        const commonPlayers = team1StartingLineup.filter(playerId => team2StartingLineup.includes(playerId));
+        const differencePercent = ((totalPlayers - (2 * commonPlayers.length)) / totalPlayers) * 100;
+        matchUp.differencePercent = differencePercent;
       }
     }
 

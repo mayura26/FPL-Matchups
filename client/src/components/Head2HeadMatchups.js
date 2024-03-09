@@ -1,6 +1,4 @@
 // FEATURE: [3.0] Show matchups for the coming week
-// FEATURE: [1.0] Add team difference percent
-// FEATURE: [1.1] Add in play and remain differntials
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Head2HeadMatchups.css';
 import './Shared.css';
@@ -274,7 +272,7 @@ const Head2HeadMatchups = () => {
                           <td>
                             {Number(fetchedGameweek) === Number(maxGameweek) ? (
                               <>
-                                <pre>Official: {match.entry_1_points} - {match.entry_2_points}</pre>
+                                <pre>Predict: {match.entry_1_teamDetails.predictedGWScore} - {match.entry_2_teamDetails.predictedGWScore}</pre>
                                 <pre>Live: {match.entry_1_livepoints} - {match.entry_2_livepoints}</pre>
                               </>
                             ) :
@@ -303,7 +301,12 @@ const Head2HeadMatchups = () => {
                             </tr>
                             <tr className='live-lead-row'>
                               <td colspan={'100%'} className={`live-lead ${Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 6 ? 'small-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 12 ? 'medium-lead' : Math.abs(match.entry_1_livepoints - match.entry_2_livepoints) < 20 ? 'large-lead' : 'extra-large-lead'}`}>
-                                Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)}
+                                Live Lead: {Math.abs(match.entry_1_livepoints - match.entry_2_livepoints)} 
+                                {` | Differentials: ${match.differencePercent.toFixed(0)}%`}
+                                {match.entry_1_teamDetails.remainPlayer - match.entry_2_teamDetails.remainPlayer !== 0 ? 
+                                ` | Remain: ${match.entry_1_teamDetails.remainPlayer}v${match.entry_2_teamDetails.remainPlayer}` : ''}
+                                {match.entry_1_teamDetails.activePlayers - match.entry_2_teamDetails.activePlayers !== 0 ? 
+                                ` | In-Play: ${match.entry_1_teamDetails.activePlayers}v${match.entry_2_teamDetails.activePlayers}` : ''}
                               </td>
                             </tr>
                           </>
