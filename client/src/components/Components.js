@@ -44,12 +44,12 @@ export const PlayerCard = ({ player, showNextFix = true, fixedFrame = true }) =>
           <div className='player-substat'>xP: {player.currentGame.xP}</div>
         </div>
         <div className="player-stats">
-          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG}</div>
-          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA}</div>
+          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG.toFixed(2)}</div>
+          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA.toFixed(2)}</div>
         </div>
         <div className="player-stats">
-          <div className={`player-substat ${player.currentGame.xGC < 0.2 && player.currentGame.minutes >= 60 ? 'high-high-substat' : player.currentGame.xGC < 0.5 && player.currentGame.minutes >= 60 ? 'high-substat' : player.currentGame.xGC < 1.0 && player.currentGame.minutes >= 60 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC}</div>
-          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT}</div>
+          <div className={`player-substat ${player.currentGame.xGC < 0.2 && player.currentGame.minutes >= 60 ? 'high-high-substat' : player.currentGame.xGC < 0.5 && player.currentGame.minutes >= 60 ? 'high-substat' : player.currentGame.xGC < 1.0 && player.currentGame.minutes >= 60 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC.toFixed(2)}</div>
+          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT.toFixed(1)}</div>
         </div>
       </div>
       {showNextFix && (
@@ -155,12 +155,12 @@ export const PlayerCardSlim = ({ player }) => {
       </div>
       <div className="player-card-row">
         <div className="player-stats">
-          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG}</div>
-          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA}</div>
+          <div className={`player-substat ${player.currentGame.xG < 0.3 ? 'low-substat' : player.currentGame.xG < 0.6 ? 'medium-substat' : player.currentGame.xG < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xG: {player.currentGame.xG.toFixed(2)}</div>
+          <div className={`player-substat ${player.currentGame.xA < 0.3 ? 'low-substat' : player.currentGame.xA < 0.6 ? 'medium-substat' : player.currentGame.xA < 1.0 ? 'high-substat' : 'high-high-substat'}`}>xA: {player.currentGame.xA.toFixed(2)}</div>
         </div>
         <div className="player-stats">
-          <div className={`player-substat ${player.currentGame.minutes >= 60 && player.currentGame.xGC < 0.2 ? 'high-high-substat' : player.currentGame.minutes >= 60 && player.currentGame.xGC < 0.5 ? 'high-substat' : player.currentGame.minutes >= 60 && player.currentGame.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC}</div>
-          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT}</div>
+          <div className={`player-substat ${player.currentGame.minutes >= 60 && player.currentGame.xGC < 0.2 ? 'high-high-substat' : player.currentGame.minutes >= 60 && player.currentGame.xGC < 0.5 ? 'high-substat' : player.currentGame.minutes >= 60 && player.currentGame.xGC < 1.0 ? 'medium-substat' : 'low-substat'}`}>xGC: {player.currentGame.xGC.toFixed(2)}</div>
+          <div className={`player-substat ${player.currentGame.ICT < 5 ? 'low-substat' : player.currentGame.ICT < 10 ? 'medium-substat' : player.currentGame.ICT < 15 ? 'high-substat' : 'high-high-substat'}`}>ICT: {player.currentGame.ICT.toFixed(1)}</div>
         </div>
       </div>
       <div className="player-card-row-divider"></div>

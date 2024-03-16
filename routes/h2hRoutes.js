@@ -1,7 +1,7 @@
 const express = require('express');
 const { getBootstrapData, getMaps, getGameData, getTeamData, getGWLiveData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, generateFixData, getFixtureData, validateApiResponse } = require('../lib/fplAPIWrapper');
 const router = express.Router();
-const { getPlayerInfo, calculateTotalPoints, getTeamDetails } = require('../lib/teamPlayerData');
+const { getPlayerInfo, calculateTotalPoints, calculatePredictedPoints, getTeamDetails } = require('../lib/teamPlayerData');
 
 router.get('/leagues/:teamId', async (req, res) => {
   try {
@@ -62,16 +62,22 @@ router.get('/leagues/:leagueId/:gameWeek', async (req, res) => {
         // Sum the points scored by all the players in the team
         let team1Points = 0;
         let team2Points = 0;
+        let team1PredictedPoints = 0;
+        let team2PredictedPoints = 0;
         if (matchupData.team1Details) {
           team1Points = await calculateTotalPoints(matchupData.team1Details);
+          team1PredictedPoints = await calculatePredictedPoints(matchupData.team1Details);
         }
 
         if (matchupData.team2Details) {
           team2Points = await calculateTotalPoints(matchupData.team2Details);
+          team2PredictedPoints = await calculatePredictedPoints(matchupData.team2Details);
         }
         // Update the team's total points
         matchUp.entry_1_livepoints = team1Points;
         matchUp.entry_2_livepoints = team2Points;
+        matchUp.entry_1_livepredictedpoints = team1PredictedPoints;
+        matchUp.entry_2_livepredictedpoints = team2PredictedPoints;
         matchUp.entry_1_teamDetails = matchupData.team1Details;
         matchUp.entry_2_teamDetails = matchupData.team2Details;
 

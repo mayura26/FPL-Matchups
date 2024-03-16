@@ -273,6 +273,7 @@ const Head2HeadMatchups = () => {
                             {Number(fetchedGameweek) === Number(maxGameweek) ? (
                               <>
                                 <pre>Predict: {match.entry_1_teamDetails.predictedGWScore} - {match.entry_2_teamDetails.predictedGWScore}</pre>
+                                <pre>Pred(L): {match.entry_1_livepredictedpoints} - {match.entry_2_livepredictedpoints}</pre>
                                 <pre>Live: {match.entry_1_livepoints} - {match.entry_2_livepoints}</pre>
                               </>
                             ) :
