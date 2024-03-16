@@ -53,10 +53,19 @@ export const PlayerCard = ({ player, showNextFix = true, fixedFrame = true }) =>
         </div>
       </div>
       {showNextFix && (
+        player.upcomingGames.map((game) => (
+          <div className="player-card-row player-row-double-topborder">
+            <div className="player-upcoming-fixture">Upcoming: {game.team}</div>
+            <div className={`player-upcoming-xP fdr-faded-${game.fdr}`}>FDR: {game.fdr}</div>
+            <div className={`player-upcoming-xP ${scoreClass(parseInt(game.xP))}`}>xP: {game.xP}</div>
+          </div>
+        ))
+      )}
+      {showNextFix && player.upcomingGames.length === 0 && (
         <div className="player-card-row player-row-double-topborder">
-          <div className="player-upcoming-fixture">Upcoming: {player.upcomingGame.team}</div>
-          <div className={`player-upcoming-xP fdr-faded-${player.upcomingGame.fdr}`}>FDR: {player.upcomingGame.fdr}</div>
-          <div className={`player-upcoming-xP ${scoreClass(parseInt(player.upcomingGame.xP))}`}>xP: {player.upcomingGame.xP}</div>
+          <div className="player-upcoming-fixture">Upcoming:</div>
+          <div className={`player-upcoming-xP`}>FDR:</div>
+          <div className={`player-upcoming-xP`}>xP:</div>
         </div>
       )}
       <div className="player-card-row-divider"></div>

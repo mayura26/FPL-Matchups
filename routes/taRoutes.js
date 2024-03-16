@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamGWData, getTeamData, validateApiResponse } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getGameData, getTeamGWData, getTeamData, validateApiResponse } = require('../lib/fplAPIWrapper');
 const { getPlayerInfo } = require('../lib/teamPlayerData');
 const router = express.Router();
 
@@ -25,6 +25,7 @@ router.get('/:teamID/:gameweek', async (req, res) => {
 
         // Fetch general information (players and teams)
         const dataMap = await getMaps(bootstrapData);
+        const gameData = getGameData(bootstrapData.data);
 
         // First, sort the picks array by position
         const sortedPicks = teamResponse.data.picks.sort((a, b) => a.position - b.position);
@@ -59,8 +60,9 @@ router.get('/:teamID/:gameweek', async (req, res) => {
         const overallRank = teamInfoResponse.data.summary_overall_rank;
 
         // Enrich player details with past and upcoming fixtures
-        const detailedStartingPlayers = await getPlayersInfo(req, sortedStartingPlayers, dataMap);
-        const detailedBenchPlayers = await getPlayersInfo(req, sortedBenchPlayers, dataMap);
+
+        const detailedStartingPlayers = await getPlayersInfo(req, sortedStartingPlayers, dataMap, gameData);
+        const detailedBenchPlayers = await getPlayersInfo(req, sortedBenchPlayers, dataMap, gameData);
 
         // Construct the final response
         const responseData = {
@@ -78,9 +80,9 @@ router.get('/:teamID/:gameweek', async (req, res) => {
     }
 });
 
-async function getPlayersInfo(req, players, dataMap) {
+async function getPlayersInfo(req, players, dataMap, gameData) {
     return await Promise.all(players.map(async (player) => {
-        return await getPlayerInfo(req, player, dataMap);
+        return await getPlayerInfo(req, player, dataMap, gameData);
     }));
 }
 

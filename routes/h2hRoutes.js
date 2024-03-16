@@ -1,5 +1,5 @@
 const express = require('express');
-const { getBootstrapData, getMaps, getTeamData, getGWLiveData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, generateFixData, getFixtureData, validateApiResponse } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getMaps, getGameData, getTeamData, getGWLiveData, getLeaguesH2HStandingsData, getLeaguesH2HGWData, generateFixData, getFixtureData, validateApiResponse } = require('../lib/fplAPIWrapper');
 const router = express.Router();
 const { getPlayerInfo, calculateTotalPoints, getTeamDetails } = require('../lib/teamPlayerData');
 
@@ -170,8 +170,9 @@ router.get('/player-matchup/:playerID', async (req, res) => {
     }
 
     const dataMap = await getMaps(bootstrapData);
+    const gameData = getGameData(bootstrapData.data);
     const playerData = bootstrapData.data.elements.find(player => player.id == playerID);
-    const playerInfo = await getPlayerInfo(req, playerData, dataMap);
+    const playerInfo = await getPlayerInfo(req, playerData, dataMap, gameData);
 
     res.json({
       data: playerInfo, source: bootstrapData.source, apiLive: bootstrapData.apiLive
