@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
-const { getBootstrapData, getEventStatus } = require('../lib/fplAPIWrapper');
+const { getBootstrapData, getEventStatus, getGameData } = require('../lib/fplAPIWrapper');
 const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://user:${process.env.MONGODB}@cluster0.mneoc9t.mongodb.net/FPLMatchups?retryWrites=true&w=majority`);
 
@@ -19,12 +19,6 @@ const playerSchema = new mongoose.Schema({
 }, { collection: 'teamData' });
 
 const Player = mongoose.model('Player', playerSchema);
-
-const getGameData = (data) => {
-    const currentGameweek = data.events.find(event => event.is_current).id;
-    const isFinished = Boolean(data.events.find(event => event.is_current).finished);
-    return { currentGameweek, isFinished };
-}
 
 router.get('/game-data', async (req, res) => {
 

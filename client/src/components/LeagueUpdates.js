@@ -5,7 +5,7 @@ import './Shared.css';
 import { TeamContext } from './Context';
 import { PlayerCard, LiveLeagueScoreBoard, FixDataTable } from './Components';
 import { LoadingBar } from './Shared';
-// FEATURE: [v2 5.0] Create table showing current form (last 5 GWs)
+// FEATURE: [5.0] Create table showing current form (last 5 GWs)
 
 function LeagueUpdates() {
     const { teamID, updateTeamID, classicLeagueID, updateClassicLeagueID } = useContext(TeamContext);
