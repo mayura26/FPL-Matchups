@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 export const TeamContext = createContext();
 
 export const TeamContextProvider = ({ children }) => {
-    const [teamID, setTeamID] = useState("948006");
+    const [teamID, setTeamID] = useState("248106");
     const [h2HLeagueID, setH2HLeagueID] = useState(null);
     const [classicLeagueID, setClassicLeagueID] = useState(null);
 

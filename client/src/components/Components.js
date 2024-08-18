@@ -26,8 +26,6 @@ export const PlayerCard = ({ player, showNextFix = true, fixedFrame = true }) =>
           <>
             <div className="player-base-stats player-ICT">ICT: {player.ICT}</div>
             <div className='player-base-stats'>xGI/90: {player.xGI90}</div>
-            <div className='player-base-stats'>xGC/90: {player.xGC90}</div>
-            <div className='player-base-stats'>CS/90: {player.CS90}</div>
           </>
         ) : (
           <>
@@ -37,6 +35,12 @@ export const PlayerCard = ({ player, showNextFix = true, fixedFrame = true }) =>
           </>
         )}
       </div>
+      {['GKP', 'DEF'].includes(player.position) && (
+      <div className="player-card-row">
+            <div className='player-base-stats'>xGC/90: {player.xGC90}</div>
+            <div className='player-base-stats'>CS/90: {player.CS90}</div>
+      </div>
+      )}
       <div className="player-card-row">
         <div className="player-current-fixture"><div>Live Fixture:</div> <div className='player-live-fixture-opp'>{player.currentGame.team}</div></div>
         <div className={`player-score ${scoreClass(parseInt(player.currentGame.score))}`}>
