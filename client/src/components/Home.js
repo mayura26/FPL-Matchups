@@ -192,7 +192,7 @@ const Home = () => {
                 <div className="input-mainrow home-input-second-row">
                     <div className="input-row">
                         <div className="input-container">
-                            <button className='ripple-btn' onClick={() => updateTeamID('948006')}>Set to Example User</button>
+                            <button className='ripple-btn' onClick={() => updateTeamID('248106')}>Set to Example User</button>
                         </div>
                         <div className="input-container">
                             <button className='ripple-btn' onClick={() => setSearchPopOpen(true)}>Search</button>
